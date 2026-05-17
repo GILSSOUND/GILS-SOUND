@@ -1659,7 +1659,7 @@
             }
 
             try {
-                const response = await fetch('http://localhost:8080/api/story', {
+                const response = await fetch('/api/story', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ story: storyInput })
@@ -1735,7 +1735,7 @@
             pendingStoryData = null;
 
             try {
-                const response = await fetch('http://localhost:8080/api/music', {
+                const response = await fetch('/api/music', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ prompt: finalData.fullPrompt })
@@ -1777,7 +1777,7 @@
                 btn.innerText = '✍️ AI 가사 초안 생성 및 확인 (Next)';
                 
                 if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-                    alert('🚨 백그라운드 중계 서버에 연결할 수 없습니다.\n\n폴더에 있는 [replicate_proxy.ps1] 파일을 우클릭하여 "PowerShell에서 실행"을 누르신 후, 검은색 콘솔 창이 켜져 있는지 확인해 주세요!');
+                    alert('🚨 메인 서버와 연결할 수 없습니다.\n\n일시적인 네트워크 오류이거나 서버 재부팅 중일 수 있습니다. 잠시 후 다시 시도해 주세요!');
                 } else {
                     alert(`🚨 오류 발생:\n${error.message}`);
                 }
@@ -1851,7 +1851,7 @@
 
             try {
                 // 백그라운드 파워쉘 중계 서버로 REST API 통신 요청
-                const response = await fetch('http://localhost:8080/api/music', {
+                const response = await fetch('/api/music', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -1907,9 +1907,9 @@
                 btn.disabled = false;
                 btn.innerText = '작품 완성하기 (Create)';
                 
-                // 중계 서버가 꺼져있을 때의 친절한 안내 가이드
+                // 서버 통신 오류 안내
                 if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-                    alert('🚨 백그라운드 중계 서버에 연결할 수 없습니다.\n\n폴더에 있는 [replicate_proxy.ps1] 파일을 우클릭하여 "PowerShell에서 실행"을 누르신 후, 검은색 콘솔 창이 켜져 있는지 확인해 주세요!');
+                    alert('🚨 메인 서버와 연결할 수 없습니다.\n\n일시적인 네트워크 오류이거나 서버 재부팅 중일 수 있습니다. 잠시 후 다시 시도해 주세요!');
                 } else {
                     alert(`🚨 오류 발생:\n${error.message}`);
                 }
