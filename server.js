@@ -94,9 +94,10 @@ app.post('/api/music', async (req, res) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                version: "b05b1dffc50c3c861214088a29a2862d7cf7d45c61a5b48e3cf3807ff67dbdb5",
+                version: "671ac645ce5e552cc63a54a2bbff63fcf798043055d2dac5fc9e36a837eedcfb",
                 input: {
                     prompt: prompt,
+                    model_version: "stereo-large",
                     output_format: "mp3"
                 }
             })
