@@ -898,6 +898,11 @@
             .step-title { flex-direction: column; align-items: flex-start; gap: 5px; }
             .btn-library, .btn-store { font-size: 12px; padding: 8px 12px; }
         }
+
+        /* 오디오 플레이어 우측 '점점점' 더보기 메뉴 숨김 처리 (웹킷 브라우저용) */
+        audio::-webkit-media-controls-overflow-button {
+            display: none !important;
+        }
     </style>
     <!-- 포트원(PortOne) 실제 PG사 결제 모듈 연동 라이브러리 -->
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
@@ -1154,7 +1159,7 @@
                     </div>
                 </div>
                 <div id="result-lyrics" style="display: none; font-size: 13px; color: #D1D5DB; background: rgba(0, 0, 0, 0.3); padding: 12px; border-radius: 8px; white-space: pre-line; line-height: 1.6; max-height: 180px; overflow-y: auto;"></div>
-                <audio id="result-audio" controls style="width: 100%; border-radius: 8px; outline: none;"></audio>
+                <audio id="result-audio" controls controlsList="nodownload noplaybackrate" style="width: 100%; border-radius: 8px; outline: none;"></audio>
             </div>
         </div>
 
@@ -1440,7 +1445,7 @@
                         </div>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <audio controls src="${song.audioUrl}" style="height: 36px; max-width: 200px; outline: none;"></audio>
+                        <audio controls controlsList="nodownload noplaybackrate" src="${song.audioUrl}" style="height: 36px; max-width: 200px; outline: none;"></audio>
                         <div style="position: relative; align-self: flex-end;">
                             <button onclick="toggleMenu(${index})" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: #fff; font-size: 14px; font-weight: bold; cursor: pointer; padding: 4px 12px; transition: all 0.2s;">··· 옵션</button>
                             <div id="menu-${index}" style="display: none; position: absolute; right: 0; top: 35px; background: #1F2937; border: 1px solid #374151; border-radius: 8px; padding: 6px; z-index: 100; flex-direction: column; gap: 4px; min-width: 140px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
@@ -1475,7 +1480,7 @@
                                 </div>
                             </div>
                         </div>
-                        <audio controls src="${song.audioUrl}" style="height: 30px; width: 100%; outline: none; margin-top: 5px;"></audio>
+                        <audio controls controlsList="nodownload noplaybackrate" src="${song.audioUrl}" style="height: 30px; width: 100%; outline: none; margin-top: 5px;"></audio>
                     `;
                     liveListDiv.appendChild(sideItem);
                 }
