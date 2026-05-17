@@ -381,10 +381,10 @@
             }
         }
 
-        let generatedCode = "";
+
         let isVerified = false;
 
-        function sendVerificationCode() {
+        async function sendVerificationCode() {
             const emailInput = document.getElementById('signup-email').value;
             if(!emailInput || !emailInput.includes('@')) {
                 alert('올바른 이메일 주소를 입력해주세요.');
@@ -398,34 +398,68 @@
                 return;
             }
 
-            generatedCode = Math.floor(1000 + Math.random() * 9000).toString();
-            document.getElementById('verify-group').style.display = 'block';
-            
-            // 실제 메일 서버 연동 전까지 알림창으로 코드 표시
-            alert(`[인증 메일 발송 시뮬레이션]\n\n실제 이메일 서버 연동 전 테스트 모드입니다.\n해당 이메일로 발송될 인증번호: ${generatedCode}`);
+            try {
+                const btn = document.getElementById('btn-send-code');
+                btn.innerText = "발송중...";
+                btn.disabled = true;
+
+                const response = await fetch('/api/send-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: emailInput })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('verify-group').style.display = 'block';
+                    alert('입력하신 이메일로 인증번호가 발송되었습니다. 메일함을 확인해주세요!');
+                } else {
+                    alert('발송 실패: ' + data.message);
+                }
+            } catch (err) {
+                alert('서버와 통신할 수 없습니다.');
+            } finally {
+                const btn = document.getElementById('btn-send-code');
+                btn.innerText = "인증 발송";
+                btn.disabled = false;
+            }
         }
 
-        function verifyCode() {
+        async function verifyCode() {
+            const emailInput = document.getElementById('signup-email').value;
             const inputCode = document.getElementById('signup-code').value;
             const msgEl = document.getElementById('verify-msg');
-            if(inputCode === generatedCode) {
-                msgEl.innerText = "✓ 이메일 인증이 완료되었습니다.";
-                msgEl.style.color = "#10B981";
-                isVerified = true;
-                
-                const submitBtn = document.getElementById('btn-signup-submit');
-                submitBtn.disabled = false;
-                submitBtn.style.background = "linear-gradient(135deg, #D4AF37, #AA8022)";
-                submitBtn.style.color = "#000";
-                submitBtn.style.cursor = "pointer";
-                submitBtn.style.boxShadow = "0 10px 25px rgba(212, 175, 55, 0.3)";
-                
-                document.getElementById('signup-email').readOnly = true;
-                document.getElementById('btn-send-code').disabled = true;
-            } else {
-                msgEl.innerText = "❌ 인증번호가 일치하지 않습니다.";
-                msgEl.style.color = "#EF4444";
-                isVerified = false;
+            
+            try {
+                const response = await fetch('/api/verify-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: emailInput, code: inputCode })
+                });
+                const data = await response.json();
+
+                if(data.success) {
+                    msgEl.innerText = "✓ 이메일 인증이 완료되었습니다.";
+                    msgEl.style.color = "#10B981";
+                    isVerified = true;
+                    
+                    const submitBtn = document.getElementById('btn-signup-submit');
+                    submitBtn.disabled = false;
+                    submitBtn.style.background = "linear-gradient(135deg, #D4AF37, #AA8022)";
+                    submitBtn.style.color = "#000";
+                    submitBtn.style.cursor = "pointer";
+                    submitBtn.style.boxShadow = "0 10px 25px rgba(212, 175, 55, 0.3)";
+                    
+                    document.getElementById('signup-email').readOnly = true;
+                    document.getElementById('btn-send-code').disabled = true;
+                } else {
+                    msgEl.innerText = "❌ 인증번호가 일치하지 않습니다.";
+                    msgEl.style.color = "#EF4444";
+                    isVerified = false;
+                }
+            } catch (err) {
+                alert('서버 검증 중 오류가 발생했습니다.');
             }
         }
 
@@ -469,6 +503,7 @@
         });
 
         document.querySelector('.btn-google').addEventListener('click', () => {
+            alert('구글 로그인을 실제 연동하려면 구글 클라우드(GCP)에서 "클라이언트 ID" 발급이 필수입니다.\n\n현재는 가입/로그인 테스트 모드로 진행됩니다.');
             const isSignup = document.getElementById('tab-signup').classList.contains('active');
             localStorage.setItem('gils_user', 'Google User');
             if(isSignup) {
@@ -482,6 +517,7 @@
         });
 
         document.querySelector('.btn-kakao').addEventListener('click', () => {
+            alert('카카오 로그인을 실제 연동하려면 카카오 디벨로퍼스에서 "REST API 키" 발급이 필수입니다.\n\n현재는 가입/로그인 테스트 모드로 진행됩니다.');
             const isSignup = document.getElementById('tab-signup').classList.contains('active');
             localStorage.setItem('gils_user', 'Kakao User');
             if(isSignup) {
