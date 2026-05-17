@@ -75,7 +75,7 @@ JSON 구조:
     }
 });
 
-// Replicate API 연동 (음악 생성)
+// Suno v5.0 API 연동 (EvoLink 비공식 API)
 app.post('/api/music', async (req, res) => {
     try {
         const { prompt } = req.body;
@@ -83,65 +83,78 @@ app.post('/api/music', async (req, res) => {
             return res.status(400).json({ error: "프롬프트가 없습니다." });
         }
 
-        console.log("[Request Received] Starting music generation...");
-        console.log(" -> Prompt:", prompt);
+        console.log("[Request Received] Starting Suno music generation...");
 
-        // 이전 PowerShell 프록시에서 확실하게 성공했던 방식을 그대로 적용 (버전 해시 + 폴링)
-        const initResponse = await fetch("https://api.replicate.com/v1/predictions", {
+        const evoKey = process.env.EVOLINK_API_TOKEN;
+        if (!evoKey) {
+            throw new Error("EVOLINK_API_TOKEN이 서버에 설정되지 않았습니다.");
+        }
+
+        // EvoLink 비동기 생성 요청 (Suno v5-beta)
+        const initResponse = await fetch("https://api.evolink.ai/v1/audios/generations", {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${process.env.REPLICATE_API_TOKEN}`,
+                'Authorization': `Bearer ${evoKey}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                version: "671ac645ce5e552cc63a54a2bbff63fcf798043055d2dac5fc9e36a837eedcfb",
-                input: {
-                    prompt: prompt,
-                    model_version: "stereo-large",
-                    output_format: "mp3"
-                }
+                prompt: prompt, // 클라이언트에서 보낸 장르+가사 전체 텍스트
+                model: "suno-v5-beta",
+                custom: true, // 가사를 정확히 부르도록 Custom 모드 켬
+                tags: "k-pop, high quality, masterpiece" // 기본 보정 태그
             })
         });
 
         const initData = await initResponse.json();
-        if (!initResponse.ok) {
-            throw new Error(initData.detail || "Replicate API 생성 요청 실패");
+        if (!initResponse.ok || !initData.id) {
+            throw new Error(initData.error?.message || "Suno API 생성 요청 실패");
         }
 
-        const statusUrl = initData.urls.get;
+        const taskId = initData.id;
         let status = initData.status;
 
-        console.log(" -> Generating audio (takes about 30 to 60 seconds)...");
+        console.log(" -> Generating Suno audio (takes about 60 to 120 seconds)...");
         
         let pollData = null;
-        // status가 'succeeded', 'failed', 'canceled'가 될 때까지 3초마다 폴링 확인
+        let finalAudioUrl = null;
+        
+        // 상태가 성공, 실패, 취소가 될 때까지 5초마다 상태 확인 (Suno는 보통 1분 이상 걸림)
         while (status !== "succeeded" && status !== "failed" && status !== "canceled") {
-            await new Promise(resolve => setTimeout(resolve, 3000));
+            await new Promise(resolve => setTimeout(resolve, 5000));
             
-            const pollResponse = await fetch(statusUrl, {
+            const pollResponse = await fetch(`https://api.evolink.ai/v1/tasks/${taskId}`, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${process.env.REPLICATE_API_TOKEN}`
+                    'Authorization': `Bearer ${evoKey}`
                 }
             });
             pollData = await pollResponse.json();
             status = pollData.status;
-            console.log("    Status:", status);
+            
+            const progress = pollData.progress || 0;
+            console.log(`    Status: ${status} (Progress: ${progress}%)`);
+            
+            if (status === "succeeded") {
+                if (pollData.result_data && pollData.result_data.length > 0) {
+                    // 첫 번째 생성된 곡의 MP3 주소 추출
+                    finalAudioUrl = pollData.result_data[0].audio_url || pollData.result_data[0].stream_audio_url;
+                }
+            }
         }
 
-        if (status === "succeeded") {
-            console.log(" -> [SUCCESS] Audio URL:", pollData.output);
+        if (status === "succeeded" && finalAudioUrl) {
+            console.log(" -> [SUCCESS] Audio URL:", finalAudioUrl);
             res.json({
                 status: "success",
-                audioUrl: pollData.output
+                audioUrl: finalAudioUrl
             });
         } else {
-            console.log(" -> [ERROR] Generation failed on AI server.");
-            throw new Error("AI 서버에서 음악 생성에 실패했습니다.");
+            console.log(" -> [ERROR] Generation failed on Suno AI server.");
+            throw new Error("Suno AI 서버에서 음악 생성에 실패했습니다.");
         }
 
     } catch (error) {
-        console.error("-> [Replicate API Error]", error.message);
+        console.error("-> [Suno API Error]", error.message);
         res.status(500).json({ error: error.message });
     }
 });
