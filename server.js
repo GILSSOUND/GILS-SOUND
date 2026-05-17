@@ -162,7 +162,7 @@ app.post('/api/music', async (req, res) => {
 
 // 404 폴백 라우팅 (모든 경로를 index로 - React/SPA 구조 확장 대비)
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'music_maker.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT, () => {
