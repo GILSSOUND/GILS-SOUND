@@ -100,8 +100,9 @@ app.post('/api/music', async (req, res) => {
             body: JSON.stringify({
                 prompt: prompt, // 클라이언트에서 보낸 장르+가사 전체 텍스트
                 model: "suno-v5-beta",
-                custom: true, // 가사를 정확히 부르도록 Custom 모드 켬
-                tags: "k-pop, high quality, masterpiece" // 기본 보정 태그
+                custom_mode: true, // EvoLink 전용 파라미터 (커스텀 가사 모드)
+                style: "k-pop, high quality, masterpiece", // EvoLink 전용 장르 태그 파라미터
+                title: "GILS SOUND Original"
             })
         });
 
