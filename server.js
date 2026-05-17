@@ -7,8 +7,7 @@ const nodemailer = require('nodemailer');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// 임시 인증번호 저장소
-const verificationCodes = {};
+
 
 app.use(cors());
 app.use(express.json());
@@ -164,60 +163,7 @@ app.post('/api/music', async (req, res) => {
     }
 });
 
-// 이메일 인증코드 발송 API
-app.post('/api/send-code', async (req, res) => {
-    const { email } = req.body;
-    if (!process.env.GMAIL_USER || !process.env.GMAIL_PASS) {
-        return res.status(500).json({ success: false, message: '서버에 이메일 발송 설정이 되어있지 않습니다 (.env 확인 필요)' });
-    }
-    try {
-        const code = Math.floor(1000 + Math.random() * 9000).toString();
-        // 백엔드 메모리에 저장
-        verificationCodes[email] = code;
 
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false,
-            auth: {
-                user: process.env.GMAIL_USER,
-                pass: process.env.GMAIL_PASS
-            }
-        });
-        const mailOptions = {
-            from: `"GILS SOUND" <${process.env.GMAIL_USER}>`,
-            to: email,
-            subject: '[GILS SOUND] 회원가입 이메일 인증번호입니다.',
-            html: `
-                <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-                    <h2 style="color: #D4AF37;">GILS SOUND</h2>
-                    <p>안녕하세요. 프리미엄 AI 뮤직 스튜디오 GILS SOUND에 가입해 주셔서 감사합니다.</p>
-                    <p>아래 인증번호를 가입 화면에 입력해 주세요.</p>
-                    <div style="background: #f8f9fa; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; letter-spacing: 5px; color: #333; margin: 20px 0; border-radius: 8px;">
-                        ${code}
-                    </div>
-                    <p style="font-size: 12px; color: #888;">본 메일은 발신 전용입니다.</p>
-                </div>
-            `
-        };
-        await transporter.sendMail(mailOptions);
-        res.json({ success: true, message: '인증번호 발송 완료' });
-    } catch (error) {
-        console.error('메일 발송 오류:', error);
-        res.status(500).json({ success: false, message: '이메일 발송에 실패했습니다. 이메일 주소나 서버 설정을 확인해주세요.' });
-    }
-});
-
-// 이메일 인증 검증 API
-app.post('/api/verify-code', (req, res) => {
-    const { email, code } = req.body;
-    if (verificationCodes[email] && verificationCodes[email] === code) {
-        delete verificationCodes[email]; // 검증 성공 시 폐기
-        res.json({ success: true, message: '인증 완료' });
-    } else {
-        res.json({ success: false, message: '인증번호가 일치하지 않습니다.' });
-    }
-});
 
 // 404 폴백 라우팅 (모든 경로를 index로 - React/SPA 구조 확장 대비)
 app.get('*', (req, res) => {

@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GILS SOUND | 로그인 및 회원가입</title>
+    <title>GILS SOUND | 소셜 로그인</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    
+    <!-- 소셜 로그인 SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
+    <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+
     <style>
-        /* Styles based on GILS SOUND aesthetic */
         :root {
             --primary-gold: #D4AF37;
-            --primary-gold-hover: #b5952f;
             --bg-glass: rgba(15, 15, 15, 0.75);
             --border-glass: rgba(255, 255, 255, 0.15);
             --text-main: #F9FAFB;
@@ -53,7 +57,7 @@
             border-radius: 24px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             width: 100%;
-            max-width: 480px;
+            max-width: 400px;
             padding: 50px 40px;
             backdrop-filter: blur(20px);
             animation: slideUp 0.8s ease-out;
@@ -81,103 +85,8 @@
             font-weight: 300;
             color: #D1D5DB;
             letter-spacing: 1px;
-            margin-bottom: 30px;
-        }
-
-        .tabs {
-            display: flex;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--border-glass);
-        }
-
-        .tab {
-            flex: 1;
-            text-align: center;
-            padding: 15px 0;
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.3s;
-            border-bottom: 2px solid transparent;
-        }
-
-        .tab.active {
-            color: var(--primary-gold);
-            border-bottom-color: var(--primary-gold);
-        }
-
-        .tab:hover:not(.active) {
-            color: #fff;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        .form-group input {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-glass);
-            border-radius: 12px;
-            padding: 16px;
-            font-size: 15px;
-            color: var(--text-main);
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--primary-gold);
-            background: rgba(0, 0, 0, 0.5);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
-        }
-
-        .btn-submit {
-            width: 100%;
-            background: linear-gradient(135deg, #D4AF37, #AA8022);
-            color: #000;
-            border: none;
-            border-radius: 12px;
-            padding: 18px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
-            transition: all 0.3s;
-            margin-top: 10px;
-            margin-bottom: 20px;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.5);
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 12px;
-            margin: 25px 0;
-        }
-
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid var(--border-glass);
-        }
-
-        .divider span {
-            padding: 0 10px;
+            margin-bottom: 40px;
+            line-height: 1.5;
         }
 
         .social-btn {
@@ -191,18 +100,22 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             transition: all 0.3s;
             border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
         .btn-google {
-            background: #fff;
-            color: #333;
-        }
-
-        .btn-google:hover {
-            background: #f1f1f1;
+            background: #ffffff;
+            color: #333333;
+            border: 1px solid #ddd;
         }
 
         .btn-kakao {
@@ -210,8 +123,9 @@
             color: #000000;
         }
 
-        .btn-kakao:hover {
-            background: #e6ce00;
+        .btn-naver {
+            background: #03C75A;
+            color: #ffffff;
         }
 
         .social-icon {
@@ -219,27 +133,22 @@
             height: 20px;
         }
 
-        /* Signup Specific */
-        .signup-notice {
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 8px;
-            padding: 12px;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: var(--primary-gold);
-            display: none; /* Shown only on signup tab */
+        /* 구글 기본 렌더링 버튼 숨기기 (커스텀 버튼 사용 위해) */
+        #google-btn-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
         }
         
-        .signup-notice strong {
-            font-size: 15px;
-        }
-
-        /* Toggle Views */
-        #signup-form {
+        /* 네이버 버튼 숨기기 */
+        #naverIdLogin {
             display: none;
         }
+
     </style>
 </head>
 <body>
@@ -247,63 +156,27 @@
 
     <div class="auth-card">
         <div class="logo">GILS SOUND</div>
-        <div class="subtitle">프리미엄 AI 뮤직 스튜디오</div>
+        <div class="subtitle">프리미엄 AI 뮤직 스튜디오<br>단 1초 만에 로그인하세요.</div>
 
-        <div class="tabs">
-            <div class="tab active" onclick="switchTab('login')" id="tab-login">로그인</div>
-            <div class="tab" onclick="switchTab('signup')" id="tab-signup">회원가입</div>
-        </div>
+        <!-- 카카오 로그인 -->
+        <button class="social-btn btn-kakao" onclick="loginWithKakao()">
+            <svg class="social-icon" viewBox="0 0 24 24">
+                <path fill="#000000" d="M12 3c-5.52 0-10 3.58-10 8 0 2.85 1.83 5.35 4.63 6.8-.23.82-.82 2.97-.85 3.09-.04.14.04.28.17.33.05.02.1.03.14.03.07 0 .14-.02.2-.07 1.19-.94 3.42-2.5 3.93-2.86.58.09 1.17.13 1.78.13 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/>
+            </svg>
+            카카오 계정으로 시작하기
+        </button>
 
-        <div class="signup-notice" id="signup-notice">
-            🎉 지금 가입하시면 <strong>3코인(3곡 무료)</strong>을 즉시 지급해 드립니다!
-        </div>
+        <!-- 네이버 로그인 -->
+        <button class="social-btn btn-naver" onclick="loginWithNaver()">
+            <svg class="social-icon" viewBox="0 0 24 24">
+                <path fill="#ffffff" d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"/>
+            </svg>
+            네이버 계정으로 시작하기
+        </button>
+        <div id="naverIdLogin"></div>
 
-        <!-- Login Form -->
-        <form id="login-form">
-            <div class="form-group">
-                <label>이메일</label>
-                <input type="email" placeholder="example@email.com" required>
-            </div>
-            <div class="form-group">
-                <label>비밀번호</label>
-                <input type="password" placeholder="비밀번호를 입력해주세요" required>
-            </div>
-            <button type="submit" class="btn-submit">이메일로 로그인</button>
-        </form>
-
-        <!-- Signup Form -->
-        <form id="signup-form">
-            <div class="form-group">
-                <label>이메일</label>
-                <div style="display: flex; gap: 8px;">
-                    <input type="email" id="signup-email" placeholder="사용할 이메일을 입력해주세요" required>
-                    <button type="button" id="btn-send-code" onclick="sendVerificationCode()" style="white-space: nowrap; padding: 0 15px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-glass); border-radius: 12px; color: #fff; cursor: pointer;">인증 발송</button>
-                </div>
-            </div>
-            <div class="form-group" id="verify-group" style="display: none;">
-                <label>인증번호 4자리</label>
-                <div style="display: flex; gap: 8px;">
-                    <input type="text" id="signup-code" placeholder="인증번호 입력">
-                    <button type="button" onclick="verifyCode()" style="white-space: nowrap; padding: 0 15px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-glass); border-radius: 12px; color: #fff; cursor: pointer;">확인</button>
-                </div>
-                <div id="verify-msg" style="font-size: 12px; margin-top: 5px; color: var(--primary-gold);"></div>
-            </div>
-            <div class="form-group">
-                <label>비밀번호</label>
-                <input type="password" id="signup-pw" placeholder="비밀번호 (8자 이상)" required>
-            </div>
-            <div class="form-group">
-                <label>비밀번호 확인</label>
-                <input type="password" id="signup-pw2" placeholder="비밀번호를 다시 입력해주세요" required>
-            </div>
-            <button type="submit" class="btn-submit" id="btn-signup-submit" disabled style="background: #333; color: #888; cursor: not-allowed; box-shadow: none;">회원가입 완료</button>
-        </form>
-
-        <div class="divider">
-            <span>또는 SNS 계정으로 계속하기</span>
-        </div>
-
-        <button class="social-btn btn-google">
+        <!-- 구글 로그인 (커스텀 버튼 위에 투명한 기본 구글 버튼을 덮어씌움) -->
+        <button class="social-btn btn-google" style="position: relative;">
             <svg class="social-icon" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                 <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -311,224 +184,141 @@
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 <path fill="none" d="M1 1h22v22H1z"/>
             </svg>
-            구글 계정으로 로그인
+            구글 계정으로 시작하기
+            <div id="google-btn-wrapper"></div>
         </button>
-        <button class="social-btn btn-kakao">
-            <svg class="social-icon" viewBox="0 0 24 24">
-                <path fill="#000000" d="M12 3c-5.52 0-10 3.58-10 8 0 2.85 1.83 5.35 4.63 6.8-.23.82-.82 2.97-.85 3.09-.04.14.04.28.17.33.05.02.1.03.14.03.07 0 .14-.02.2-.07 1.19-.94 3.42-2.5 3.93-2.86.58.09 1.17.13 1.78.13 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/>
-            </svg>
-            카카오톡으로 로그인
-        </button>
+
     </div>
 
     <script>
-        function switchTab(tab) {
-            const loginTab = document.getElementById('tab-login');
-            const signupTab = document.getElementById('tab-signup');
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-            const signupNotice = document.getElementById('signup-notice');
-            
-            const googleBtn = document.querySelector('.btn-google');
-            const kakaoBtn = document.querySelector('.btn-kakao');
+        // ==========================================
+        // 🔑 [필독] 발급받은 API 키를 여기에 입력하세요!
+        // ==========================================
+        const KAKAO_JAVASCRIPT_KEY = "YOUR_KAKAO_JAVASCRIPT_KEY"; 
+        const NAVER_CLIENT_ID = "YOUR_NAVER_CLIENT_ID";
+        const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID";
 
-            if (tab === 'login') {
-                loginTab.classList.add('active');
-                signupTab.classList.remove('active');
-                loginForm.style.display = 'block';
-                signupForm.style.display = 'none';
-                signupNotice.style.display = 'none';
-                
-                googleBtn.innerHTML = `
-                    <svg class="social-icon" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                        <path fill="none" d="M1 1h22v22H1z"/>
-                    </svg>
-                    구글 계정으로 로그인
-                `;
-                kakaoBtn.innerHTML = `
-                    <svg class="social-icon" viewBox="0 0 24 24">
-                        <path fill="#000000" d="M12 3c-5.52 0-10 3.58-10 8 0 2.85 1.83 5.35 4.63 6.8-.23.82-.82 2.97-.85 3.09-.04.14.04.28.17.33.05.02.1.03.14.03.07 0 .14-.02.2-.07 1.19-.94 3.42-2.5 3.93-2.86.58.09 1.17.13 1.78.13 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/>
-                    </svg>
-                    카카오톡으로 로그인
-                `;
-            } else {
-                loginTab.classList.remove('active');
-                signupTab.classList.add('active');
-                loginForm.style.display = 'none';
-                signupForm.style.display = 'block';
-                signupNotice.style.display = 'block';
-                
-                googleBtn.innerHTML = `
-                    <svg class="social-icon" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                        <path fill="none" d="M1 1h22v22H1z"/>
-                    </svg>
-                    구글 계정으로 가입하기 (3코인 지급)
-                `;
-                kakaoBtn.innerHTML = `
-                    <svg class="social-icon" viewBox="0 0 24 24">
-                        <path fill="#000000" d="M12 3c-5.52 0-10 3.58-10 8 0 2.85 1.83 5.35 4.63 6.8-.23.82-.82 2.97-.85 3.09-.04.14.04.28.17.33.05.02.1.03.14.03.07 0 .14-.02.2-.07 1.19-.94 3.42-2.5 3.93-2.86.58.09 1.17.13 1.78.13 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/>
-                    </svg>
-                    카카오톡으로 가입하기 (3코인 지급)
-                `;
-            }
-        }
-
-
-        let isVerified = false;
-
-        async function sendVerificationCode() {
-            const emailInput = document.getElementById('signup-email').value;
-            if(!emailInput || !emailInput.includes('@')) {
-                alert('올바른 이메일 주소를 입력해주세요.');
-                return;
-            }
-
-            // 중복 가입 체크
-            const registeredEmails = JSON.parse(localStorage.getItem('gils_registered_emails') || '[]');
-            if(registeredEmails.includes(emailInput)) {
-                alert('이미 가입된 이메일입니다. 다른 이메일로 시도하시거나 로그인해주세요.');
-                return;
-            }
-
-            try {
-                const btn = document.getElementById('btn-send-code');
-                btn.innerText = "발송중...";
-                btn.disabled = true;
-
-                const response = await fetch('/api/send-code', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: emailInput })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    document.getElementById('verify-group').style.display = 'block';
-                    alert('입력하신 이메일로 인증번호가 발송되었습니다. 메일함을 확인해주세요!');
-                } else {
-                    alert('발송 실패: ' + data.message);
-                }
-            } catch (err) {
-                alert('서버와 통신할 수 없습니다.');
-            } finally {
-                const btn = document.getElementById('btn-send-code');
-                btn.innerText = "인증 발송";
-                btn.disabled = false;
-            }
-        }
-
-        async function verifyCode() {
-            const emailInput = document.getElementById('signup-email').value;
-            const inputCode = document.getElementById('signup-code').value;
-            const msgEl = document.getElementById('verify-msg');
-            
-            try {
-                const response = await fetch('/api/verify-code', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: emailInput, code: inputCode })
-                });
-                const data = await response.json();
-
-                if(data.success) {
-                    msgEl.innerText = "✓ 이메일 인증이 완료되었습니다.";
-                    msgEl.style.color = "#10B981";
-                    isVerified = true;
-                    
-                    const submitBtn = document.getElementById('btn-signup-submit');
-                    submitBtn.disabled = false;
-                    submitBtn.style.background = "linear-gradient(135deg, #D4AF37, #AA8022)";
-                    submitBtn.style.color = "#000";
-                    submitBtn.style.cursor = "pointer";
-                    submitBtn.style.boxShadow = "0 10px 25px rgba(212, 175, 55, 0.3)";
-                    
-                    document.getElementById('signup-email').readOnly = true;
-                    document.getElementById('btn-send-code').disabled = true;
-                } else {
-                    msgEl.innerText = "❌ 인증번호가 일치하지 않습니다.";
-                    msgEl.style.color = "#EF4444";
-                    isVerified = false;
-                }
-            } catch (err) {
-                alert('서버 검증 중 오류가 발생했습니다.');
-            }
-        }
-
-        // Form submission simulation
-        document.getElementById('login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = e.target.querySelector('input[type="email"]').value;
-            localStorage.setItem('gils_user', email);
+        // 공통 로그인 성공 처리 함수
+        function handleLoginSuccess(platform, email, nickname) {
+            localStorage.setItem('gils_user', email || `${platform} User`);
             if (!localStorage.getItem('gils_credits')) {
-                localStorage.setItem('gils_credits', 0);
+                // 신규 가입 시 3코인 지급
+                localStorage.setItem('gils_credits', 3);
+                alert(`${platform} 계정으로 환영합니다! 3코인이 지급되었습니다.`);
+            } else {
+                alert(`${platform} 계정으로 로그인 되었습니다.`);
             }
-            alert('로그인 되었습니다.');
             window.location.href = 'music_maker.html';
-        });
+        }
 
-        document.getElementById('signup-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            if(!isVerified) {
-                alert('이메일 인증을 먼저 완료해주세요.');
+        // ==========================================
+        // 1. 카카오 로그인 설정
+        // ==========================================
+        function loginWithKakao() {
+            if (KAKAO_JAVASCRIPT_KEY === "YOUR_KAKAO_JAVASCRIPT_KEY") {
+                alert("카카오 JavaScript 키가 입력되지 않았습니다. 개발자 센터에서 발급받은 키를 login.html 코드에 넣어주세요!");
+                // 임시 테스트용
+                handleLoginSuccess("카카오");
+                return;
+            }
+
+            if (!Kakao.isInitialized()) {
+                Kakao.init(KAKAO_JAVASCRIPT_KEY);
+            }
+            
+            Kakao.Auth.login({
+                success: function(authObj) {
+                    Kakao.API.request({
+                        url: '/v2/user/me',
+                        success: function(res) {
+                            const email = res.kakao_account.email;
+                            const nickname = res.kakao_account.profile.nickname;
+                            handleLoginSuccess("카카오", email, nickname);
+                        },
+                        fail: function(error) {
+                            alert("유저 정보를 가져오는데 실패했습니다: " + JSON.stringify(error));
+                        }
+                    });
+                },
+                fail: function(err) {
+                    alert("카카오 로그인 실패: " + JSON.stringify(err));
+                }
+            });
+        }
+
+        // ==========================================
+        // 2. 구글 로그인 설정
+        // ==========================================
+        window.onload = function () {
+            if (GOOGLE_CLIENT_ID !== "YOUR_GOOGLE_CLIENT_ID") {
+                google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: handleGoogleCredentialResponse
+                });
+                google.accounts.id.renderButton(
+                    document.getElementById("google-btn-wrapper"),
+                    { theme: "outline", size: "large", width: "100%" } // 투명하게 덮어씌움
+                );
+            } else {
+                document.querySelector('.btn-google').addEventListener('click', () => {
+                    alert("구글 Client ID가 입력되지 않았습니다. 개발자 콘솔에서 발급받은 키를 login.html 코드에 넣어주세요!");
+                    // 임시 테스트용
+                    handleLoginSuccess("구글");
+                });
+            }
+        };
+
+        function handleGoogleCredentialResponse(response) {
+            // JWT 디코딩 (간단한 파싱)
+            const base64Url = response.credential.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            
+            const payload = JSON.parse(jsonPayload);
+            handleLoginSuccess("구글", payload.email, payload.name);
+        }
+
+        // ==========================================
+        // 3. 네이버 로그인 설정
+        // ==========================================
+        function loginWithNaver() {
+            if (NAVER_CLIENT_ID === "YOUR_NAVER_CLIENT_ID") {
+                alert("네이버 Client ID가 입력되지 않았습니다. 네이버 개발자 센터에서 발급받은 키를 login.html 코드에 넣어주세요!");
+                // 임시 테스트용
+                handleLoginSuccess("네이버");
                 return;
             }
             
-            const email = document.getElementById('signup-email').value;
-            const pw1 = document.getElementById('signup-pw').value;
-            const pw2 = document.getElementById('signup-pw2').value;
-            
-            if(pw1 !== pw2) {
-                alert('비밀번호가 서로 일치하지 않습니다.');
-                return;
+            // 네이버 로그인 버튼 클릭 시 숨겨진 네이버 버튼을 클릭하도록 트리거
+            const naverLoginBtn = document.querySelector('#naverIdLogin a');
+            if (naverLoginBtn) {
+                naverLoginBtn.click();
             }
+        }
 
-            // Save to registered emails
-            const registeredEmails = JSON.parse(localStorage.getItem('gils_registered_emails') || '[]');
-            registeredEmails.push(email);
-            localStorage.setItem('gils_registered_emails', JSON.stringify(registeredEmails));
+        // 네이버 SDK 초기화
+        if (NAVER_CLIENT_ID !== "YOUR_NAVER_CLIENT_ID") {
+            const naverLogin = new naver.LoginWithNaverId({
+                clientId: NAVER_CLIENT_ID,
+                callbackUrl: window.location.href, // 로그인 후 돌아올 주소
+                isPopup: true, // 팝업으로 로그인
+                loginButton: {color: "green", type: 3, height: 60} // 숨겨진 버튼 설정
+            });
+            naverLogin.init();
 
-            localStorage.setItem('gils_user', email);
-            localStorage.setItem('gils_credits', 3);
-            alert('회원가입이 완료되었습니다! 3코인이 지급되었습니다.');
-            window.location.href = 'music_maker.html';
-        });
-
-        document.querySelector('.btn-google').addEventListener('click', () => {
-            alert('구글 로그인을 실제 연동하려면 구글 클라우드(GCP)에서 "클라이언트 ID" 발급이 필수입니다.\n\n현재는 가입/로그인 테스트 모드로 진행됩니다.');
-            const isSignup = document.getElementById('tab-signup').classList.contains('active');
-            localStorage.setItem('gils_user', 'Google User');
-            if(isSignup) {
-                localStorage.setItem('gils_credits', 3);
-                alert('구글 계정으로 회원가입이 완료되었습니다! 3코인이 지급되었습니다.');
-            } else {
-                if (!localStorage.getItem('gils_credits')) localStorage.setItem('gils_credits', 0);
-                alert('구글 계정으로 로그인 되었습니다.');
-            }
-            window.location.href = 'music_maker.html';
-        });
-
-        document.querySelector('.btn-kakao').addEventListener('click', () => {
-            alert('카카오 로그인을 실제 연동하려면 카카오 디벨로퍼스에서 "REST API 키" 발급이 필수입니다.\n\n현재는 가입/로그인 테스트 모드로 진행됩니다.');
-            const isSignup = document.getElementById('tab-signup').classList.contains('active');
-            localStorage.setItem('gils_user', 'Kakao User');
-            if(isSignup) {
-                localStorage.setItem('gils_credits', 3);
-                alert('카카오 계정으로 회원가입이 완료되었습니다! 3코인이 지급되었습니다.');
-            } else {
-                if (!localStorage.getItem('gils_credits')) localStorage.setItem('gils_credits', 0);
-                alert('카카오 계정으로 로그인 되었습니다.');
-            }
-            window.location.href = 'music_maker.html';
-        });
+            // 네이버 팝업에서 돌아왔을 때 상태 확인
+            window.addEventListener('load', function () {
+                naverLogin.getLoginStatus(function (status) {
+                    if (status) {
+                        const email = naverLogin.user.getEmail();
+                        const nickname = naverLogin.user.getNickName();
+                        handleLoginSuccess("네이버", email, nickname);
+                    }
+                });
+            });
+        }
     </script>
 </body>
 </html>
