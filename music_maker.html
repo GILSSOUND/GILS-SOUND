@@ -1,0 +1,1920 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GILS SOUND | 프리미엄 음악 생성기</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gold: #D4AF37;
+            --primary-gold-hover: #b5952f;
+            --bg-glass: rgba(15, 15, 15, 0.75);
+            --border-glass: rgba(255, 255, 255, 0.15);
+            --text-main: #F9FAFB;
+            --text-muted: #9CA3AF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            background-image: url('2.한국인/여자/indie_kr_woman_1_1778646998075.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 20px;
+        }
+
+        /* Background Overlay for readability */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.4));
+            backdrop-filter: blur(15px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Header / Brand */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            background: linear-gradient(to right, #fff, #D4AF37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            font-weight: 300;
+            color: #D1D5DB;
+            letter-spacing: 1px;
+        }
+
+        /* Premium Glass Card */
+        .main-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 650px;
+            padding: 50px;
+            backdrop-filter: blur(20px);
+            animation: slideUp 0.8s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Steps */
+        .step-container {
+            margin-bottom: 40px;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+
+        .step-number {
+            color: var(--primary-gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            font-style: italic;
+        }
+
+        /* Visual Genre Cards */
+        .genre-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+        }
+
+        .genre-card {
+            position: relative;
+            height: 100px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .genre-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .genre-card.selected {
+            border-color: var(--primary-gold);
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .genre-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.5s ease;
+        }
+
+        .genre-card:hover .genre-bg {
+            transform: scale(1.1);
+        }
+
+        .genre-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2));
+            display: flex;
+            align-items: flex-end;
+            padding: 12px 16px;
+        }
+
+        .genre-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.5px;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Inputs */
+        textarea, input[type="text"] {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 18px;
+            font-size: 15px;
+            color: var(--text-main);
+            transition: all 0.3s;
+        }
+
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+        
+        textarea::placeholder, input[type="text"]::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* Premium Submit Button */
+        .btn-submit {
+            position: relative;
+            z-index: 50;
+            width: 100%;
+            background: linear-gradient(135deg, #D4AF37, #AA8022);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            padding: 22px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.5);
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-submit:disabled {
+            background: #333;
+            color: #888;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Result Area */
+        .result-area {
+            margin-top: 40px;
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .track-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cover-art-result {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid var(--border-glass);
+        }
+
+        .track-info-result {
+            flex: 1;
+        }
+
+        .track-info-result h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--primary-gold);
+        }
+
+        .track-info-result p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        
+        .play-btn-circle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-gold);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary-gold);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .play-btn-circle:hover {
+            background: var(--primary-gold);
+            color: #000;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            position: absolute;
+            top: 25px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .credit-badge {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border-glass);
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .credit-badge span {
+            color: var(--primary-gold);
+            font-weight: 700;
+        }
+
+        .btn-store {
+            background: linear-gradient(135deg, var(--primary-gold), #b5952f);
+            color: #000;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-store:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+        }
+
+        /* Store Modal */
+        .store-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(25px);
+            z-index: 100;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .store-modal {
+            background: rgba(20, 20, 20, 0.85);
+            border: 1px solid var(--border-glass);
+            border-radius: 28px;
+            width: 100%;
+            max-width: 950px;
+            padding: 45px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
+            position: relative;
+            color: #fff;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .store-close {
+            position: absolute;
+            top: 25px;
+            right: 30px;
+            font-size: 28px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .store-close:hover {
+            color: #fff;
+        }
+
+        .store-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .store-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: var(--primary-gold);
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .store-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .pricing-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px 25px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .pricing-card.popular {
+            border-color: var(--primary-gold);
+            background: linear-gradient(to bottom, rgba(212, 175, 55, 0.05), rgba(0,0,0,0.6));
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-gold);
+            color: #000;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4);
+        }
+
+        .plan-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .pricing-card.popular .plan-name {
+            color: #fff;
+        }
+
+        .plan-price {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .plan-price span {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-muted);
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .plan-desc {
+            font-size: 12px;
+            color: var(--primary-gold);
+            margin-bottom: 25px;
+            min-height: 18px;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 13px;
+            color: #D1D5DB;
+        }
+
+        .plan-features li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .plan-features li::before {
+            content: '✓';
+            color: var(--primary-gold);
+            font-weight: 700;
+        }
+
+        .btn-checkout {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border-glass);
+            background: transparent;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .pricing-card.popular .btn-checkout, .btn-checkout:hover {
+            background: var(--primary-gold);
+            color: #000;
+            border-color: var(--primary-gold);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Mode Tabs UI */
+        .mode-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .mode-tab {
+            padding: 12px 30px;
+            border-radius: 30px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-glass);
+            color: var(--text-muted);
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mode-tab:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .mode-tab.active {
+            background: linear-gradient(135deg, var(--primary-gold), #b5952f);
+            color: #000;
+            border-color: var(--primary-gold);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .custom-prompt-container {
+            display: none; /* hidden by default */
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .story-mode-container {
+            display: none; /* hidden by default */
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        /* Library Modal Overlay */
+        .library-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .library-modal {
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid var(--border-glass);
+            width: 90%; max-width: 700px;
+            max-height: 80vh;
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .library-close {
+            position: absolute;
+            top: 25px; right: 30px;
+            font-size: 28px; color: #aaa;
+            cursor: pointer; transition: color 0.3s;
+        }
+        .library-close:hover { color: #fff; }
+
+        .library-header { text-align: center; margin-bottom: 30px; }
+        .library-header h2 { color: var(--primary-gold); font-size: 24px; margin-bottom: 10px; }
+        .library-header p { font-size: 13px; color: var(--text-muted); }
+
+        .library-list {
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-right: 5px;
+        }
+
+        .library-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 15px 20px;
+            border-radius: 12px;
+            gap: 15px;
+        }
+
+        .library-item-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .library-cover {
+            width: 50px; height: 50px;
+            border-radius: 8px;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        .library-info h4 { font-size: 15px; color: #fff; margin-bottom: 4px; font-weight: 700; }
+        .library-info p { font-size: 12px; color: var(--primary-gold); }
+
+        .btn-library {
+            padding: 8px 18px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-glass);
+            color: #fff; font-size: 13px; font-weight: 700;
+            cursor: pointer; transition: all 0.3s;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .btn-library:hover { background: rgba(255, 255, 255, 0.2); border-color: var(--primary-gold); }
+
+        .btn-download {
+            padding: 8px 14px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary-gold), #b5952f);
+            color: #000;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border: none;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+        }
+        .btn-download:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.5);
+        }
+
+        .empty-library { text-align: center; color: #aaa; font-size: 14px; padding: 40px 0; }
+
+        /* Footer */
+        .site-footer {
+            margin-top: 60px;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            border-top: 1px solid var(--border-glass);
+            padding-top: 30px;
+            color: var(--text-muted);
+            animation: fadeIn 1s ease-out;
+        }
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-gold);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        .footer-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            font-size: 13px;
+            margin: 15px 0;
+            color: #D1D5DB;
+        }
+        .footer-info span {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .footer-copyright {
+            font-size: 11px;
+            color: #6B7280;
+            margin-top: 10px;
+        }
+        /* Text Genre Tag styling */
+        .text-genre-tag {
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            color: #ddd;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .text-genre-tag:hover {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: var(--primary-gold);
+            color: #fff;
+        }
+        .text-genre-tag.selected {
+            background: var(--primary-gold);
+            color: #000;
+            border-color: var(--primary-gold);
+            font-weight: 700;
+        }
+
+        /* Left Notice Button */
+        .top-notice-btn {
+            position: absolute;
+            top: 25px;
+            left: 30px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .top-notice-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-gold);
+            color: var(--primary-gold);
+            transform: translateY(-2px);
+        }
+        /* My Page Modal styles */
+        .mypage-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px);
+            z-index: 1000; display: none; justify-content: center; align-items: center;
+            padding: 20px; animation: fadeIn 0.4s ease-out;
+        }
+        .mypage-modal {
+            background: rgba(20, 20, 20, 0.95); border: 1px solid var(--border-glass);
+            border-radius: 28px; width: 100%; max-width: 500px; padding: 45px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8); position: relative; color: #fff;
+            animation: slideUp 0.4s ease-out;
+        }
+        .profile-section {
+            display: flex; align-items: center; gap: 20px; background: rgba(0, 0, 0, 0.4);
+            padding: 25px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 25px;
+        }
+        .profile-avatar {
+            width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-gold), #b5952f);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 30px; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        .profile-info h3 { font-size: 20px; color: #fff; margin-bottom: 5px; }
+        .profile-info p { font-size: 13px; color: var(--text-muted); }
+        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .info-card {
+            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 15px; border-radius: 16px; text-align: center;
+        }
+        .info-card h4 { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
+        .info-value { font-size: 16px; font-weight: 700; color: var(--primary-gold); }
+
+        /* Left Live Sidebar Layout */
+        .app-container {
+            display: flex; gap: 40px; width: 100%; max-width: 1100px;
+            align-items: flex-start; justify-content: center; z-index: 1; position: relative;
+        }
+        .live-sidebar {
+            width: 300px; background: var(--bg-glass); border: 1px solid var(--border-glass);
+            border-radius: 24px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); padding: 30px 20px;
+            backdrop-filter: blur(20px); position: sticky; top: 50px; height: calc(100vh - 100px);
+            display: flex; flex-direction: column; animation: slideUp 0.8s ease-out; flex-shrink: 0;
+        }
+        .sidebar-header { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-header h3 { color: var(--primary-gold); font-size: 18px; margin-bottom: 5px; }
+        .sidebar-header p { color: var(--text-muted); font-size: 12px; }
+        .sidebar-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding-right: 5px; }
+        .sidebar-list::-webkit-scrollbar { width: 5px; }
+        .sidebar-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 5px; }
+        .sidebar-item { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 10px; transition: all 0.3s; }
+        .sidebar-item:hover { border-color: var(--primary-gold); background: rgba(0,0,0,0.6); }
+        .sidebar-item-top { display: flex; align-items: center; gap: 12px; }
+        .sidebar-cover { width: 45px; height: 45px; border-radius: 8px; background-size: cover; background-position: center; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-info { overflow: hidden; }
+        .sidebar-info h4 { color: #fff; font-size: 14px; margin-bottom: 3px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .sidebar-info p { color: var(--primary-gold); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .empty-sidebar { text-align: center; color: #888; font-size: 13px; margin-top: 50px; line-height: 1.6; }
+        .main-content-wrapper { flex: 1; max-width: 650px; display: flex; flex-direction: column; align-items: center; width: 100%; }
+        
+        /* Mobile Responsive Layout */
+        @media (max-width: 950px) {
+            .app-container { flex-direction: column; align-items: center; }
+            .main-content-wrapper { order: 1; }
+            .live-sidebar { order: 2; width: 100%; max-width: 650px; position: relative; top: 0; height: 400px; margin-top: 40px; margin-bottom: 0; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 20px 15px; }
+            .top-nav { position: static; flex-wrap: wrap; justify-content: center; margin-bottom: 15px; width: 100%; }
+            .top-notice-btn { position: static; margin: 0 auto 20px auto; display: flex; justify-content: center; width: fit-content; }
+            .header { margin-top: 10px; }
+            .genre-grid { grid-template-columns: repeat(3, 1fr); }
+            .pricing-grid {
+                display: flex;
+                flex-direction: row;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                gap: 15px;
+                padding-bottom: 15px;
+            }
+            .pricing-grid::-webkit-scrollbar { height: 6px; }
+            .pricing-grid::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.5); border-radius: 10px; }
+            .pricing-card {
+                flex: 0 0 85%;
+                scroll-snap-align: center;
+            }
+            .store-modal, .mypage-modal, .library-modal { padding: 25px 20px; max-height: 90vh; overflow-y: auto; }
+            .main-card { padding: 30px 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .genre-grid { grid-template-columns: repeat(2, 1fr); }
+            .mode-tabs { flex-direction: column; align-items: stretch; gap: 10px; }
+            .mode-tab { justify-content: center; }
+            .step-title { flex-direction: column; align-items: flex-start; gap: 5px; }
+            .btn-library, .btn-store { font-size: 12px; padding: 8px 12px; }
+        }
+    </style>
+    <!-- 포트원(PortOne) 실제 PG사 결제 모듈 연동 라이브러리 -->
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <!-- Left Notice Navigation -->
+    <button class="top-notice-btn" onclick="openNotice()">
+        📢 상업적 이용 및 공지사항
+    </button>
+
+    <!-- Top Store Navigation Bar -->
+    <div class="top-nav">
+        <div class="credit-badge">⚡ 잔여 크레딧: <span id="user-credits">0곡</span></div>
+        <button class="btn-library" onclick="openMyPage()">👤 마이페이지</button>
+        <button class="btn-library" onclick="openLibrary()">🎵 내 보관함 (<span id="library-count-badge">0</span>)</button>
+        <button class="btn-store" onclick="openStore()">👑 GILS 스토어</button>
+    </div>
+
+    <div class="app-container">
+        <!-- Live Library Sidebar -->
+        <div class="live-sidebar">
+            <div class="sidebar-header">
+                <h3>🎶 실시간 작업 리스트</h3>
+                <p>내가 만든 음악 모아보기</p>
+            </div>
+            <div class="sidebar-list" id="live-library-list">
+                <div class="empty-sidebar">아직 창작된 곡이 없습니다.<br>나만의 첫 음악을 완성해 보세요!</div>
+            </div>
+        </div>
+
+        <div class="main-content-wrapper">
+            <div class="header">
+                <div class="logo">GILS SOUND</div>
+                <div class="subtitle">프리미엄 AI 뮤직 스튜디오</div>
+            </div>
+
+    <div class="main-card">
+        
+        <!-- Mode Tabs Selection Bar -->
+        <div class="mode-tabs">
+            <div class="mode-tab active" id="tab-easy" onclick="switchMode('easy')">✨ 간편 생성 (Easy)</div>
+            <div class="mode-tab" id="tab-pro" onclick="switchMode('pro')">🎛️ 전문가 (Pro)</div>
+            <div class="mode-tab" id="tab-story" onclick="switchMode('story')">📖 사연 스토리 작사 (Story)</div>
+        </div>
+
+        <!-- Step 1 (Easy Mode): Genre Grid -->
+        <div class="step-container" id="section-genre-grid">
+            <div class="step-title">
+                <span class="step-number">Step 01</span>
+                곡의 무드를 선택하세요
+            </div>
+            
+            <!-- 상위 10개 대표 장르 (이미지 포함) -->
+            <div class="genre-grid" id="genre-grid">
+                <div class="genre-card selected" onclick="selectGenre(this, '감성적인 발라드', '2.한국인/여자/indie_kr_woman_1_1778646998075.png')">
+                    <div class="genre-bg" style="background-image: url('2.한국인/여자/indie_kr_woman_1_1778646998075.png');"></div>
+                    <div class="genre-overlay"><span class="genre-name">발라드</span></div>
+                </div>
+                <div class="genre-card" onclick="selectGenre(this, '따뜻한 어쿠스틱', '2.한국인/여자/indie_kr_woman_3_1778647024176.png')">
+                    <div class="genre-bg" style="background-image: url('2.한국인/여자/indie_kr_woman_3_1778647024176.png');"></div>
+                    <div class="genre-overlay"><span class="genre-name">어쿠스틱</span></div>
+                </div>
+                <div class="genre-card" onclick="selectGenre(this, '트렌디한 힙합', '2.한국인/남자/indie_kr_man_2_1778647103208.png')">
+                    <div class="genre-bg" style="background-image: url('2.한국인/남자/indie_kr_man_2_1778647103208.png');"></div>
+                    <div class="genre-overlay"><span class="genre-name">힙합</span></div>
+                </div>
+                <div class="genre-card" onclick="selectGenre(this, '매력적인 인디 팝', '2.한국인/여자/indie_kr_woman_5_1778647065765.png')">
+                    <div class="genre-bg" style="background-image: url('2.한국인/여자/indie_kr_woman_5_1778647065765.png');"></div>
+                    <div class="genre-overlay"><span class="genre-name">인디 팝</span></div>
+                </div>
+                <div class="genre-card" onclick="selectGenre(this, '신나는 댄스 팝', '2.한국인/여자/woman_influencer_3.png')">
+                    <div class="genre-bg" style="background-image: url('2.한국인/여자/woman_influencer_3.png');"></div>
+                    <div class="genre-overlay"><span class="genre-name">댄스 팝</span></div>
+                </div>
+                <div class="genre-card" onclick="selectGenre(this, '소울풀 R&B', '2.한국인/남자/indie_kr_man_1_1778647088018.png')">
+                    <div class="genre-bg" style="background-image: url('2.한국인/남자/indie_kr_man_1_1778647088018.png');"></div>
+                    <div class="genre-overlay"><span class="genre-name">R&B</span></div>
+                </div>
+                <div class="genre-card" onclick="selectGenre(this, '경쾌한 모던 록', '2.한국인/여자/indie_kr_woman_4_1778647046070.png')">
+                    <div class="genre-bg" style="background-image: url('2.한국인/여자/indie_kr_woman_4_1778647046070.png');"></div>
+                    <div class="genre-overlay"><span class="genre-name">모던 록</span></div>
+                </div>
+                <div class="genre-card" onclick="selectGenre(this, '편안한 로파이 (Lo-Fi)', '2.한국인/여자/woman_influencer_1.png')">
+                    <div class="genre-bg" style="background-image: url('2.한국인/여자/woman_influencer_1.png');"></div>
+                    <div class="genre-overlay"><span class="genre-name">로파이</span></div>
+                </div>
+                <div class="genre-card" onclick="selectGenre(this, '부드러운 재즈 라운지', '2.한국인/여자/indie_kr_woman_2_1778647011070.png')">
+                    <div class="genre-bg" style="background-image: url('2.한국인/여자/indie_kr_woman_2_1778647011070.png');"></div>
+                    <div class="genre-overlay"><span class="genre-name">재즈</span></div>
+                </div>
+                <div class="genre-card" onclick="selectGenre(this, '웅장한 시네마틱', '2.한국인/여자/woman_influencer_2.png')">
+                    <div class="genre-bg" style="background-image: url('2.한국인/여자/woman_influencer_2.png');"></div>
+                    <div class="genre-overlay"><span class="genre-name">시네마틱</span></div>
+                </div>
+            </div>
+
+            <!-- 더보기 (텍스트 전용 장르) -->
+            <div style="margin-top: 15px; text-align: center;">
+                <button type="button" class="btn-checkout" id="btn-more-genres" onclick="toggleMoreGenres()" style="background: transparent; border: 1px solid var(--border-glass); color: #ccc; padding: 10px 20px; font-size: 14px;">
+                    👇 더 많은 장르 보기 (텍스트 전용)
+                </button>
+            </div>
+            
+            <div id="more-genres-container" style="display: none; margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid var(--border-glass);">
+                <div style="font-size: 12px; color: var(--primary-gold); margin-bottom: 10px; text-align: center;">원하시는 장르 텍스트를 클릭하시면 선택됩니다.</div>
+                <div class="text-genre-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;">
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, 'K-Pop 아이돌 스타일')">K-Pop 아이돌</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '신나는 트로트')">트로트</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '강렬한 일렉트로닉 댄스 (EDM)')">EDM / 일렉트로닉</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '레트로 시티팝')">레트로 시티팝</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '어쿠스틱 포크')">어쿠스틱 포크</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '강렬한 펑크 록')">펑크 록</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '얼터너티브 록')">얼터너티브 록</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '딥 블루스')">블루스</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '부드러운 보사노바')">보사노바</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '그루브한 레게')">레게</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '흥겨운 라틴 팝')">라틴 팝</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '웅장한 클래식 오케스트라')">오케스트라</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '잔잔한 뉴에이지 피아노')">뉴에이지 피아노</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '미래지향적 사이버펑크')">사이버펑크</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '화려한 뮤지컬 넘버')">뮤지컬 넘버</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '헤비 메탈')">헤비 메탈</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '신나는 레트로 디스코')">디스코</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '은혜로운 가스펠 CCM')">가스펠 / CCM</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '아름다운 국악 퓨전')">국악 퓨전</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '맑고 순수한 동요')">동요</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '신비로운 앰비언트')">앰비언트</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '신나는 로큰롤')">로큰롤</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '트렌디 트랩 힙합')">트랩 힙합</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '올드스쿨 붐뱁 힙합')">붐뱁 힙합</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '퓨처 베이스')">퓨처 베이스</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '경쾌한 하우스')">하우스</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '강렬한 테크노')">테크노</div>
+                </div>
+            </div>
+
+            <input type="hidden" id="selected-genre" value="감성적인 발라드">
+            <input type="hidden" id="selected-image" value="2.한국인/여자/indie_kr_woman_1_1778646998075.png">
+        </div>
+
+        <!-- Step 1 (Pro Mode): Custom Prompt Input Area -->
+        <div class="step-container custom-prompt-container" id="section-custom-prompt">
+            <div class="step-title">
+                <span class="step-number">Step 01 (Pro)</span>
+                세부 작곡 프롬프트(명령어) 직접 입력
+            </div>
+            <textarea id="input-custom-prompt" style="height: 120px;" placeholder="원하시는 음악 장르, 악기 구성, 분위기, 보컬 스타일 등을 영어 또는 한글로 자유롭게 적어주세요.&#10;예) 120 BPM synthwave, heavy synth bass, ethereal female vocal, futuristic pop"></textarea>
+            <div style="font-size: 12px; color: var(--primary-gold); margin-top: 8px;">💡 팁: 세부 악기와 무드를 쉼표(,)로 나열할수록 더욱 풍성하고 독창적인 사운드가 완성됩니다.</div>
+        </div>
+
+        <!-- Step 1 (Story Mode): Story Input Area -->
+        <div class="step-container story-mode-container" id="section-story-mode">
+            <div class="step-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span class="step-number">Step 01 (Story)</span>
+                    본인의 사연(스토리)을 편하게 들려주세요
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="background: rgba(212, 175, 55, 0.2); border: 1px solid var(--primary-gold); color: var(--primary-gold); padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700;">
+                        ✨ 통합 백엔드 AI (Gemini 연동 가동 중)
+                    </span>
+                </div>
+            </div>
+            <textarea id="input-story" style="height: 120px;" placeholder="오늘 있었던 일, 누군가에게 전하고 싶은 마음, 잊지 못할 추억 등 어떤 이야기든 편하게 입력하세요.&#10;서버 단에 연동된 구글 제미나이(Gemini) AI가 접속자별로 사연을 완벽히 파악하여 전문 작사가처럼 가사와 사운드를 즉시 창작합니다!"></textarea>
+            
+            <!-- 생성된 가사 중간 확인 및 제어 패널 (기본 숨김) -->
+            <div id="story-preview-panel" style="display: none; margin-top: 15px; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--primary-gold); border-radius: 12px; padding: 16px; animation: fadeIn 0.4s ease-out;">
+                <div style="font-size: 13px; font-weight: 700; color: var(--primary-gold); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+                    <span>📜 AI 작사 초안 확인</span>
+                    <span id="story-preview-genre" style="font-size: 11px; color: #fff; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 10px;">분석 중</span>
+                </div>
+                <div id="story-preview-lyrics" style="font-size: 13px; color: #E5E7EB; white-space: pre-line; max-height: 280px; overflow-y: auto; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; line-height: 1.6; margin-bottom: 12px;"></div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-checkout" style="flex: 1; padding: 8px; font-size: 12px; border-color: #6B7280; color: #D1D5DB; background: transparent;" onclick="generateStoryLyrics()">
+                        🔄 가사 다시 만들기
+                    </button>
+                </div>
+            </div>
+
+            <div style="font-size: 12px; color: var(--primary-gold); margin-top: 8px;">💡 방문자의 개별 키 입력 없이도 사장님이 설정해두신 안전한 프록시 서버 통신을 통해 즉시 전자동 작사가 진행됩니다.</div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-container" id="section-lyrics-input">
+            <div class="step-title">
+                <span class="step-number">Step 02</span>
+                가사를 입력하세요
+            </div>
+            <textarea id="input-lyrics" placeholder="아름다운 노랫말을 적어주세요.&#10;예) 눈을 감으면 스치는 바람결..."></textarea>
+        </div>
+
+        <!-- Step 3 (Easy Mode Only): Mood Selection -->
+        <div class="step-container" id="section-mood-selection">
+            <div class="step-title">
+                <span class="step-number">Step 03</span>
+                곡의 세부 감성을 선택하세요
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <div class="text-genre-tag mood-tag selected" onclick="selectMood(this, '신나는')">😄 신나는</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '슬픈')">😢 슬픈</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '화나는')">😡 화나는</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '감성적인')">🥺 감성적인</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '몽환적인')">🌌 몽환적인</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '평온한')">😌 평온한</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '희망찬')">🌟 희망찬</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '강렬한')">🔥 강렬한</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '긴장감 있는')">😬 긴장감 있는</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '우울한')">🌧️ 우울한</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '로맨틱한')">💕 로맨틱한</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '시원한')">🌊 시원한</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '어두운')">🌑 어두운</div>
+            </div>
+            <input type="hidden" id="selected-mood" value="신나는">
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step-container" style="margin-bottom: 50px;">
+            <div class="step-title">
+                <span class="step-number" id="step-number-title">Step 04</span>
+                곡의 제목을 정해주세요
+            </div>
+            <input type="text" id="input-title" placeholder="나만의 특별한 제목">
+        </div>
+
+        <!-- Submit Button -->
+        <button class="btn-submit" id="btn-submit" onclick="generateMusic()">
+            작품 완성하기 (Create)
+        </button>
+
+        <!-- Result Area -->
+        <div class="result-area" id="result-area">
+            <div class="step-title" style="margin-bottom: 15px; border-bottom: none;">
+                <span style="color: var(--primary-gold); font-size: 16px;">✓ AI 음악 생성 완료!</span>
+            </div>
+            <div class="track-card" style="flex-direction: column; align-items: stretch; gap: 15px;">
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div class="cover-art-result" id="result-cover" style="background-image: url('2.한국인/여자/indie_kr_woman_1_1778646998075.png');"></div>
+                    <div class="track-info-result">
+                        <h3 id="result-title">제목 없는 노래</h3>
+                        <p id="result-genre">몽환적인 인디 R&B</p>
+                    </div>
+                </div>
+                <div id="result-lyrics" style="display: none; font-size: 13px; color: #D1D5DB; background: rgba(0, 0, 0, 0.3); padding: 12px; border-radius: 8px; white-space: pre-line; line-height: 1.6; max-height: 180px; overflow-y: auto;"></div>
+                <audio id="result-audio" controls style="width: 100%; border-radius: 8px; outline: none;"></audio>
+            </div>
+        </div>
+
+    </div>
+
+        </div> <!-- End main-content-wrapper -->
+    </div> <!-- End app-container -->
+
+    <!-- Footer Area -->
+    <footer class="site-footer">
+        <div class="footer-logo">GILS SOUND</div>
+        <p style="font-size: 13px; color: var(--text-muted);">AI 프리미엄 뮤직 프로덕션 플랫폼</p>
+        <div class="footer-info">
+            <span>📧 이메일: sgd41990@gmail.com</span>
+            <span>📸 인스타: @GILS_SOUND</span>
+            <span>📞 연락처: 010 9929 4199</span>
+            <span>📍 주소: 장재리 1720</span>
+        </div>
+        <p class="footer-copyright">© GILS SOUND. All rights reserved.</p>
+    </footer>
+
+    <!-- My Page Modal -->
+    <div class="mypage-modal-overlay" id="mypage-modal">
+        <div class="mypage-modal">
+            <div class="store-close" onclick="closeMyPage()">×</div>
+            <div class="store-header">
+                <h2>MY PAGE</h2>
+                <p>내 계정 정보 및 결제 내역</p>
+            </div>
+            <div class="mypage-content">
+                <div class="profile-section">
+                    <div class="profile-avatar">👤</div>
+                    <div class="profile-info">
+                        <h3 id="mypage-user-id">게스트 님</h3>
+                        <p id="mypage-join-date">가입일: -</p>
+                    </div>
+                </div>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h4>현재 요금제</h4>
+                        <div class="info-value" id="mypage-plan">기본 플랜</div>
+                    </div>
+                    <div class="info-card">
+                        <h4>잔여 크레딧</h4>
+                        <div class="info-value" id="mypage-credits">0곡</div>
+                    </div>
+                    <div class="info-card">
+                        <h4>생성한 곡 수</h4>
+                        <div class="info-value" id="mypage-song-count">0곡</div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn-submit" style="padding: 12px 30px; font-size: 14px;" onclick="logout()">로그아웃</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Store Pricing Modal Overlay -->
+    <div class="store-modal-overlay" id="store-modal">
+        <div class="store-modal">
+            <div class="store-close" onclick="closeStore()">×</div>
+            
+            <div class="store-header">
+                <h2>GILS SOUND 요금제 안내</h2>
+                <p>합리적인 종량제 및 맞춤형 크레딧 충전으로 나만의 AI 스튜디오를 누리세요.</p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Plan 1 -->
+                <div class="pricing-card">
+                    <div>
+                        <div class="plan-name">싱글 체험 팩</div>
+                        <div class="plan-price">₩990<span> / 곡</span></div>
+                        <div class="plan-desc">가볍게 한 곡 선물하기</div>
+                        <ul class="plan-features">
+                            <li>AI 풀 트랙 작곡 (보컬+악기)</li>
+                            <li>초고음질 MP3 파일 다운로드</li>
+                            <li>개인 소장 및 선물용 라이선스</li>
+                        </ul>
+                    </div>
+                    <button class="btn-checkout" onclick="processPayment('싱글 체험 팩', 990, 1)">결제하기</button>
+                </div>
+
+                <!-- Plan 2 -->
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Best 인기</div>
+                    <div>
+                        <div class="plan-name">스타터 패키지</div>
+                        <div class="plan-price">₩4,900<span> / 6곡</span></div>
+                        <div class="plan-desc">기존가 ₩5,940 → 17% 특별 할인</div>
+                        <ul class="plan-features">
+                            <li>총 6곡 생성 크레딧 충전</li>
+                            <li>곡당 ₩816 꼴 최적 가성비</li>
+                            <li>우선 생성 대기열 고속 처리</li>
+                            <li>평생 소멸되지 않는 누적 크레딧</li>
+                        </ul>
+                    </div>
+                    <button class="btn-checkout" onclick="processPayment('스타터 패키지', 4900, 6)">충전 결제하기</button>
+                </div>
+
+                <!-- Plan 3 -->
+                <div class="pricing-card">
+                    <div>
+                        <div class="plan-name">프로 크리에이터 팩</div>
+                        <div class="plan-price">₩19,900<span> / 월</span></div>
+                        <div class="plan-desc">상업적 이용 완벽 보장</div>
+                        <ul class="plan-features">
+                            <li>월간 200곡 생성 크레딧 제공</li>
+                            <li>유튜브/틱톡/매장용 BGM 허용</li>
+                            <li>공식 상업용 라이선스 증명 발급</li>
+                            <li>신규 베타 AI 보컬 모델 우선 권한</li>
+                        </ul>
+                    </div>
+                    <button class="btn-checkout" onclick="processPayment('프로 크리에이터 팩', 19900, 200)">구독 시작하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Library Modal Overlay -->
+    <div class="library-modal-overlay" id="library-modal">
+        <div class="library-modal">
+            <div class="library-close" onclick="closeLibrary()">×</div>
+            <div class="library-header">
+                <h2>🎵 내 보관함 (My Library)</h2>
+                <p>내가 창작한 소중한 AI 음악 목록입니다. 언제든 다시 듣고 확인하세요.</p>
+            </div>
+            <div class="library-list" id="library-list">
+                <div class="empty-library">아직 창작된 곡이 없습니다. 나만의 첫 음악을 완성해 보세요!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notice Modal Overlay -->
+    <div class="library-modal-overlay" id="notice-modal" style="z-index: 2000;">
+        <div class="library-modal" style="max-width: 600px;">
+            <div class="library-close" onclick="closeNotice()">×</div>
+            <div class="library-header" style="margin-bottom: 20px;">
+                <h2 style="font-size: 22px;">📢 공지사항 및 이용 안내</h2>
+                <p>GILS SOUND 서비스 이용에 관한 주요 안내사항입니다.</p>
+            </div>
+            <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); font-size: 14px; line-height: 1.6; color: #E5E7EB; max-height: 50vh; overflow-y: auto;">
+                <h4 style="color: var(--primary-gold); margin-bottom: 10px; font-size: 16px;">1. 상업적 이용(Commercial Use) 전면 허용 💸</h4>
+                <p style="margin-bottom: 15px;">GILS SOUND에서 생성하신 모든 AI 음악은 <strong>상업적 이용이 100% 가능</strong>합니다. 유튜브 배경음악(BGM), 틱톡, 인스타그램 릴스, 팟캐스트, 개인/기업 홍보 영상, 매장 음악 등 어떠한 제약 없이 자유롭게 활용하실 수 있습니다. 별도의 출처 표기 의무는 없으나, GILS SOUND를 언급해 주시면 큰 힘이 됩니다!</p>
+
+                <h4 style="color: var(--primary-gold); margin-bottom: 10px; font-size: 16px;">2. 저작권 및 소유권 안내 📝</h4>
+                <p style="margin-bottom: 15px;">생성된 곡의 1차적인 소유권은 노래를 생성한 유저 본인에게 귀속됩니다. 단, AI가 생성한 결과물 특성상 타 곡과 일부 유사성이 발생할 수 있으며, 음원 스트리밍 사이트(멜론, 스포티파이 등) 정식 발매 시 유통사의 정책에 따라 제한이 있을 수 있습니다.</p>
+
+                <h4 style="color: var(--primary-gold); margin-bottom: 10px; font-size: 16px;">3. 결제 및 크레딧 환불 정책 🔄</h4>
+                <p style="margin-bottom: 15px;">가입 시 제공된 무료 크레딧 이후에는 스토어에서 충전하여 이용하실 수 있습니다. 결제 후 크레딧을 단 1곡이라도 사용하신 경우에는 시스템 특성상 환불이 불가하오니 신중한 결제 부탁드립니다.</p>
+
+                <h4 style="color: var(--primary-gold); margin-bottom: 10px; font-size: 16px;">4. 시스템 정기 점검 🛠️</h4>
+                <p>최고의 AI 모델 컨디션을 위해 <strong>매주 화요일 오전 3시 ~ 4시</strong>까지 정기 서버 최적화 점검이 있습니다. 해당 시간대에는 곡 생성이 지연될 수 있습니다.</p>
+            </div>
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="btn-submit" style="max-width: 200px; margin: 0 auto; padding: 12px; font-size: 14px;" onclick="closeNotice()">확인했습니다</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentCredits = localStorage.getItem('gils_credits') !== null ? parseInt(localStorage.getItem('gils_credits')) : 0;
+        let myLibrarySongs = []; // 생성된 음악 목록 배열 저장
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (currentCredits === 9999) {
+                document.getElementById('user-credits').innerText = '∞ 무제한';
+            } else {
+                document.getElementById('user-credits').innerText = `${currentCredits}곡`;
+            }
+        });
+        
+        function saveCredits() {
+            localStorage.setItem('gils_credits', currentCredits);
+        }
+
+        function openLibrary() {
+            document.getElementById('library-modal').style.display = 'flex';
+            renderLibrary();
+        }
+
+        function closeLibrary() {
+            document.getElementById('library-modal').style.display = 'none';
+        }
+
+        function openMyPage() {
+            document.getElementById('mypage-modal').style.display = 'flex';
+            const user = localStorage.getItem('gils_user') || '게스트';
+            document.getElementById('mypage-user-id').innerText = user + ' 님';
+            
+            if (!localStorage.getItem('gils_join_date')) {
+                const today = new Date();
+                localStorage.setItem('gils_join_date', `${today.getFullYear()}. ${(today.getMonth()+1).toString().padStart(2, '0')}. ${today.getDate().toString().padStart(2, '0')}`);
+            }
+            document.getElementById('mypage-join-date').innerText = '가입일: ' + localStorage.getItem('gils_join_date');
+            
+            let plan = '기본 플랜 (Free)';
+            if (currentCredits === 9999) plan = '무제한 (Pro)';
+            else if (currentCredits >= 10) plan = '프리미엄 요금제';
+            document.getElementById('mypage-plan').innerText = plan;
+            
+            document.getElementById('mypage-credits').innerText = currentCredits === 9999 ? '∞' : `${currentCredits}곡`;
+            document.getElementById('mypage-song-count').innerText = `${myLibrarySongs.length}곡`;
+        }
+
+        function closeMyPage() {
+            document.getElementById('mypage-modal').style.display = 'none';
+        }
+
+        function logout() {
+            if(confirm('정말 로그아웃 하시겠습니까?')) {
+                localStorage.removeItem('gils_user');
+                localStorage.removeItem('gils_credits');
+                localStorage.removeItem('gils_join_date');
+                window.location.href = 'login.html';
+            }
+        }
+
+        function openNotice() {
+            document.getElementById('notice-modal').style.display = 'flex';
+        }
+
+        function closeNotice() {
+            document.getElementById('notice-modal').style.display = 'none';
+        }
+
+        function renderLibrary() {
+            const listDiv = document.getElementById('library-list');
+            const liveListDiv = document.getElementById('live-library-list');
+            
+            if (myLibrarySongs.length === 0) {
+                listDiv.innerHTML = '<div class="empty-library">아직 창작된 곡이 없습니다. 나만의 첫 음악을 완성해 보세요!</div>';
+                if(liveListDiv) liveListDiv.innerHTML = '<div class="empty-sidebar">아직 창작된 곡이 없습니다.<br>나만의 첫 음악을 완성해 보세요!</div>';
+                return;
+            }
+
+            listDiv.innerHTML = '';
+            if(liveListDiv) liveListDiv.innerHTML = '';
+            
+            myLibrarySongs.forEach((song) => {
+                const item = document.createElement('div');
+                item.className = 'library-item';
+                // 제목에 포함된 따옴표로 인한 스크립트 에러 방지
+                const safeTitle = song.title ? song.title.replace(/'/g, "\\'") : 'GILS_SOUND_Music';
+                const safePrompt = song.prompt ? song.prompt.replace(/"/g, '&quot;').replace(/'/g, "\\'") : '';
+                const safeLyrics = song.lyrics ? song.lyrics.replace(/"/g, '&quot;').replace(/'/g, "\\'") : '';
+                
+                item.innerHTML = `
+                    <div class="library-item-left">
+                        <div class="library-cover" style="background-image: url('${song.cover}');"></div>
+                        <div class="library-info">
+                            <h4>${song.title}</h4>
+                            <p>${song.genre}</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <audio controls src="${song.audioUrl}" style="height: 36px; max-width: 200px; outline: none;"></audio>
+                            <button class="btn-download" onclick="downloadSong('${song.audioUrl}', '${safeTitle}')" title="고음질 MP3 다운로드">
+                                💾 다운로드
+                            </button>
+                        </div>
+                        <button class="btn-download" style="width: 100%; font-size: 11px; background: rgba(212, 175, 55, 0.1); border-color: var(--primary-gold); color: var(--primary-gold);" onclick="loadPersonaStyle('${safePrompt}', '${safeLyrics}')">
+                            🔄 이 스타일 그대로 불러오기 (페르소나)
+                        </button>
+                    </div>
+                `;
+                listDiv.appendChild(item);
+
+                // 실시간 사이드바 아이템 생성
+                if(liveListDiv) {
+                    const sideItem = document.createElement('div');
+                    sideItem.className = 'sidebar-item';
+                    sideItem.innerHTML = `
+                        <div class="sidebar-item-top">
+                            <div class="sidebar-cover" style="background-image: url('${song.cover}');"></div>
+                            <div class="sidebar-info">
+                                <h4>${song.title}</h4>
+                                <p>${song.genre}</p>
+                            </div>
+                        </div>
+                        <audio controls src="${song.audioUrl}" style="height: 30px; width: 100%; outline: none; margin-top: 5px;"></audio>
+                        <div style="display: flex; gap: 6px;">
+                            <button class="btn-download" style="flex: 1; justify-content: center; font-size: 11px; padding: 6px;" onclick="downloadSong('${song.audioUrl}', '${safeTitle}')">💾 다운</button>
+                            <button class="btn-download" style="flex: 1; justify-content: center; font-size: 11px; padding: 6px; background: rgba(212, 175, 55, 0.1); color: var(--primary-gold); border: 1px solid var(--primary-gold);" onclick="loadPersonaStyle('${safePrompt}', '${safeLyrics}')">🔄 페르소나</button>
+                        </div>
+                    `;
+                    liveListDiv.appendChild(sideItem);
+                }
+            });
+        }
+
+        function loadPersonaStyle(prompt, lyrics) {
+            closeLibrary();
+            switchMode('pro');
+            document.getElementById('input-custom-prompt').value = prompt;
+            document.getElementById('input-lyrics').value = lyrics;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function downloadSong(audioUrl, title) {
+            try {
+                // 브라우저 CORS 제약을 우회하고 파일명을 지정하기 위한 Blob 다운로드 방식
+                const response = await fetch(audioUrl);
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = blobUrl;
+                a.download = `${title}.mp3`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(blobUrl);
+                document.body.removeChild(a);
+            } catch (err) {
+                // 실패 시 기본 브라우저 새 창 열기 다운로드 방식으로 폴백
+                window.open(audioUrl, '_blank');
+            }
+        }
+
+        function openStore() {
+            document.getElementById('store-modal').style.display = 'flex';
+        }
+
+        function closeStore() {
+            document.getElementById('store-modal').style.display = 'none';
+        }
+
+        function processPayment(planName, amount, addedCredits) {
+            // 1. 포트원(옛 아임포트) 객체 초기화 (카카오페이/토스페이 지원 표준 테스트 식별코드)
+            if (window.IMP) {
+                IMP.init("imp14397622"); // 더욱 안정적인 테스트용 공용 식별코드 교체
+            }
+
+            // 2. 고유 주문번호 생성 (중복 방지 타임스탬프)
+            const merchantUid = "gils_order_" + new Date().getTime();
+
+            // 3. 실제 국내 PG사 결제창 모듈 호출 (카카오페이 간편결제 우선 호출)
+            IMP.request_pay({
+                pg: "kakaopay",          // 카카오페이 테스트 모듈 (모바일 QR 지원)
+                pay_method: "card",
+                merchant_uid: merchantUid,
+                name: planName,          // 상품명
+                amount: amount,          // 결제 금액
+                buyer_email: "user@gilssound.com",
+                buyer_name: "GILS SOUND 사장님",
+                buyer_tel: "010-1234-5678"
+            }, function (rsp) {
+                // 결제 모듈 콜백
+                if (rsp.success) {
+                    alert(`🎉 카카오페이 실제 연동 승인 완료!\n\n주문번호: ${rsp.merchant_uid}\n결제 금액: ₩${rsp.paid_amount.toLocaleString()}\n\n계정에 크레딧이 정상 충전되었습니다.`);
+                    
+                    if (addedCredits === '무제한') {
+                        document.getElementById('user-credits').innerText = '∞ 무제한';
+                        currentCredits = 9999;
+                    } else {
+                        currentCredits += addedCredits;
+                        document.getElementById('user-credits').innerText = `${currentCredits}곡`;
+                    }
+                    saveCredits();
+                    closeStore();
+                } else {
+                    // PG사 설정 오류 또는 파일 직접 실행 차단 시 스마트 대체 처리
+                    if (confirm(`[PG사 연동 알림]\n사유: ${rsp.error_msg}\n\n💡 안내: 현재 적용된 공용 테스트 식별코드 설정이 만료되었거나, 컴퓨터 내부 파일(file://) 실행 차단으로 외부 PG창을 열지 못했습니다.\n\n(실제 상용화 시 포트원 사이트 가입 후 사장님의 고유 코드를 넣으면 즉시 입금 연동됩니다!)\n\n👉 우선 사이트 작곡 기능 테스트를 진행하실 수 있도록, 무료로 ${addedCredits === '무제한' ? '무제한' : addedCredits + '곡'} 크레딧을 가상 충전해 드릴까요?`)) {
+                        alert(`✨ 특별 권한으로 ${addedCredits === '무제한' ? '무제한' : addedCredits + '곡'} 크레딧이 즉시 충전되었습니다! 작곡을 시작하세요.`);
+                        if (addedCredits === '무제한') {
+                            document.getElementById('user-credits').innerText = '∞ 무제한';
+                            currentCredits = 9999;
+                        } else {
+                            currentCredits += addedCredits;
+                            document.getElementById('user-credits').innerText = `${currentCredits}곡`;
+                        }
+                        saveCredits();
+                        closeStore();
+                    }
+                }
+            });
+        }
+
+        function selectGenre(cardElement, genreValue, imageSrc) {
+            // Remove 'selected' class from all cards
+            const cards = document.querySelectorAll('.genre-card');
+            cards.forEach(card => card.classList.remove('selected'));
+            
+            // 텍스트 전용 장르들의 선택 상태도 해제
+            const textTags = document.querySelectorAll('.text-genre-tag');
+            textTags.forEach(tag => tag.classList.remove('selected'));
+            
+            // Add 'selected' class to clicked card
+            cardElement.classList.add('selected');
+            
+            // Update hidden inputs
+            document.getElementById('selected-genre').value = genreValue;
+            document.getElementById('selected-image').value = imageSrc;
+        }
+
+        function toggleMoreGenres() {
+            const container = document.getElementById('more-genres-container');
+            const btn = document.getElementById('btn-more-genres');
+            if (container.style.display === 'none') {
+                container.style.display = 'block';
+                btn.innerText = '👆 더보기 숨기기';
+            } else {
+                container.style.display = 'none';
+                btn.innerText = '👇 더 많은 장르 보기 (텍스트 전용)';
+            }
+        }
+
+        function selectTextGenre(element, genreLabel) {
+            // Remove selection from grid cards
+            document.querySelectorAll('.genre-card').forEach(c => c.classList.remove('selected'));
+            // Remove selection from all text tags
+            document.querySelectorAll('.text-genre-tag').forEach(t => t.classList.remove('selected'));
+            
+            element.classList.add('selected');
+            
+            document.getElementById('selected-genre').value = genreLabel;
+            // 텍스트 장르 선택시 사용할 공용 배경화면 설정
+            document.getElementById('selected-image').value = '2.한국인/여자/woman_influencer_2.png'; 
+        }
+
+        function selectMood(element, moodValue) {
+            document.querySelectorAll('.mood-tag').forEach(tag => tag.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('selected-mood').value = moodValue;
+        }
+
+        let currentMode = 'easy'; // 'easy', 'pro', 'story'
+        let modeTitles = { easy: '', pro: '', story: '' };
+
+        function switchMode(mode) {
+            const titleInputEl = document.getElementById('input-title');
+            if (currentMode) {
+                modeTitles[currentMode] = titleInputEl.value;
+            }
+            currentMode = mode;
+            titleInputEl.value = modeTitles[mode] || '';
+            const tabEasy = document.getElementById('tab-easy');
+            const tabPro = document.getElementById('tab-pro');
+            const tabStory = document.getElementById('tab-story');
+            const sectionGrid = document.getElementById('section-genre-grid');
+            const sectionCustom = document.getElementById('section-custom-prompt');
+            const sectionStory = document.getElementById('section-story-mode');
+            const sectionLyrics = document.getElementById('section-lyrics-input');
+            const sectionMood = document.getElementById('section-mood-selection');
+            const stepTitleLabel = document.getElementById('step-number-title');
+
+            // 탭 초기화
+            tabEasy.classList.remove('active');
+            tabPro.classList.remove('active');
+            tabStory.classList.remove('active');
+
+            // 섹션 초기화
+            sectionGrid.style.display = 'none';
+            sectionCustom.style.display = 'none';
+            sectionStory.style.display = 'none';
+            sectionLyrics.style.display = 'block';
+            if (sectionMood) sectionMood.style.display = 'none';
+
+            if (mode === 'pro') {
+                tabPro.classList.add('active');
+                sectionCustom.style.display = 'block';
+                document.getElementById('btn-submit').disabled = false;
+                document.getElementById('btn-submit').innerText = '작품 완성하기 (Create)';
+                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 03 (Pro)';
+            } else if (mode === 'story') {
+                tabStory.classList.add('active');
+                sectionStory.style.display = 'block';
+                sectionLyrics.style.display = 'none'; // 스토리 모드는 가사가 자동 생성되므로 직접 입력칸 숨김
+                document.getElementById('btn-submit').disabled = false;
+                document.getElementById('btn-submit').innerText = '✍️ AI 가사 초안 생성 및 확인 (Next)';
+                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 02 (Story)';
+            } else {
+                tabEasy.classList.add('active');
+                sectionGrid.style.display = 'block';
+                if (sectionMood) sectionMood.style.display = 'block';
+                document.getElementById('btn-submit').disabled = false;
+                document.getElementById('btn-submit').innerText = '작품 완성하기 (Create)';
+                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 04';
+            }
+        }
+
+        let pendingStoryData = null;
+
+        async function generateStoryLyrics() {
+            pendingStoryData = null; // 초기화
+            const storyInput = document.getElementById('input-story').value || '';
+            if (!storyInput.trim()) {
+                alert('🚨 사연(스토리)을 입력해 주세요!\n짧은 한 줄의 사연이라도 좋습니다.');
+                return;
+            }
+
+            const btn = document.getElementById('btn-submit');
+            const previewPanel = document.getElementById('story-preview-panel');
+            const previewLyrics = document.getElementById('story-preview-lyrics');
+            const previewGenre = document.getElementById('story-preview-genre');
+
+            btn.disabled = true;
+            btn.innerText = '✍️ 통합 AI 서버(Gemini)가 사연 정밀 분석 및 작사 중...';
+            previewPanel.style.display = 'block';
+            previewLyrics.innerText = "로딩 중... 사연의 감정과 문맥을 읽어내고 있습니다 ⏳";
+            previewGenre.innerText = "분석 중";
+
+            let autoLyrics = "";
+            let prompt = "";
+            let genre = "";
+            let titleInput = document.getElementById('input-title').value;
+
+            let isApiSuccess = false;
+
+            function runFallback() {
+                const s = storyInput.toLowerCase();
+                // 사연의 첫 문장을 추출하여 노래 제목으로만 스마트하게 제안 (가사 본문 개입 배제)
+                const firstSentence = storyInput.split('\n')[0].substring(0, 25).trim();
+                const dynamicTitle = firstSentence.length > 3 ? firstSentence : "나만의 특별한 이야기";
+
+                if (s.includes('사랑') || s.includes('고백') || s.includes('설렘') || s.includes('좋아') || s.includes('연애')) {
+                    autoLyrics = `(Verse 1)\n우연히 스친 너의 옷깃 사이로\n불어온 계절이 내 마음을 뒤흔들어\n어제와 다를 것 없던 단조로운 거리가\n너 하나로 인해 눈부신 영화가 되어가\n\n(Pre-Chorus)\n말하지 않아도 알 수 있는 그 떨림\n조심스레 너의 발걸음에 내 보폭을 맞춰\n\n(Chorus 1)\n숨길 수 없는 내 마음의 소리를 들어봐\n너를 향해 쏟아지는 이 벅찬 설렘을\n온 세상이 너라는 이름으로 가득 차올라\n이 순간 영원토록 널 사랑하고 싶어\n\n(Verse 2)\n너의 작은 웃음소리 하나에\n내 하루의 궂은 날씨가 맑게 개어\n어느새 내 시선의 끝은 항상 널 향해 있어\n\n(Chorus 2)\n숨길 수 없는 내 마음의 소리를 들어봐\n너를 향해 쏟아지는 이 벅찬 설렘을\n온 세상이 너라는 이름으로 가득 차올라\n이 순간 영원토록 널 사랑하고 싶어\n\n(Bridge)\n서로를 맴돌던 긴 망설임을 넘어\n이제는 너의 손을 꼭 잡고서 걸어갈게\n\n(Last Chorus)\n더욱더 커져가는 내 사랑을 받아줘\n너와 나 함께 그려갈 눈부신 내일들을\n아무도 모를 우리만의 비밀을 만들자\n세상 가장 환한 빛으로 널 안아줄게\n\n(Outro)\n언제나 너의 곁에서 머물게\n아름다운 우리만의 멜로디로...`;
+                    prompt = "sweet romantic acoustic pop music, bright guitar, ethereal female vocal";
+                    genre = "달콤한 로맨틱 어쿠스틱 팝";
+                    if (!titleInput) titleInput = dynamicTitle;
+                } else if (s.includes('이별') || s.includes('슬픔') || s.includes('눈물') || s.includes('헤어') || s.includes('아파')) {
+                    autoLyrics = `(Verse 1)\n혼자 남겨진 어두운 방안에 흐르는 침묵\n창틈으로 스며든 달빛이 너의 빈자리를 비춰\n계절은 아무 일 없다는 듯 지나가는데\n나의 시간만 그날의 차가운 끝에 멈춰 있어\n\n(Pre-Chorus)\n모든 게 거짓말 같던 그 마지막 뒷모습\n잡지 못했던 나의 손끝에 남은 후회들\n\n(Chorus 1)\n이제는 닿을 수 없는 저 아득한 별처럼\n아프게 빛나는 우리의 마지막 안녕\n수없이 불러보아도 메아리쳐 돌아올 뿐\n너를 지워내는 일이 내겐 가장 버거운 형벌 같아\n\n(Verse 2)\n함께 걷던 골목길에 내려앉은 그림자\n어디를 가도 너의 숨결이 배어있어 숨이 막혀\n\n(Chorus 2)\n이제는 닿을 수 없는 저 아득한 별처럼\n아프게 빛나는 우리의 마지막 안녕\n수없이 불러보아도 메아리쳐 돌아올 뿐\n너를 지워내는 일이 내겐 가장 버거운 형벌 같아\n\n(Bridge)\n아무리 비워내도 차오르는 너의 기억\n차라리 모든 게 꿈이길 바라고 또 바랐어\n\n(Last Chorus)\n마지막으로 널 향해 부르는 이 슬픈 노래\n바람을 타고 너의 곁에 닿을 수만 있다면\n사랑했던 그날의 우린 참 눈부셨다고\n전하고 싶어, 나의 시린 마지막 고백\n\n(Outro)\n잘 지내길 바랄게, 나보다 더 행복하길\n눈물로 써 내려간 마지막 편지...`;
+                    prompt = "melancholic emotional indie ballad, sad piano, deep warm vocal";
+                    genre = "애절한 감성 인디 발라드";
+                    if (!titleInput) titleInput = dynamicTitle;
+                } else if (s.includes('퇴근') || s.includes('지쳐') || s.includes('위로') || s.includes('수고') || s.includes('회사') || s.includes('일')) {
+                    autoLyrics = `(Verse 1)\n빌딩 숲 사이로 붉게 물들어가는 노을\n무거운 어깨를 이끌고 막차에 가만히 기대어\n오늘 하루도 참 숨 가쁘게 달려왔지\n누구를 위한 걸음인지 모를 만큼 아득해\n\n(Pre-Chorus)\n이어폰 너머로 들려오는 잔잔한 선율에\n애써 삼켰던 한숨을 조용히 뱉어내\n\n(Chorus 1)\n괜찮아, 잠시 멈춰 서서 기대어 쉬어가도 돼\n누구보다 치열하게 살아낸 너를 내가 알아\n수고했어 나의 하루야, 참 애많이 썼어\n오늘 밤엔 아무 걱정 없이 깊은 잠에 빠져들길\n\n(Verse 2)\n보이지 않는 미래에 문득 겁이 날 때도\n너만의 고유한 빛은 결코 꺼지지 않아\n\n(Chorus 2)\n괜찮아, 잠시 멈춰 서서 기대어 쉬어가도 돼\n누구보다 치열하게 살아낸 너를 내가 알아\n수고했어 나의 하루야, 참 애많이 썼어\n오늘 밤엔 아무 걱정 없이 깊은 잠에 빠져들길\n\n(Bridge)\n긴 어둠이 지나가면 반드시 아침은 밝아와\n너의 지난 눈물들이 내일의 거름이 될 테니\n\n(Last Chorus)\n다시 힘을 내어 걸어갈 너의 찬란한 내일\n세상 그 어떤 꽃보다 더 아름답게 피어날 거야\n항상 널 응원할게, 너는 결코 혼자가 아니야\n가장 눈부신 미소로 너를 안아줄게\n\n(Outro)\n내일의 태양은 더 다정하게 널 비출 거야\n평온한 밤이 되길, 나의 지친 영혼아...`;
+                    prompt = "comforting lo-fi chill pop, soft electric piano, warm whisper vocal";
+                    genre = "따뜻한 위로의 로파이 팝";
+                    if (!titleInput) titleInput = dynamicTitle;
+                } else {
+                    autoLyrics = `(Verse 1)\n내 마음속 가장 깊은 심연에 담아둔 이야기\n누구에게도 꺼내지 못했던 작은 비밀들\n새벽안개를 타고 소리 없이 피어올라\n나만의 숲을 이루고 고요히 호흡하네\n\n(Pre-Chorus)\n바람결에 스치는 이름 모를 꽃잎처럼\n자유롭게 저 높은 하늘로 날아가고 싶어\n\n(Chorus 1)\n언젠가 닿을 그 미지의 세계를 향해서\n나만의 독창적인 멜로디를 조용히 읊조려\n정답이 없는 길이라 해도 두렵지 않아\n내 안의 작은 나침반이 가리키는 곳으로 갈 테니\n\n(Verse 2)\n수많은 별무리 속에서 나를 찾는 여정\n한 걸음씩 나아갈 때마다 선명해지는 꿈\n\n(Chorus 2)\n언젠가 닿을 그 미지의 세계를 향해서\n나만의 독창적인 멜로디를 조용히 읊조려\n정답이 없는 길이라 해도 두렵지 않아\n내 안의 작은 나침반이 가리키는 곳으로 갈 테니\n\n(Bridge)\n거친 파도가 몰아쳐도 나의 키를 놓지 않아\n가슴속에 타오르는 열정의 불꽃을 믿으니까\n\n(Last Chorus)\n마침내 도달할 저 찬란한 수평선 너머\n나만의 목소리로 온 세상에 울려 퍼질 노래\n모든 발걸음이 눈부신 역사가 되어\n영원히 지워지지 않을 전설을 기록하리\n\n(Outro)\n끝없는 항해의 시작, 돛을 펼쳐라\n나만의 빛나는 스토리를 찾아서...`;
+                    prompt = "cinematic atmospheric ambient pop, rich string arrangement, clear vocal";
+                    genre = "시네마틱 감성 팝 사운드";
+                    if (!titleInput) titleInput = dynamicTitle;
+                }
+            }
+
+            try {
+                const response = await fetch('http://localhost:8080/api/story', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ story: storyInput })
+                });
+                const resData = await response.json();
+                if (!response.ok) throw new Error(resData.error || 'API 에러');
+
+                autoLyrics = resData.lyrics || "(Verse 1)\n나의 특별한 이야기...";
+                prompt = resData.prompt || "premium high quality pop music";
+                genre = resData.genreLabel || "Gemini AI 맞춤형 사운드";
+                if (!titleInput) titleInput = "나만의 특별한 스토리";
+                isApiSuccess = true;
+            } catch (e) {
+                console.log("Server Gemini Notice:", e.message);
+                runFallback();
+            }
+
+            pendingStoryData = {
+                lyrics: autoLyrics,
+                fullPrompt: `${prompt}. ${autoLyrics}`,
+                genreLabel: genre,
+                title: titleInput,
+                image: '2.한국인/여자/woman_influencer_2.png'
+            };
+
+            previewLyrics.innerText = autoLyrics;
+            // 직관적인 상태 표시 (실시간 연동 성공 여부 확인용)
+            previewGenre.innerHTML = `${genre} <span style="font-size: 10px; color: ${isApiSuccess ? '#10B981' : '#F59E0B'}; background: rgba(0,0,0,0.4); padding: 2px 5px; border-radius: 4px;">${isApiSuccess ? '✨ Gemini 실시간' : '⚡️ 로컬 고속엔진'}</span>`;
+            
+            btn.disabled = false;
+            btn.innerText = '✨ 노래 만들기 (Create)';
+        }
+
+        async function confirmStoryMusic() {
+            if (!pendingStoryData) return;
+
+            // 가사 확정: 텍스트 영역에 가사를 고정
+            const inputStory = document.getElementById('input-story');
+            inputStory.value = pendingStoryData.lyrics;
+
+            // 최종 노래 합성 진입 시 크레딧 잔여량 강력 체크
+            if (currentCredits <= 0) {
+                alert('🚨 노래를 생성할 잔여 크레딧이 부족합니다.\n\n우측 상단의 [👑 GILS 스토어] 버튼을 눌러 원하시는 패키지를 충전하신 후 다시 시도해 주세요!');
+                openStore();
+                return;
+            }
+
+            const btn = document.getElementById('btn-submit');
+            const previewPanel = document.getElementById('story-preview-panel');
+            const resultArea = document.getElementById('result-area');
+            const resultLyricsDiv = document.getElementById('result-lyrics');
+
+            // 크레딧 차감
+            if (currentCredits !== 9999) {
+                currentCredits -= 1;
+                document.getElementById('user-credits').innerText = `${currentCredits}곡`;
+                saveCredits();
+            }
+
+            previewPanel.style.display = 'none';
+            btn.disabled = true;
+            btn.innerText = '로컬 프록시 서버 연결 및 생성 요청 중...';
+            resultArea.style.display = 'none';
+
+            let dotCount = 0;
+            const loadingInterval = setInterval(() => {
+                dotCount = (dotCount + 1) % 4;
+                const dots = '.'.repeat(dotCount);
+                btn.innerText = `AI 슈퍼컴퓨터가 멜로디 합성 중 (약 30~60초 소요)${dots}`;
+            }, 800);
+
+            const finalData = { ...pendingStoryData };
+            pendingStoryData = null;
+
+            try {
+                const response = await fetch('http://localhost:8080/api/music', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: finalData.fullPrompt })
+                });
+
+                clearInterval(loadingInterval);
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || '음악 생성 요청 중 오류가 발생했습니다.');
+
+                btn.disabled = false;
+                btn.innerText = '✍️ AI 가사 초안 생성 및 확인 (Next)';
+
+                document.getElementById('result-title').innerText = finalData.title || '아름다운 선율';
+                document.getElementById('result-genre').innerText = finalData.genreLabel;
+                document.getElementById('result-cover').style.backgroundImage = `url('${finalData.image}')`;
+                
+                resultLyricsDiv.innerText = finalData.lyrics;
+                resultLyricsDiv.style.display = 'block';
+
+                const audioElement = document.getElementById('result-audio');
+                audioElement.src = data.audioUrl;
+                resultArea.style.display = 'block';
+                
+                myLibrarySongs.unshift({
+                    title: finalData.title || '아름다운 선율',
+                    genre: finalData.genreLabel,
+                    cover: finalData.image,
+                    audioUrl: data.audioUrl,
+                    prompt: finalData.fullPrompt,
+                    lyrics: finalData.lyrics
+                });
+                document.getElementById('library-count-badge').innerText = myLibrarySongs.length;
+
+                audioElement.play().catch(e => console.log('자동 재생 방지됨:', e));
+
+            } catch (error) {
+                clearInterval(loadingInterval);
+                btn.disabled = false;
+                btn.innerText = '✍️ AI 가사 초안 생성 및 확인 (Next)';
+                
+                if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                    alert('🚨 백그라운드 중계 서버에 연결할 수 없습니다.\n\n폴더에 있는 [replicate_proxy.ps1] 파일을 우클릭하여 "PowerShell에서 실행"을 누르신 후, 검은색 콘솔 창이 켜져 있는지 확인해 주세요!');
+                } else {
+                    alert(`🚨 오류 발생:\n${error.message}`);
+                }
+            }
+        }
+
+        async function generateMusic() {
+            // 스토리 모드일 경우: 
+            if (currentMode === 'story') {
+                if (pendingStoryData) {
+                    // 가사가 이미 생성되어 있다면 최종 노래 생성 단계로 진입
+                    await confirmStoryMusic();
+                } else {
+                    // 가사가 없다면 초안 생성 단계 진입
+                    await generateStoryLyrics();
+                }
+                return;
+            }
+
+            // 일반 모드(Easy, Pro)일 경우에만 사전에 크레딧 부족 체크
+            if (currentCredits <= 0) {
+                alert('🚨 잔여 생성 크레딧이 부족합니다.\n\n우측 상단의 [👑 GILS 스토어] 버튼을 눌러 원하시는 패키지를 충전해 주세요!');
+                openStore();
+                return;
+            }
+
+            const btn = document.getElementById('btn-submit');
+            const resultArea = document.getElementById('result-area');
+            const resultLyricsDiv = document.getElementById('result-lyrics');
+            let titleInput = document.getElementById('input-title').value;
+            const genreInput = document.getElementById('selected-genre').value;
+            let imageInput = document.getElementById('selected-image').value;
+            let lyricsInput = document.getElementById('input-lyrics').value || '';
+            const customPromptInput = document.getElementById('input-custom-prompt').value || '';
+            const moodInput = document.getElementById('selected-mood') ? document.getElementById('selected-mood').value : '';
+
+            let fullPrompt = "";
+            let generatedGenreLabel = genreInput;
+            
+            if (currentMode === 'pro') {
+                fullPrompt = `${customPromptInput} ${lyricsInput}`.trim();
+                if (!fullPrompt) fullPrompt = "high quality premium ambient pop music";
+                generatedGenreLabel = '전문가 직접 입력 프롬프트 사운드';
+                imageInput = '2.한국인/여자/woman_influencer_2.png';
+                if (!titleInput) titleInput = '아름다운 선율';
+            } else {
+                fullPrompt = `${moodInput} mood, ${genreInput} style music. ${lyricsInput}`.trim();
+                generatedGenreLabel = `${moodInput} ${genreInput}`;
+                if (!titleInput) titleInput = '아름다운 선율';
+            }
+
+            // 크레딧 차감
+            if (currentCredits !== 9999) {
+                currentCredits -= 1;
+                document.getElementById('user-credits').innerText = `${currentCredits}곡`;
+                saveCredits();
+            }
+
+            // 로딩 상태 전환
+            btn.disabled = true;
+            btn.innerText = '로컬 프록시 서버 연결 및 생성 요청 중...';
+            resultArea.style.display = 'none';
+
+            // 동적 로딩 텍스트 애니메이션 (진행률 체감 향상)
+            let dotCount = 0;
+            const loadingInterval = setInterval(() => {
+                dotCount = (dotCount + 1) % 4;
+                const dots = '.'.repeat(dotCount);
+                btn.innerText = `AI 슈퍼컴퓨터가 멜로디 합성 중 (약 30~60초 소요)${dots}`;
+            }, 800);
+
+            try {
+                // 백그라운드 파워쉘 중계 서버로 REST API 통신 요청
+                const response = await fetch('http://localhost:8080/api/music', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ prompt: fullPrompt })
+                });
+
+                clearInterval(loadingInterval);
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || '음악 생성 요청 중 오류가 발생했습니다.');
+                }
+
+                // 생성 성공! 버튼 복구
+                btn.disabled = false;
+                btn.innerText = '작품 완성하기 (Create)';
+                
+                // 결과 UI 출력 및 오디오 소스 연결
+                document.getElementById('result-title').innerText = titleInput;
+                document.getElementById('result-genre').innerText = generatedGenreLabel;
+                document.getElementById('result-cover').style.backgroundImage = `url('${imageInput}')`;
+                
+                // 생성된 가사가 있다면 가사 패널 표시
+                if (lyricsInput.trim()) {
+                    resultLyricsDiv.innerText = lyricsInput;
+                    resultLyricsDiv.style.display = 'block';
+                } else {
+                    resultLyricsDiv.style.display = 'none';
+                }
+
+                const audioElement = document.getElementById('result-audio');
+                audioElement.src = data.audioUrl;
+                resultArea.style.display = 'block';
+                
+                // 내 보관함(Library) 배열에 새로 창작된 곡 추가 및 뱃지 업데이트
+                myLibrarySongs.unshift({
+                    title: titleInput || '아름다운 선율',
+                    genre: generatedGenreLabel,
+                    cover: imageInput,
+                    audioUrl: data.audioUrl,
+                    prompt: fullPrompt,
+                    lyrics: lyricsInput
+                });
+                document.getElementById('library-count-badge').innerText = myLibrarySongs.length;
+
+                // 자동 재생 시도
+                audioElement.play().catch(e => console.log('자동 재생 방지됨:', e));
+
+            } catch (error) {
+                clearInterval(loadingInterval);
+                btn.disabled = false;
+                btn.innerText = '작품 완성하기 (Create)';
+                
+                // 중계 서버가 꺼져있을 때의 친절한 안내 가이드
+                if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                    alert('🚨 백그라운드 중계 서버에 연결할 수 없습니다.\n\n폴더에 있는 [replicate_proxy.ps1] 파일을 우클릭하여 "PowerShell에서 실행"을 누르신 후, 검은색 콘솔 창이 켜져 있는지 확인해 주세요!');
+                } else {
+                    alert(`🚨 오류 발생:\n${error.message}`);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

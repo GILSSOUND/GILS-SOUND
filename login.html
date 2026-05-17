@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GILS SOUND | 로그인 및 회원가입</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        /* Styles based on GILS SOUND aesthetic */
+        :root {
+            --primary-gold: #D4AF37;
+            --primary-gold-hover: #b5952f;
+            --bg-glass: rgba(15, 15, 15, 0.75);
+            --border-glass: rgba(255, 255, 255, 0.15);
+            --text-main: #F9FAFB;
+            --text-muted: #9CA3AF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            background-image: url('2.한국인/여자/indie_kr_woman_1_1778646998075.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.4));
+            backdrop-filter: blur(15px);
+            z-index: -1;
+        }
+
+        .auth-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 480px;
+            padding: 50px 40px;
+            backdrop-filter: blur(20px);
+            animation: slideUp 0.8s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .logo {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            background: linear-gradient(to right, #fff, #D4AF37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 300;
+            color: #D1D5DB;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            color: var(--primary-gold);
+            border-bottom-color: var(--primary-gold);
+        }
+
+        .tab:hover:not(.active) {
+            color: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 15px;
+            color: var(--text-main);
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #D4AF37, #AA8022);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.5);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 12px;
+            margin: 25px 0;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .divider span {
+            padding: 0 10px;
+        }
+
+        .social-btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn-google {
+            background: #fff;
+            color: #333;
+        }
+
+        .btn-google:hover {
+            background: #f1f1f1;
+        }
+
+        .btn-kakao {
+            background: #FEE500;
+            color: #000000;
+        }
+
+        .btn-kakao:hover {
+            background: #e6ce00;
+        }
+
+        .social-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Signup Specific */
+        .signup-notice {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: var(--primary-gold);
+            display: none; /* Shown only on signup tab */
+        }
+        
+        .signup-notice strong {
+            font-size: 15px;
+        }
+
+        /* Toggle Views */
+        #signup-form {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <div class="auth-card">
+        <div class="logo">GILS SOUND</div>
+        <div class="subtitle">프리미엄 AI 뮤직 스튜디오</div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('login')" id="tab-login">로그인</div>
+            <div class="tab" onclick="switchTab('signup')" id="tab-signup">회원가입</div>
+        </div>
+
+        <div class="signup-notice" id="signup-notice">
+            🎉 지금 가입하시면 <strong>3코인(3곡 무료)</strong>을 즉시 지급해 드립니다!
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form">
+            <div class="form-group">
+                <label>이메일</label>
+                <input type="email" placeholder="example@email.com" required>
+            </div>
+            <div class="form-group">
+                <label>비밀번호</label>
+                <input type="password" placeholder="비밀번호를 입력해주세요" required>
+            </div>
+            <button type="submit" class="btn-submit">이메일로 로그인</button>
+        </form>
+
+        <!-- Signup Form -->
+        <form id="signup-form">
+            <div class="form-group">
+                <label>이메일</label>
+                <input type="email" placeholder="사용할 이메일을 입력해주세요" required>
+            </div>
+            <div class="form-group">
+                <label>비밀번호</label>
+                <input type="password" placeholder="비밀번호 (8자 이상)" required>
+            </div>
+            <div class="form-group">
+                <label>비밀번호 확인</label>
+                <input type="password" placeholder="비밀번호를 다시 입력해주세요" required>
+            </div>
+            <button type="submit" class="btn-submit">회원가입 완료</button>
+        </form>
+
+        <div class="divider">
+            <span>또는 SNS 계정으로 계속하기</span>
+        </div>
+
+        <button class="social-btn btn-google">
+            <svg class="social-icon" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                <path fill="none" d="M1 1h22v22H1z"/>
+            </svg>
+            구글 계정으로 로그인
+        </button>
+        <button class="social-btn btn-kakao">
+            <svg class="social-icon" viewBox="0 0 24 24">
+                <path fill="#000000" d="M12 3c-5.52 0-10 3.58-10 8 0 2.85 1.83 5.35 4.63 6.8-.23.82-.82 2.97-.85 3.09-.04.14.04.28.17.33.05.02.1.03.14.03.07 0 .14-.02.2-.07 1.19-.94 3.42-2.5 3.93-2.86.58.09 1.17.13 1.78.13 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/>
+            </svg>
+            카카오톡으로 로그인
+        </button>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            const loginTab = document.getElementById('tab-login');
+            const signupTab = document.getElementById('tab-signup');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const signupNotice = document.getElementById('signup-notice');
+            
+            const googleBtn = document.querySelector('.btn-google');
+            const kakaoBtn = document.querySelector('.btn-kakao');
+
+            if (tab === 'login') {
+                loginTab.classList.add('active');
+                signupTab.classList.remove('active');
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+                signupNotice.style.display = 'none';
+                
+                googleBtn.innerHTML = `
+                    <svg class="social-icon" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        <path fill="none" d="M1 1h22v22H1z"/>
+                    </svg>
+                    구글 계정으로 로그인
+                `;
+                kakaoBtn.innerHTML = `
+                    <svg class="social-icon" viewBox="0 0 24 24">
+                        <path fill="#000000" d="M12 3c-5.52 0-10 3.58-10 8 0 2.85 1.83 5.35 4.63 6.8-.23.82-.82 2.97-.85 3.09-.04.14.04.28.17.33.05.02.1.03.14.03.07 0 .14-.02.2-.07 1.19-.94 3.42-2.5 3.93-2.86.58.09 1.17.13 1.78.13 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/>
+                    </svg>
+                    카카오톡으로 로그인
+                `;
+            } else {
+                loginTab.classList.remove('active');
+                signupTab.classList.add('active');
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+                signupNotice.style.display = 'block';
+                
+                googleBtn.innerHTML = `
+                    <svg class="social-icon" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        <path fill="none" d="M1 1h22v22H1z"/>
+                    </svg>
+                    구글 계정으로 가입하기 (3코인 지급)
+                `;
+                kakaoBtn.innerHTML = `
+                    <svg class="social-icon" viewBox="0 0 24 24">
+                        <path fill="#000000" d="M12 3c-5.52 0-10 3.58-10 8 0 2.85 1.83 5.35 4.63 6.8-.23.82-.82 2.97-.85 3.09-.04.14.04.28.17.33.05.02.1.03.14.03.07 0 .14-.02.2-.07 1.19-.94 3.42-2.5 3.93-2.86.58.09 1.17.13 1.78.13 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/>
+                    </svg>
+                    카카오톡으로 가입하기 (3코인 지급)
+                `;
+            }
+        }
+
+        // Form submission simulation
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            localStorage.setItem('gils_user', email);
+            if (!localStorage.getItem('gils_credits')) {
+                localStorage.setItem('gils_credits', 0);
+            }
+            alert('로그인 되었습니다.');
+            window.location.href = 'music_maker.html';
+        });
+
+        document.getElementById('signup-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            localStorage.setItem('gils_user', email);
+            localStorage.setItem('gils_credits', 3);
+            alert('회원가입이 완료되었습니다! 3코인이 지급되었습니다.');
+            window.location.href = 'music_maker.html';
+        });
+
+        document.querySelector('.btn-google').addEventListener('click', () => {
+            const isSignup = document.getElementById('tab-signup').classList.contains('active');
+            localStorage.setItem('gils_user', 'Google User');
+            if(isSignup) {
+                localStorage.setItem('gils_credits', 3);
+                alert('구글 계정으로 회원가입이 완료되었습니다! 3코인이 지급되었습니다.');
+            } else {
+                if (!localStorage.getItem('gils_credits')) localStorage.setItem('gils_credits', 0);
+                alert('구글 계정으로 로그인 되었습니다.');
+            }
+            window.location.href = 'music_maker.html';
+        });
+
+        document.querySelector('.btn-kakao').addEventListener('click', () => {
+            const isSignup = document.getElementById('tab-signup').classList.contains('active');
+            localStorage.setItem('gils_user', 'Kakao User');
+            if(isSignup) {
+                localStorage.setItem('gils_credits', 3);
+                alert('카카오 계정으로 회원가입이 완료되었습니다! 3코인이 지급되었습니다.');
+            } else {
+                if (!localStorage.getItem('gils_credits')) localStorage.setItem('gils_credits', 0);
+                alert('카카오 계정으로 로그인 되었습니다.');
+            }
+            window.location.href = 'music_maker.html';
+        });
+    </script>
+</body>
+</html>
