@@ -1587,14 +1587,22 @@
 
         let currentMode = 'easy'; // 'easy', 'pro', 'story'
         let modeTitles = { easy: '', pro: '', story: '' };
+        let modeLyrics = { easy: '', pro: '' }; // 간편생성과 프로가사 분리 보관
 
         function switchMode(mode) {
             const titleInputEl = document.getElementById('input-title');
+            const lyricsInputEl = document.getElementById('input-lyrics');
             if (currentMode) {
                 modeTitles[currentMode] = titleInputEl.value;
+                if (currentMode !== 'story') {
+                    modeLyrics[currentMode] = lyricsInputEl.value;
+                }
             }
             currentMode = mode;
             titleInputEl.value = modeTitles[mode] || '';
+            if (mode !== 'story') {
+                lyricsInputEl.value = modeLyrics[mode] || '';
+            }
             const tabEasy = document.getElementById('tab-easy');
             const tabPro = document.getElementById('tab-pro');
             const tabStory = document.getElementById('tab-story');
@@ -1811,6 +1819,7 @@
                     lyrics: finalData.lyrics
                 });
                 document.getElementById('library-count-badge').innerText = myLibrarySongs.length;
+                renderLibrary(); // 노래 만들자마자 실시간 리스트 갱신
 
                 audioElement.play().catch(e => console.log('자동 재생 방지됨:', e));
 
@@ -1941,6 +1950,7 @@
                     lyrics: lyricsInput
                 });
                 document.getElementById('library-count-badge').innerText = myLibrarySongs.length;
+                renderLibrary(); // 노래 만들자마자 실시간 리스트 갱신
 
                 // 자동 재생 시도
                 audioElement.play().catch(e => console.log('자동 재생 방지됨:', e));
