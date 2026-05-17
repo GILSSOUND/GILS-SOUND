@@ -119,8 +119,8 @@ app.post('/api/music', async (req, res) => {
         let pollData = null;
         let finalAudioUrl = null;
         
-        // 상태가 성공, 실패, 취소가 될 때까지 5초마다 상태 확인 (Suno는 보통 1분 이상 걸림)
-        while (status !== "succeeded" && status !== "failed" && status !== "canceled") {
+        // 상태가 성공(completed/succeeded), 실패, 취소가 될 때까지 5초마다 상태 확인 (Suno는 보통 1분 이상 걸림)
+        while (status !== "completed" && status !== "succeeded" && status !== "failed" && status !== "canceled" && status !== "error") {
             await new Promise(resolve => setTimeout(resolve, 5000));
             
             const pollResponse = await fetch(`https://api.evolink.ai/v1/tasks/${taskId}`, {
@@ -135,7 +135,7 @@ app.post('/api/music', async (req, res) => {
             const progress = pollData.progress || 0;
             console.log(`    Status: ${status} (Progress: ${progress}%)`);
             
-            if (status === "succeeded") {
+            if (status === "completed" || status === "succeeded") {
                 if (pollData.result_data && pollData.result_data.length > 0) {
                     // 첫 번째 생성된 곡의 MP3 주소 추출
                     finalAudioUrl = pollData.result_data[0].audio_url || pollData.result_data[0].stream_audio_url;
@@ -143,7 +143,7 @@ app.post('/api/music', async (req, res) => {
             }
         }
 
-        if (status === "succeeded" && finalAudioUrl) {
+        if ((status === "completed" || status === "succeeded") && finalAudioUrl) {
             console.log(" -> [SUCCESS] Audio URL:", finalAudioUrl);
             res.json({
                 status: "success",
