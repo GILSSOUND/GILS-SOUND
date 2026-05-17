@@ -275,17 +275,28 @@
         <form id="signup-form">
             <div class="form-group">
                 <label>이메일</label>
-                <input type="email" placeholder="사용할 이메일을 입력해주세요" required>
+                <div style="display: flex; gap: 8px;">
+                    <input type="email" id="signup-email" placeholder="사용할 이메일을 입력해주세요" required>
+                    <button type="button" id="btn-send-code" onclick="sendVerificationCode()" style="white-space: nowrap; padding: 0 15px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-glass); border-radius: 12px; color: #fff; cursor: pointer;">인증 발송</button>
+                </div>
+            </div>
+            <div class="form-group" id="verify-group" style="display: none;">
+                <label>인증번호 4자리</label>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="signup-code" placeholder="인증번호 입력">
+                    <button type="button" onclick="verifyCode()" style="white-space: nowrap; padding: 0 15px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-glass); border-radius: 12px; color: #fff; cursor: pointer;">확인</button>
+                </div>
+                <div id="verify-msg" style="font-size: 12px; margin-top: 5px; color: var(--primary-gold);"></div>
             </div>
             <div class="form-group">
                 <label>비밀번호</label>
-                <input type="password" placeholder="비밀번호 (8자 이상)" required>
+                <input type="password" id="signup-pw" placeholder="비밀번호 (8자 이상)" required>
             </div>
             <div class="form-group">
                 <label>비밀번호 확인</label>
-                <input type="password" placeholder="비밀번호를 다시 입력해주세요" required>
+                <input type="password" id="signup-pw2" placeholder="비밀번호를 다시 입력해주세요" required>
             </div>
-            <button type="submit" class="btn-submit">회원가입 완료</button>
+            <button type="submit" class="btn-submit" id="btn-signup-submit" disabled style="background: #333; color: #888; cursor: not-allowed; box-shadow: none;">회원가입 완료</button>
         </form>
 
         <div class="divider">
@@ -370,6 +381,54 @@
             }
         }
 
+        let generatedCode = "";
+        let isVerified = false;
+
+        function sendVerificationCode() {
+            const emailInput = document.getElementById('signup-email').value;
+            if(!emailInput || !emailInput.includes('@')) {
+                alert('올바른 이메일 주소를 입력해주세요.');
+                return;
+            }
+
+            // 중복 가입 체크
+            const registeredEmails = JSON.parse(localStorage.getItem('gils_registered_emails') || '[]');
+            if(registeredEmails.includes(emailInput)) {
+                alert('이미 가입된 이메일입니다. 다른 이메일로 시도하시거나 로그인해주세요.');
+                return;
+            }
+
+            generatedCode = Math.floor(1000 + Math.random() * 9000).toString();
+            document.getElementById('verify-group').style.display = 'block';
+            
+            // 실제 메일 서버 연동 전까지 알림창으로 코드 표시
+            alert(`[인증 메일 발송 시뮬레이션]\n\n실제 이메일 서버 연동 전 테스트 모드입니다.\n해당 이메일로 발송될 인증번호: ${generatedCode}`);
+        }
+
+        function verifyCode() {
+            const inputCode = document.getElementById('signup-code').value;
+            const msgEl = document.getElementById('verify-msg');
+            if(inputCode === generatedCode) {
+                msgEl.innerText = "✓ 이메일 인증이 완료되었습니다.";
+                msgEl.style.color = "#10B981";
+                isVerified = true;
+                
+                const submitBtn = document.getElementById('btn-signup-submit');
+                submitBtn.disabled = false;
+                submitBtn.style.background = "linear-gradient(135deg, #D4AF37, #AA8022)";
+                submitBtn.style.color = "#000";
+                submitBtn.style.cursor = "pointer";
+                submitBtn.style.boxShadow = "0 10px 25px rgba(212, 175, 55, 0.3)";
+                
+                document.getElementById('signup-email').readOnly = true;
+                document.getElementById('btn-send-code').disabled = true;
+            } else {
+                msgEl.innerText = "❌ 인증번호가 일치하지 않습니다.";
+                msgEl.style.color = "#EF4444";
+                isVerified = false;
+            }
+        }
+
         // Form submission simulation
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
@@ -384,7 +443,25 @@
 
         document.getElementById('signup-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            const email = e.target.querySelector('input[type="email"]').value;
+            if(!isVerified) {
+                alert('이메일 인증을 먼저 완료해주세요.');
+                return;
+            }
+            
+            const email = document.getElementById('signup-email').value;
+            const pw1 = document.getElementById('signup-pw').value;
+            const pw2 = document.getElementById('signup-pw2').value;
+            
+            if(pw1 !== pw2) {
+                alert('비밀번호가 서로 일치하지 않습니다.');
+                return;
+            }
+
+            // Save to registered emails
+            const registeredEmails = JSON.parse(localStorage.getItem('gils_registered_emails') || '[]');
+            registeredEmails.push(email);
+            localStorage.setItem('gils_registered_emails', JSON.stringify(registeredEmails));
+
             localStorage.setItem('gils_user', email);
             localStorage.setItem('gils_credits', 3);
             alert('회원가입이 완료되었습니다! 3코인이 지급되었습니다.');
