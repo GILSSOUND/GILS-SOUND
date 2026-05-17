@@ -86,36 +86,58 @@ app.post('/api/music', async (req, res) => {
         console.log("[Request Received] Starting music generation...");
         console.log(" -> Prompt:", prompt);
 
-        const replicateUrl = "https://api.replicate.com/v1/models/meta/musicgen/predictions";
-        
-        const fetchResponse = await fetch(replicateUrl, {
+        // 이전 PowerShell 프록시에서 확실하게 성공했던 방식을 그대로 적용 (버전 해시 + 폴링)
+        const initResponse = await fetch("https://api.replicate.com/v1/predictions", {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${process.env.REPLICATE_API_TOKEN}`,
-                'Content-Type': 'application/json',
-                'Prefer': 'wait'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                version: "b05b1dffc50c3c861214088a29a2862d7cf7d45c61a5b48e3cf3807ff67dbdb5",
                 input: {
                     prompt: prompt,
-                    model_version: "stereo-large",
-                    output_format: "mp3",
-                    normalization_strategy: "peak"
+                    output_format: "mp3"
                 }
             })
         });
 
-        const data = await fetchResponse.json();
-        if (!fetchResponse.ok) {
-            throw new Error(data.detail || "Replicate API 요청 실패");
+        const initData = await initResponse.json();
+        if (!initResponse.ok) {
+            throw new Error(initData.detail || "Replicate API 생성 요청 실패");
         }
 
-        console.log(" -> Request successful. Output URL:", data.output);
+        const statusUrl = initData.urls.get;
+        let status = initData.status;
 
-        res.json({
-            status: "success",
-            audioUrl: data.output
-        });
+        console.log(" -> Generating audio (takes about 30 to 60 seconds)...");
+        
+        let pollData = null;
+        // status가 'succeeded', 'failed', 'canceled'가 될 때까지 3초마다 폴링 확인
+        while (status !== "succeeded" && status !== "failed" && status !== "canceled") {
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            
+            const pollResponse = await fetch(statusUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${process.env.REPLICATE_API_TOKEN}`
+                }
+            });
+            pollData = await pollResponse.json();
+            status = pollData.status;
+            console.log("    Status:", status);
+        }
+
+        if (status === "succeeded") {
+            console.log(" -> [SUCCESS] Audio URL:", pollData.output);
+            res.json({
+                status: "success",
+                audioUrl: pollData.output
+            });
+        } else {
+            console.log(" -> [ERROR] Generation failed on AI server.");
+            throw new Error("AI 서버에서 음악 생성에 실패했습니다.");
+        }
 
     } catch (error) {
         console.error("-> [Replicate API Error]", error.message);
