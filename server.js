@@ -55,7 +55,7 @@ JSON 구조:
         const rawText = data.candidates[0].content.parts[0].text;
         
         // 정규식으로 순수 JSON 객체만 추출
-        const jsonMatch = rawText.match(/(?s)(\{.*\})/);
+        const jsonMatch = rawText.match(/(\{[\s\S]*\})/);
         let cleanedText = "";
         if (jsonMatch) {
             cleanedText = jsonMatch[1].trim();
