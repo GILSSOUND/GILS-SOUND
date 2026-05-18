@@ -208,7 +208,14 @@
             } else {
                 alert(`${platform} 계정으로 로그인 되었습니다.`);
             }
-            window.location.href = 'music_maker.html';
+            
+            // 네이버처럼 팝업으로 열린 경우, 팝업을 닫고 부모(원래) 창을 이동시킴
+            if (window.opener && !window.opener.closed) {
+                window.opener.location.href = 'music_maker.html';
+                window.close();
+            } else {
+                window.location.href = 'music_maker.html';
+            }
         }
 
         // ==========================================
