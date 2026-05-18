@@ -1456,6 +1456,7 @@
                             lyrics: song.lyrics
                         }));
                         document.getElementById('library-count-badge').innerText = myLibrarySongs.length;
+                        renderLibrary(1); // 새로고침(또는 로그인 직후) 시 실시간 리스트 즉시 렌더링
                     }
                 } catch(e) {
                     console.error("Library sync failed", e);
@@ -1598,7 +1599,7 @@
         }
 
         function shareSong(title, audioUrl) {
-            const shareText = `🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${title}\n\n👇 아래 링크를 눌러 노래 듣기 (MP3):\n${audioUrl}\n\n✨ 나도 AI 음악 만들기:\nhttps://gils-sound.onrender.com`;
+            const shareText = `🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${title}\n\n👇 아래 링크를 눌러 노래 듣기 (MP3):\n${audioUrl}\n\n✨ 나도 AI 음악 만들기:\n${window.location.origin}`;
             
             if (navigator.share) {
                 navigator.share({
