@@ -31,6 +31,7 @@ app.post('/api/story', async (req, res) => {
 
 JSON 구조:
 {
+  "title": "사연에 어울리는 감성적이고 짧은 노래 제목 (예: 밤하늘의 별처럼)",
   "lyrics": "(Verse 1)\\n...\\n\\n(Chorus 1)\\n...\\n\\n(Verse 2)\\n...\\n\\n(Chorus 2)\\n...\\n\\n(Bridge)\\n...\\n\\n(Outro)\\n...",
   "prompt": "사연에 어울리는 영문 작곡 프롬프트 (예: emotional indie pop, delicate piano, clear vocal)",
   "genreLabel": "어울리는 한국어 장르명 (예: 감성 인디 팝)"
@@ -81,9 +82,9 @@ JSON 구조:
 // Suno v5.0 API 연동 (EvoLink 비공식 API)
 app.post('/api/music', async (req, res) => {
     try {
-        const { prompt } = req.body;
-        if (!prompt) {
-            return res.status(400).json({ error: "프롬프트가 없습니다." });
+        const { lyrics, style, title } = req.body;
+        if (!style && !lyrics) {
+            return res.status(400).json({ error: "음악 생성 데이터가 없습니다." });
         }
 
         console.log("[Request Received] Starting Suno music generation...");
@@ -101,11 +102,12 @@ app.post('/api/music', async (req, res) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                prompt: prompt, // 클라이언트에서 보낸 장르+가사 전체 텍스트
+                prompt: lyrics || "", // custom_mode에서는 prompt가 '가사'를 의미함
+                tags: style || "k-pop, high quality", // 작곡 프롬프트(장르, 악기 등)는 tags에 넣어야 함
+                style: style || "k-pop, high quality", // EvoLink 호환을 위해 style도 함께 전달
+                title: title || "GILS SOUND Original",
                 model: "suno-v5-beta",
-                custom_mode: true, // EvoLink 전용 파라미터 (커스텀 가사 모드)
-                style: "k-pop, high quality, masterpiece", // EvoLink 전용 장르 태그 파라미터
-                title: "GILS SOUND Original"
+                custom_mode: true
             })
         });
 
