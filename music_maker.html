@@ -1417,8 +1417,7 @@
         function logout() {
             if(confirm('정말 로그아웃 하시겠습니까?')) {
                 localStorage.removeItem('gils_user');
-                localStorage.removeItem('gils_credits');
-                localStorage.removeItem('gils_join_date');
+                // 크레딧과 가입일은 삭제하지 않음 (재로그인 시 초기화 및 팝업 재발생 방지)
                 window.location.href = 'login.html';
             }
         }
