@@ -903,6 +903,32 @@
         audio::-webkit-media-controls-overflow-button {
             display: none !important;
         }
+
+        /* Toast Notification Styles */
+        .toast-notification {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid var(--primary-gold);
+            color: #fff;
+            padding: 16px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 9999;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toast-notification.show {
+            bottom: 40px;
+            opacity: 1;
+        }
     </style>
     <!-- 포트원(PortOne) 실제 PG사 결제 모듈 연동 라이브러리 -->
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
@@ -1131,10 +1157,25 @@
             <input type="hidden" id="selected-mood" value="신나는">
         </div>
 
-        <!-- Step 4 -->
+        <!-- Step 4 (Easy Mode Only): Vocal Gender Selection -->
+        <div class="step-container" id="section-vocal-gender">
+            <div class="step-title">
+                <span class="step-number">Step 04</span>
+                보컬 성별을 선택하세요
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <div class="text-genre-tag gender-tag selected" onclick="selectGender(this, 'female vocal')">👩 여성 보컬</div>
+                <div class="text-genre-tag gender-tag" onclick="selectGender(this, 'male vocal')">👨 남성 보컬</div>
+                <div class="text-genre-tag gender-tag" onclick="selectGender(this, 'duet vocal')">👫 남녀 듀엣</div>
+                <div class="text-genre-tag gender-tag" onclick="selectGender(this, 'instrumental, no vocal')">🎸 보컬 없음 (연주곡)</div>
+            </div>
+            <input type="hidden" id="selected-gender" value="female vocal">
+        </div>
+
+        <!-- Step 5 -->
         <div class="step-container" style="margin-bottom: 50px;">
             <div class="step-title">
-                <span class="step-number" id="step-number-title">Step 04</span>
+                <span class="step-number" id="step-number-title">Step 05</span>
                 곡의 제목을 정해주세요
             </div>
             <input type="text" id="input-title" placeholder="나만의 특별한 제목">
@@ -1702,6 +1743,27 @@
             document.getElementById('selected-mood').value = moodValue;
         }
 
+        function selectGender(element, genderValue) {
+            document.querySelectorAll('.gender-tag').forEach(tag => tag.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('selected-gender').value = genderValue;
+        }
+
+        function showToast(message, icon = '🔔') {
+            let toast = document.getElementById('toast-notification');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast-notification';
+                toast.className = 'toast-notification';
+                document.body.appendChild(toast);
+            }
+            toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
         let currentMode = 'easy'; // 'easy', 'pro', 'story'
         let modeTitles = { easy: '', pro: '', story: '' };
         let modeLyrics = { easy: '', pro: '' }; // 간편생성과 프로가사 분리 보관
@@ -1728,6 +1790,7 @@
             const sectionStory = document.getElementById('section-story-mode');
             const sectionLyrics = document.getElementById('section-lyrics-input');
             const sectionMood = document.getElementById('section-mood-selection');
+            const sectionGender = document.getElementById('section-vocal-gender');
             const stepTitleLabel = document.getElementById('step-number-title');
 
             // 탭 초기화
@@ -1745,6 +1808,7 @@
             sectionStory.style.display = 'none';
             sectionLyrics.style.display = 'block';
             if (sectionMood) sectionMood.style.display = 'none';
+            if (sectionGender) sectionGender.style.display = 'none';
 
             if (mode === 'pro') {
                 tabPro.classList.add('active');
@@ -1763,9 +1827,10 @@
                 tabEasy.classList.add('active');
                 sectionGrid.style.display = 'block';
                 if (sectionMood) sectionMood.style.display = 'block';
+                if (sectionGender) sectionGender.style.display = 'block';
                 document.getElementById('btn-submit').disabled = false;
                 document.getElementById('btn-submit').innerText = '작품 완성하기 (Create)';
-                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 04';
+                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 05';
             }
         }
 
@@ -1850,7 +1915,7 @@
             } else if (currentMode === 'pro') {
                 const proPrompt = document.getElementById('input-custom-prompt').value.trim();
                 if (!proPrompt) {
-                    alert("🚨 전문가(Pro) 모드에서는 먼저 'Step 01 프롬프트'를 입력해 주셔야 그에 어울리는 가사를 지어드릴 수 있습니다!");
+                    showToast("전문가(Pro) 모드에서는 먼저 'Step 01 프롬프트'를 입력해 주셔야 그에 어울리는 가사를 지어드릴 수 있습니다!", "🚨");
                     return;
                 }
                 context = `작곡 프롬프트 및 의도: ${proPrompt}`;
@@ -2018,8 +2083,10 @@
                 imageInput = '2.한국인/여자/woman_influencer_2.png';
                 if (!titleInput) titleInput = '아름다운 선율';
             } else {
-                styleTags = `${moodInput} mood, ${genreInput} style music`;
+                const genderInput = document.getElementById('selected-gender') ? document.getElementById('selected-gender').value : 'female vocal';
+                styleTags = `${moodInput} mood, ${genreInput} style music, ${genderInput}`;
                 generatedGenreLabel = `${moodInput} ${genreInput}`;
+                if (genderInput.includes('instrumental')) generatedGenreLabel += ' (연주곡)';
                 if (!titleInput) titleInput = '아름다운 선율';
             }
 
