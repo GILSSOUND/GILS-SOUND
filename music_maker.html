@@ -1562,10 +1562,28 @@
 
         function toggleMenu(index) {
             const menu = document.getElementById(`menu-${index}`);
-            if (menu) menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
             const liveMenu = document.getElementById(`live-menu-${index}`);
+            
+            // 다른 열려있는 메뉴들은 모두 닫기
+            document.querySelectorAll('[id^="menu-"], [id^="live-menu-"]').forEach(m => {
+                if (m !== menu && m !== liveMenu) m.style.display = 'none';
+            });
+
+            if (menu) menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
             if (liveMenu) liveMenu.style.display = liveMenu.style.display === 'none' ? 'flex' : 'none';
         }
+
+        // 바깥 영역 클릭 시 점 3개 메뉴 자동 닫기
+        document.addEventListener('click', function(event) {
+            const isMenuButton = event.target.closest('button[onclick^="toggleMenu"]');
+            const isMenuArea = event.target.closest('[id^="menu-"]') || event.target.closest('[id^="live-menu-"]');
+            
+            if (!isMenuButton && !isMenuArea) {
+                document.querySelectorAll('[id^="menu-"], [id^="live-menu-"]').forEach(m => {
+                    m.style.display = 'none';
+                });
+            }
+        });
 
         function deleteSong(index) {
             if(confirm('정말 이 곡을 삭제하시겠습니까? (복구 불가)')) {
@@ -1580,15 +1598,16 @@
         }
 
         function shareSong(title, audioUrl) {
+            const shareText = `🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${title}\n\n👇 아래 링크를 눌러 노래 듣기 (MP3):\n${audioUrl}\n\n✨ 나도 AI 음악 만들기:\nhttps://gils-sound.onrender.com`;
+            
             if (navigator.share) {
                 navigator.share({
                     title: title,
-                    text: `[GILS SOUND] 에서 제가 만든 AI 노래 '${title}'을(를) 들어보세요!\n\n`,
-                    url: audioUrl
+                    text: shareText
                 }).catch(err => console.log('공유 취소 또는 에러:', err));
             } else {
-                navigator.clipboard.writeText(`[GILS SOUND] 에서 제가 만든 AI 노래 '${title}'을(를) 들어보세요!\n${audioUrl}`)
-                .then(() => alert('노래 링크가 클립보드에 복사되었습니다! 카카오톡 대화창에 붙여넣기 해보세요.'))
+                navigator.clipboard.writeText(shareText)
+                .then(() => alert('노래 링크와 초대글이 복사되었습니다! 카카오톡 대화창에 붙여넣기 해보세요.'))
                 .catch(() => alert('복사에 실패했습니다. 수동으로 링크를 복사해 주세요: ' + audioUrl));
             }
         }
