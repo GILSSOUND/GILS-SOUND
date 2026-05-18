@@ -199,7 +199,18 @@
 
         // 공통 로그인 성공 처리 함수
         function handleLoginSuccess(platform, email, nickname) {
-            localStorage.setItem('gils_user', email || `${platform} User`);
+            let displayUser = "";
+            
+            // 카카오는 이메일이 없는 경우가 많아 번호가 뜨므로 닉네임 우선 표시
+            if (platform === "카카오") {
+                displayUser = `[카카오] ${nickname || "카카오 회원"}`;
+            } else {
+                // 네이버 계정이 구글 이메일로 가입된 경우 혼동을 막기 위해 앞에 플랫폼 명시
+                displayUser = `[${platform}] ${email || nickname || "회원"}`;
+            }
+
+            localStorage.setItem('gils_user', displayUser);
+
             if (!localStorage.getItem('gils_credits')) {
                 // 신규 가입 시 3코인 지급 및 신규 회원 환영 플래그 저장
                 localStorage.setItem('gils_credits', 3);
