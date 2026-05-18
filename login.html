@@ -202,11 +202,9 @@
         function handleLoginSuccess(platform, email, nickname) {
             localStorage.setItem('gils_user', email || `${platform} User`);
             if (!localStorage.getItem('gils_credits')) {
-                // 신규 가입 시 3코인 지급
+                // 신규 가입 시 3코인 지급 및 신규 회원 환영 플래그 저장
                 localStorage.setItem('gils_credits', 3);
-                alert(`${platform} 계정으로 환영합니다! 3코인이 지급되었습니다.`);
-            } else {
-                alert(`${platform} 계정으로 로그인 되었습니다.`);
+                localStorage.setItem('gils_is_new_user', 'true');
             }
             
             // 네이버처럼 팝업으로 열린 경우, 팝업을 닫고 부모(원래) 창을 이동시킴
@@ -315,15 +313,17 @@
             });
             naverLogin.init();
 
-            // 네이버 팝업에서 돌아왔을 때 상태 확인
+            // 네이버 팝업에서 돌아왔을 때 상태 확인 (URL에 access_token이 있을 때만 동작하도록 하여 무한 자동로그인 방지)
             window.addEventListener('load', function () {
-                naverLogin.getLoginStatus(function (status) {
-                    if (status) {
-                        const email = naverLogin.user.getEmail();
-                        const nickname = naverLogin.user.getNickName();
-                        handleLoginSuccess("네이버", email, nickname);
-                    }
-                });
+                if (window.location.href.includes('access_token')) {
+                    naverLogin.getLoginStatus(function (status) {
+                        if (status) {
+                            const email = naverLogin.user.getEmail();
+                            const nickname = naverLogin.user.getNickName();
+                            handleLoginSuccess("네이버", email, nickname);
+                        }
+                    });
+                }
             });
         }
     </script>

@@ -1322,6 +1322,34 @@
         </div>
     </div>
 
+    <!-- Welcome Modal Overlay (First Time Users Only) -->
+    <div class="library-modal-overlay" id="welcome-modal" style="z-index: 3000;">
+        <div class="library-modal" style="max-width: 600px; text-align: center;">
+            <div class="library-header" style="margin-bottom: 25px;">
+                <div style="font-size: 50px; margin-bottom: 15px;">🎉</div>
+                <h2 style="font-size: 28px; line-height: 1.4; color: var(--primary-gold);">환영합니다!<br><span style="color: #fff; font-size: 22px;">3코인이 무료로 지급되었습니다.</span></h2>
+                <p style="margin-top: 10px; font-size: 15px; color: #D1D5DB;">지금 바로 나만의 AI 음악을 만들어보세요!</p>
+            </div>
+            
+            <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 25px; text-align: left; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 30px;">
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: var(--primary-gold); font-size: 16px; margin-bottom: 5px;">✨ 심플 모드 (Easy)</h4>
+                    <p style="color: #D1D5DB; font-size: 13px; line-height: 1.5;">복잡한 과정 없이 몇 번의 버튼 클릭만으로 트렌디한 음악을 빠르게 완성합니다.</p>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: var(--primary-gold); font-size: 16px; margin-bottom: 5px;">🎛️ 전문가 모드 (Pro)</h4>
+                    <p style="color: #D1D5DB; font-size: 13px; line-height: 1.5;">원하는 악기, 분위기, 장르 등을 직접 프롬프트로 세밀하게 작성하여 나만의 완벽한 사운드를 디자인합니다.</p>
+                </div>
+                <div>
+                    <h4 style="color: var(--primary-gold); font-size: 16px; margin-bottom: 5px;">📖 스토리 작사 모드 (Story)</h4>
+                    <p style="color: #D1D5DB; font-size: 13px; line-height: 1.5;">오늘의 일상이나 사연만 적어주시면, AI가 이야기에 꼭 맞는 가사와 감성적인 노래를 알아서 창작해 줍니다.</p>
+                </div>
+            </div>
+            
+            <button class="btn-submit" style="max-width: 250px; margin: 0 auto; padding: 14px; font-size: 15px;" onclick="closeWelcomeModal()">음악 만들기 시작!</button>
+        </div>
+    </div>
+
     <script>
         if (!localStorage.getItem('gils_user')) {
             alert('로그인이 필요한 프리미엄 서비스입니다.');
@@ -1337,7 +1365,17 @@
             } else {
                 document.getElementById('user-credits').innerText = `${currentCredits}곡`;
             }
+            
+            // 신규 유저 환영 팝업 처리
+            if (localStorage.getItem('gils_is_new_user') === 'true') {
+                document.getElementById('welcome-modal').style.display = 'flex';
+                localStorage.removeItem('gils_is_new_user'); // 다시 안 뜨게 삭제
+            }
         });
+
+        function closeWelcomeModal() {
+            document.getElementById('welcome-modal').style.display = 'none';
+        }
         
         function saveCredits() {
             localStorage.setItem('gils_credits', currentCredits);
