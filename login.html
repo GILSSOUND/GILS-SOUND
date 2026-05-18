@@ -273,8 +273,10 @@
             // 콜백 시 구글인지 네이버인지 명확히 구분하기 위해 세션에 기록
             sessionStorage.setItem('gils_login_provider', 'google');
             
-            // 현재 주소를 그대로 리디렉션 주소로 사용
-            const redirectUri = encodeURIComponent(window.location.href.split('#')[0]);
+            // ?나 # 뒤의 지저분한 파라미터를 싹 지운 아주 깨끗한 기본 주소만 추출
+            const cleanUrl = window.location.origin + window.location.pathname;
+            const redirectUri = encodeURIComponent(cleanUrl);
+            
             const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=token&scope=email%20profile`;
             
             // 구글 로그인 창으로 이동
