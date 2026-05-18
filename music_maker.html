@@ -1726,6 +1726,12 @@
         }
 
         async function downloadSong(audioUrl, title) {
+            const userAgent = navigator.userAgent.toLowerCase();
+            if (userAgent.indexOf("kakaotalk") > -1 || userAgent.indexOf("instagram") > -1 || userAgent.indexOf("line") > -1 || userAgent.indexOf("inapp") > -1) {
+                alert("🚨 카카오톡 등 앱 내장 브라우저에서는 파일 다운로드가 막혀있습니다!\n\n화면 하단 또는 상단의 [ ⋮ ] 메뉴 버튼을 눌러서\n👉 '다른 브라우저로 열기(Safari / Chrome)'를 선택하신 후 다시 시도해 주세요.");
+                return;
+            }
+
             try {
                 // 브라우저 CORS 제약을 우회하고 파일명을 지정하기 위한 Blob 다운로드 방식
                 const response = await fetch(audioUrl);
