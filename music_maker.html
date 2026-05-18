@@ -869,6 +869,22 @@
 
         @media (max-width: 768px) {
             body { padding: 20px 15px; }
+            .library-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .library-item > div:last-child {
+                width: 100%;
+                flex-direction: row !important;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .library-item audio {
+                max-width: none !important;
+                flex: 1;
+                margin-right: 10px;
+            }
             .top-nav { position: static; flex-wrap: wrap; justify-content: center; margin-bottom: 15px; width: 100%; }
             .top-notice-btn { position: static; margin: 0 auto 20px auto; display: flex; justify-content: center; width: fit-content; }
             .header { margin-top: 10px; }
@@ -1563,6 +1579,20 @@
             alert(`[AI에 전송된 상세 프롬프트]\n\n${promptStr}`);
         }
 
+        function shareSong(title, audioUrl) {
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: `[GILS SOUND] 에서 제가 만든 AI 노래 '${title}'을(를) 들어보세요!\n\n`,
+                    url: audioUrl
+                }).catch(err => console.log('공유 취소 또는 에러:', err));
+            } else {
+                navigator.clipboard.writeText(`[GILS SOUND] 에서 제가 만든 AI 노래 '${title}'을(를) 들어보세요!\n${audioUrl}`)
+                .then(() => alert('노래 링크가 클립보드에 복사되었습니다! 카카오톡 대화창에 붙여넣기 해보세요.'))
+                .catch(() => alert('복사에 실패했습니다. 수동으로 링크를 복사해 주세요: ' + audioUrl));
+            }
+        }
+
         function openNotice() {
             document.getElementById('notice-modal').style.display = 'flex';
         }
@@ -1571,23 +1601,68 @@
             document.getElementById('notice-modal').style.display = 'none';
         }
 
-        function renderLibrary() {
+        let currentLibraryPage = 1;
+        const libraryItemsPerPage = 10;
+
+        function renderLibrary(page = 1) {
+            currentLibraryPage = page;
             const listDiv = document.getElementById('library-list');
             const liveListDiv = document.getElementById('live-library-list');
             
+            // 1. Live Sidebar (최근 10개만)
+            if (liveListDiv) {
+                liveListDiv.innerHTML = '';
+                if (myLibrarySongs.length === 0) {
+                    liveListDiv.innerHTML = '<div class="empty-sidebar">아직 창작된 곡이 없습니다.<br>나만의 첫 음악을 완성해 보세요!</div>';
+                } else {
+                    const recent10 = myLibrarySongs.slice(0, 10);
+                    recent10.forEach((song, i) => {
+                        const originalIndex = i; // myLibrarySongs에서 0~9까지는 index가 동일
+                        const safeTitle = song.title ? song.title.replace(/'/g, "\\'") : 'GILS_SOUND_Music';
+                        const safePrompt = song.prompt ? song.prompt.replace(/"/g, '&quot;').replace(/'/g, "\\'") : '';
+                        const sideItem = document.createElement('div');
+                        sideItem.className = 'sidebar-item';
+                        sideItem.innerHTML = `
+                            <div class="sidebar-item-top" style="justify-content: space-between;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div class="sidebar-cover" style="background-image: url('${song.cover}');"></div>
+                                    <div class="sidebar-info">
+                                        <h4>${song.title}</h4>
+                                        <p>${song.genre}</p>
+                                    </div>
+                                </div>
+                                <div style="position: relative;">
+                                    <button onclick="toggleMenu(${originalIndex})" style="background: none; border: none; color: #ccc; font-size: 18px; font-weight: bold; cursor: pointer; padding: 0 5px; height: 100%;" title="메뉴">⋮</button>
+                                    <div id="live-menu-${originalIndex}" style="display: none; position: absolute; right: 0; top: 25px; background: #1F2937; border: 1px solid #374151; border-radius: 8px; padding: 6px; z-index: 100; flex-direction: column; gap: 4px; min-width: 150px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+                                        <button onclick="toggleMenu(${originalIndex}); downloadSong('${song.audioUrl}', '${safeTitle}')" style="background:none; border:none; color:white; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='none'">다운로드</button>
+                                        <button onclick="toggleMenu(${originalIndex}); shareSong('${safeTitle}', '${song.audioUrl}')" style="background:none; border:none; color:#60A5FA; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(96, 165, 250, 0.1)'" onmouseout="this.style.background='none'">공유하기</button>
+                                        <button onclick="toggleMenu(${originalIndex}); viewPrompt('${safePrompt}')" style="background:none; border:none; color:var(--primary-gold); text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(212, 175, 55, 0.1)'" onmouseout="this.style.background='none'">상세 프롬프트 보기</button>
+                                        <button onclick="toggleMenu(${originalIndex}); deleteSong(${originalIndex})" style="background:none; border:none; color:#F87171; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(248, 113, 113, 0.1)'" onmouseout="this.style.background='none'">삭제</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <audio controls controlsList="nodownload noplaybackrate" src="${song.audioUrl}" style="height: 30px; width: 100%; outline: none; margin-top: 5px;"></audio>
+                        `;
+                        liveListDiv.appendChild(sideItem);
+                    });
+                }
+            }
+
+            // 2. Main Library Modal Pagination
+            listDiv.innerHTML = '';
             if (myLibrarySongs.length === 0) {
                 listDiv.innerHTML = '<div class="empty-library">아직 창작된 곡이 없습니다. 나만의 첫 음악을 완성해 보세요!</div>';
-                if(liveListDiv) liveListDiv.innerHTML = '<div class="empty-sidebar">아직 창작된 곡이 없습니다.<br>나만의 첫 음악을 완성해 보세요!</div>';
                 return;
             }
 
-            listDiv.innerHTML = '';
-            if(liveListDiv) liveListDiv.innerHTML = '';
-            
-            myLibrarySongs.forEach((song, index) => {
+            const startIndex = (page - 1) * libraryItemsPerPage;
+            const endIndex = startIndex + libraryItemsPerPage;
+            const pageSongs = myLibrarySongs.slice(startIndex, endIndex);
+
+            pageSongs.forEach((song, i) => {
+                const originalIndex = startIndex + i;
                 const item = document.createElement('div');
                 item.className = 'library-item';
-                // 제목에 포함된 따옴표로 인한 스크립트 에러 방지
                 const safeTitle = song.title ? song.title.replace(/'/g, "\\'") : 'GILS_SOUND_Music';
                 const safePrompt = song.prompt ? song.prompt.replace(/"/g, '&quot;').replace(/'/g, "\\'") : '';
                 const safeLyrics = song.lyrics ? song.lyrics.replace(/"/g, '&quot;').replace(/'/g, "\\'") : '';
@@ -1603,44 +1678,43 @@
                     <div style="display: flex; flex-direction: column; gap: 8px;">
                         <audio controls controlsList="nodownload noplaybackrate" src="${song.audioUrl}" style="height: 36px; max-width: 200px; outline: none;"></audio>
                         <div style="position: relative; align-self: flex-end;">
-                            <button onclick="toggleMenu(${index})" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: #fff; font-size: 14px; font-weight: bold; cursor: pointer; padding: 4px 12px; transition: all 0.2s;">··· 옵션</button>
-                            <div id="menu-${index}" style="display: none; position: absolute; right: 0; top: 35px; background: #1F2937; border: 1px solid #374151; border-radius: 8px; padding: 6px; z-index: 100; flex-direction: column; gap: 4px; min-width: 140px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-                                <button onclick="downloadSong('${song.audioUrl}', '${safeTitle}')" style="background:none; border:none; color:white; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 12px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='none'">💾 다운로드</button>
-                                <button onclick="viewPrompt('${safePrompt}')" style="background:none; border:none; color:var(--primary-gold); text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 12px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(212, 175, 55, 0.1)'" onmouseout="this.style.background='none'">📄 상세 프롬프트 보기</button>
-                                <button onclick="deleteSong(${index})" style="background:none; border:none; color:#F87171; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 12px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(248, 113, 113, 0.1)'" onmouseout="this.style.background='none'">🗑️ 삭제</button>
+                            <button onclick="toggleMenu(${originalIndex})" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: #fff; font-size: 14px; font-weight: bold; cursor: pointer; padding: 4px 12px; transition: all 0.2s;">··· 옵션</button>
+                            <div id="menu-${originalIndex}" style="display: none; position: absolute; right: 0; top: 35px; background: #1F2937; border: 1px solid #374151; border-radius: 8px; padding: 6px; z-index: 100; flex-direction: column; gap: 4px; min-width: 150px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+                                <button onclick="toggleMenu(${originalIndex}); downloadSong('${song.audioUrl}', '${safeTitle}')" style="background:none; border:none; color:white; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='none'">다운로드</button>
+                                <button onclick="toggleMenu(${originalIndex}); shareSong('${safeTitle}', '${song.audioUrl}')" style="background:none; border:none; color:#60A5FA; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(96, 165, 250, 0.1)'" onmouseout="this.style.background='none'">공유하기</button>
+                                <button onclick="toggleMenu(${originalIndex}); viewPrompt('${safePrompt}')" style="background:none; border:none; color:var(--primary-gold); text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(212, 175, 55, 0.1)'" onmouseout="this.style.background='none'">상세 프롬프트 보기</button>
+                                <button onclick="toggleMenu(${originalIndex}); deleteSong(${originalIndex})" style="background:none; border:none; color:#F87171; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(248, 113, 113, 0.1)'" onmouseout="this.style.background='none'">삭제</button>
                             </div>
                         </div>
                     </div>
                 `;
                 listDiv.appendChild(item);
-
-                // 실시간 사이드바 아이템 생성
-                if(liveListDiv) {
-                    const sideItem = document.createElement('div');
-                    sideItem.className = 'sidebar-item';
-                    sideItem.innerHTML = `
-                        <div class="sidebar-item-top" style="justify-content: space-between;">
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <div class="sidebar-cover" style="background-image: url('${song.cover}');"></div>
-                                <div class="sidebar-info">
-                                    <h4>${song.title}</h4>
-                                    <p>${song.genre}</p>
-                                </div>
-                            </div>
-                            <div style="position: relative;">
-                                <button onclick="toggleMenu(${index})" style="background: none; border: none; color: #ccc; font-size: 18px; font-weight: bold; cursor: pointer; padding: 0 5px; height: 100%;" title="메뉴">⋮</button>
-                                <div id="live-menu-${index}" style="display: none; position: absolute; right: 0; top: 25px; background: #1F2937; border: 1px solid #374151; border-radius: 8px; padding: 6px; z-index: 100; flex-direction: column; gap: 4px; min-width: 140px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-                                    <button onclick="downloadSong('${song.audioUrl}', '${safeTitle}')" style="background:none; border:none; color:white; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 12px; border-radius: 4px;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='none'">💾 다운로드</button>
-                                    <button onclick="viewPrompt('${safePrompt}')" style="background:none; border:none; color:var(--primary-gold); text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 12px; border-radius: 4px;" onmouseover="this.style.background='rgba(212, 175, 55, 0.1)'" onmouseout="this.style.background='none'">📄 상세 프롬프트 보기</button>
-                                    <button onclick="deleteSong(${index})" style="background:none; border:none; color:#F87171; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 12px; border-radius: 4px;" onmouseover="this.style.background='rgba(248, 113, 113, 0.1)'" onmouseout="this.style.background='none'">🗑️ 삭제</button>
-                                </div>
-                            </div>
-                        </div>
-                        <audio controls controlsList="nodownload noplaybackrate" src="${song.audioUrl}" style="height: 30px; width: 100%; outline: none; margin-top: 5px;"></audio>
-                    `;
-                    liveListDiv.appendChild(sideItem);
-                }
             });
+
+            // 3. Pagination Controls
+            const totalPages = Math.ceil(myLibrarySongs.length / libraryItemsPerPage);
+            if (totalPages > 1) {
+                const paginationDiv = document.createElement('div');
+                paginationDiv.style.display = 'flex';
+                paginationDiv.style.justifyContent = 'center';
+                paginationDiv.style.gap = '10px';
+                paginationDiv.style.marginTop = '20px';
+                
+                for (let p = 1; p <= totalPages; p++) {
+                    const btn = document.createElement('button');
+                    btn.innerText = p;
+                    btn.style.padding = '6px 12px';
+                    btn.style.background = p === page ? 'var(--primary-gold)' : 'rgba(255,255,255,0.1)';
+                    btn.style.color = p === page ? '#000' : '#fff';
+                    btn.style.border = 'none';
+                    btn.style.borderRadius = '5px';
+                    btn.style.cursor = 'pointer';
+                    btn.style.fontWeight = p === page ? 'bold' : 'normal';
+                    btn.onclick = () => renderLibrary(p);
+                    paginationDiv.appendChild(btn);
+                }
+                listDiv.appendChild(paginationDiv);
+            }
         }
 
         function loadPersonaStyle(prompt, lyrics) {
