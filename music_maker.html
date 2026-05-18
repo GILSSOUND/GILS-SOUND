@@ -1095,11 +1095,16 @@
 
         <!-- Step 2 -->
         <div class="step-container" id="section-lyrics-input">
-            <div class="step-title">
-                <span class="step-number">Step 02</span>
-                가사를 입력하세요
+            <div class="step-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span class="step-number">Step 02</span>
+                    가사를 입력하세요
+                </div>
+                <button type="button" class="btn-checkout" id="btn-auto-lyrics" style="padding: 6px 12px; font-size: 12px; border-radius: 8px; width: auto; background: rgba(212, 175, 55, 0.2); border: 1px solid var(--primary-gold); color: var(--primary-gold);" onclick="autoGenerateLyrics()">
+                    ✨ AI 가사 자동 생성
+                </button>
             </div>
-            <textarea id="input-lyrics" placeholder="아름다운 노랫말을 적어주세요.&#10;예) 눈을 감으면 스치는 바람결..."></textarea>
+            <textarea id="input-lyrics" placeholder="아름다운 노랫말을 적어주세요.&#10;우측 상단의 'AI 가사 자동 생성' 버튼을 누르시면, 선택하신 장르나 프롬프트에 딱 맞는 가사를 제미나이가 자동으로 써드립니다!"></textarea>
         </div>
 
         <!-- Step 3 (Easy Mode Only): Mood Selection -->
@@ -1790,37 +1795,6 @@
             let genre = "";
             let titleInput = document.getElementById('input-title').value;
 
-            let isApiSuccess = false;
-
-            function runFallback() {
-                const s = storyInput.toLowerCase();
-                // 사연의 첫 문장을 추출하여 노래 제목으로만 스마트하게 제안 (가사 본문 개입 배제)
-                const firstSentence = storyInput.split('\n')[0].substring(0, 25).trim();
-                const dynamicTitle = firstSentence.length > 3 ? firstSentence : "나만의 특별한 이야기";
-
-                if (s.includes('사랑') || s.includes('고백') || s.includes('설렘') || s.includes('좋아') || s.includes('연애')) {
-                    autoLyrics = `(Verse 1)\n우연히 스친 너의 옷깃 사이로\n불어온 계절이 내 마음을 뒤흔들어\n어제와 다를 것 없던 단조로운 거리가\n너 하나로 인해 눈부신 영화가 되어가\n\n(Pre-Chorus)\n말하지 않아도 알 수 있는 그 떨림\n조심스레 너의 발걸음에 내 보폭을 맞춰\n\n(Chorus 1)\n숨길 수 없는 내 마음의 소리를 들어봐\n너를 향해 쏟아지는 이 벅찬 설렘을\n온 세상이 너라는 이름으로 가득 차올라\n이 순간 영원토록 널 사랑하고 싶어\n\n(Verse 2)\n너의 작은 웃음소리 하나에\n내 하루의 궂은 날씨가 맑게 개어\n어느새 내 시선의 끝은 항상 널 향해 있어\n\n(Chorus 2)\n숨길 수 없는 내 마음의 소리를 들어봐\n너를 향해 쏟아지는 이 벅찬 설렘을\n온 세상이 너라는 이름으로 가득 차올라\n이 순간 영원토록 널 사랑하고 싶어\n\n(Bridge)\n서로를 맴돌던 긴 망설임을 넘어\n이제는 너의 손을 꼭 잡고서 걸어갈게\n\n(Last Chorus)\n더욱더 커져가는 내 사랑을 받아줘\n너와 나 함께 그려갈 눈부신 내일들을\n아무도 모를 우리만의 비밀을 만들자\n세상 가장 환한 빛으로 널 안아줄게\n\n(Outro)\n언제나 너의 곁에서 머물게\n아름다운 우리만의 멜로디로...`;
-                    prompt = "sweet romantic acoustic pop music, bright guitar, ethereal female vocal";
-                    genre = "달콤한 로맨틱 어쿠스틱 팝";
-                    if (!titleInput) titleInput = dynamicTitle;
-                } else if (s.includes('이별') || s.includes('슬픔') || s.includes('눈물') || s.includes('헤어') || s.includes('아파')) {
-                    autoLyrics = `(Verse 1)\n혼자 남겨진 어두운 방안에 흐르는 침묵\n창틈으로 스며든 달빛이 너의 빈자리를 비춰\n계절은 아무 일 없다는 듯 지나가는데\n나의 시간만 그날의 차가운 끝에 멈춰 있어\n\n(Pre-Chorus)\n모든 게 거짓말 같던 그 마지막 뒷모습\n잡지 못했던 나의 손끝에 남은 후회들\n\n(Chorus 1)\n이제는 닿을 수 없는 저 아득한 별처럼\n아프게 빛나는 우리의 마지막 안녕\n수없이 불러보아도 메아리쳐 돌아올 뿐\n너를 지워내는 일이 내겐 가장 버거운 형벌 같아\n\n(Verse 2)\n함께 걷던 골목길에 내려앉은 그림자\n어디를 가도 너의 숨결이 배어있어 숨이 막혀\n\n(Chorus 2)\n이제는 닿을 수 없는 저 아득한 별처럼\n아프게 빛나는 우리의 마지막 안녕\n수없이 불러보아도 메아리쳐 돌아올 뿐\n너를 지워내는 일이 내겐 가장 버거운 형벌 같아\n\n(Bridge)\n아무리 비워내도 차오르는 너의 기억\n차라리 모든 게 꿈이길 바라고 또 바랐어\n\n(Last Chorus)\n마지막으로 널 향해 부르는 이 슬픈 노래\n바람을 타고 너의 곁에 닿을 수만 있다면\n사랑했던 그날의 우린 참 눈부셨다고\n전하고 싶어, 나의 시린 마지막 고백\n\n(Outro)\n잘 지내길 바랄게, 나보다 더 행복하길\n눈물로 써 내려간 마지막 편지...`;
-                    prompt = "melancholic emotional indie ballad, sad piano, deep warm vocal";
-                    genre = "애절한 감성 인디 발라드";
-                    if (!titleInput) titleInput = dynamicTitle;
-                } else if (s.includes('퇴근') || s.includes('지쳐') || s.includes('위로') || s.includes('수고') || s.includes('회사') || s.includes('일')) {
-                    autoLyrics = `(Verse 1)\n빌딩 숲 사이로 붉게 물들어가는 노을\n무거운 어깨를 이끌고 막차에 가만히 기대어\n오늘 하루도 참 숨 가쁘게 달려왔지\n누구를 위한 걸음인지 모를 만큼 아득해\n\n(Pre-Chorus)\n이어폰 너머로 들려오는 잔잔한 선율에\n애써 삼켰던 한숨을 조용히 뱉어내\n\n(Chorus 1)\n괜찮아, 잠시 멈춰 서서 기대어 쉬어가도 돼\n누구보다 치열하게 살아낸 너를 내가 알아\n수고했어 나의 하루야, 참 애많이 썼어\n오늘 밤엔 아무 걱정 없이 깊은 잠에 빠져들길\n\n(Verse 2)\n보이지 않는 미래에 문득 겁이 날 때도\n너만의 고유한 빛은 결코 꺼지지 않아\n\n(Chorus 2)\n괜찮아, 잠시 멈춰 서서 기대어 쉬어가도 돼\n누구보다 치열하게 살아낸 너를 내가 알아\n수고했어 나의 하루야, 참 애많이 썼어\n오늘 밤엔 아무 걱정 없이 깊은 잠에 빠져들길\n\n(Bridge)\n긴 어둠이 지나가면 반드시 아침은 밝아와\n너의 지난 눈물들이 내일의 거름이 될 테니\n\n(Last Chorus)\n다시 힘을 내어 걸어갈 너의 찬란한 내일\n세상 그 어떤 꽃보다 더 아름답게 피어날 거야\n항상 널 응원할게, 너는 결코 혼자가 아니야\n가장 눈부신 미소로 너를 안아줄게\n\n(Outro)\n내일의 태양은 더 다정하게 널 비출 거야\n평온한 밤이 되길, 나의 지친 영혼아...`;
-                    prompt = "comforting lo-fi chill pop, soft electric piano, warm whisper vocal";
-                    genre = "따뜻한 위로의 로파이 팝";
-                    if (!titleInput) titleInput = dynamicTitle;
-                } else {
-                    autoLyrics = `(Verse 1)\n내 마음속 가장 깊은 심연에 담아둔 이야기\n누구에게도 꺼내지 못했던 작은 비밀들\n새벽안개를 타고 소리 없이 피어올라\n나만의 숲을 이루고 고요히 호흡하네\n\n(Pre-Chorus)\n바람결에 스치는 이름 모를 꽃잎처럼\n자유롭게 저 높은 하늘로 날아가고 싶어\n\n(Chorus 1)\n언젠가 닿을 그 미지의 세계를 향해서\n나만의 독창적인 멜로디를 조용히 읊조려\n정답이 없는 길이라 해도 두렵지 않아\n내 안의 작은 나침반이 가리키는 곳으로 갈 테니\n\n(Verse 2)\n수많은 별무리 속에서 나를 찾는 여정\n한 걸음씩 나아갈 때마다 선명해지는 꿈\n\n(Chorus 2)\n언젠가 닿을 그 미지의 세계를 향해서\n나만의 독창적인 멜로디를 조용히 읊조려\n정답이 없는 길이라 해도 두렵지 않아\n내 안의 작은 나침반이 가리키는 곳으로 갈 테니\n\n(Bridge)\n거친 파도가 몰아쳐도 나의 키를 놓지 않아\n가슴속에 타오르는 열정의 불꽃을 믿으니까\n\n(Last Chorus)\n마침내 도달할 저 찬란한 수평선 너머\n나만의 목소리로 온 세상에 울려 퍼질 노래\n모든 발걸음이 눈부신 역사가 되어\n영원히 지워지지 않을 전설을 기록하리\n\n(Outro)\n끝없는 항해의 시작, 돛을 펼쳐라\n나만의 빛나는 스토리를 찾아서...`;
-                    prompt = "cinematic atmospheric ambient pop, rich string arrangement, clear vocal";
-                    genre = "시네마틱 감성 팝 사운드";
-                    if (!titleInput) titleInput = dynamicTitle;
-                }
-            }
-
             try {
                 const response = await fetch('/api/story', {
                     method: 'POST',
@@ -1838,10 +1812,14 @@
                 // 생성된 제목을 입력칸에 바로 적용
                 document.getElementById('input-title').value = titleInput;
                 
-                isApiSuccess = true;
             } catch (e) {
-                console.log("Server Gemini Notice:", e.message);
-                runFallback();
+                console.error("Gemini API Error:", e.message);
+                alert("🚨 AI 작사 서버와 통신 중 오류가 발생했습니다.\n\n잠시 후 다시 시도해 주세요. (" + e.message + ")");
+                
+                previewPanel.style.display = 'none';
+                btn.disabled = false;
+                btn.innerText = '✍️ AI 가사 초안 생성 및 확인 (Next)';
+                return;
             }
 
             pendingStoryData = {
@@ -1854,10 +1832,51 @@
 
             previewLyrics.innerText = autoLyrics;
             // 직관적인 상태 표시 (실시간 연동 성공 여부 확인용)
-            previewGenre.innerHTML = `${genre} <span style="font-size: 10px; color: ${isApiSuccess ? '#10B981' : '#F59E0B'}; background: rgba(0,0,0,0.4); padding: 2px 5px; border-radius: 4px;">${isApiSuccess ? '✨ Gemini 실시간' : '⚡️ 로컬 고속엔진'}</span>`;
+            previewGenre.innerHTML = `${genre} <span style="font-size: 10px; color: #10B981; background: rgba(0,0,0,0.4); padding: 2px 5px; border-radius: 4px;">✨ Gemini 연동 성공</span>`;
             
             btn.disabled = false;
             btn.innerText = '✨ 노래 만들기 (Create)';
+        }
+
+        async function autoGenerateLyrics() {
+            const btn = document.getElementById('btn-auto-lyrics');
+            const lyricsArea = document.getElementById('input-lyrics');
+            
+            let context = "";
+            if (currentMode === 'easy') {
+                const genre = document.getElementById('selected-genre').value || "일반 대중가요";
+                const mood = document.getElementById('selected-mood') ? document.getElementById('selected-mood').value : "감성적인";
+                context = `장르: ${genre}, 분위기: ${mood}`;
+            } else if (currentMode === 'pro') {
+                const proPrompt = document.getElementById('input-custom-prompt').value.trim();
+                if (!proPrompt) {
+                    alert("🚨 전문가(Pro) 모드에서는 먼저 'Step 01 프롬프트'를 입력해 주셔야 그에 어울리는 가사를 지어드릴 수 있습니다!");
+                    return;
+                }
+                context = `작곡 프롬프트 및 의도: ${proPrompt}`;
+            } else {
+                return; // 스토리 모드에서는 이 버튼이 안 쓰임
+            }
+
+            btn.innerText = "⏳ 생성 중...";
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('/api/auto-lyrics', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ context: context })
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error);
+                
+                lyricsArea.value = data.lyrics;
+            } catch (error) {
+                alert("가사 생성 실패: " + error.message);
+            } finally {
+                btn.innerText = "✨ AI 가사 자동 생성";
+                btn.disabled = false;
+            }
         }
 
         async function confirmStoryMusic() {

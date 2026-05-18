@@ -79,6 +79,42 @@ JSON 구조:
     }
 });
 
+// Gemini API 연동 (일반/프로 모드 가사 자동 생성)
+app.post('/api/auto-lyrics', async (req, res) => {
+    try {
+        const { context } = req.body;
+        if (!context) return res.status(400).json({ error: "음악 정보(컨텍스트)가 없습니다." });
+
+        const systemPromptText = `당신은 대중가요 및 K-Pop 최고의 작사가입니다.
+사용자가 입력한 다음 '음악 정보(장르, 분위기 또는 프롬프트)'에 완벽하게 어울리는 감성적인 한국어 가사를 창작해주세요.
+대중음악 구조에 맞게 [Verse 1] -> [Chorus] -> [Verse 2] -> [Chorus] -> [Bridge] -> [Outro] 형식으로 세련되게 작성하세요.
+응답은 JSON 형태나 다른 설명은 일절 빼고 오직 "순수한 텍스트 가사 내용"만 출력하세요.
+
+[음악 정보]: ${context}
+[작사할 가사]:`;
+
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_TOKEN}`;
+
+        const fetchResponse = await fetch(geminiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: systemPromptText }] }]
+            })
+        });
+
+        const data = await fetchResponse.json();
+        if (!fetchResponse.ok) throw new Error(data.error?.message || "Gemini API 요청 실패");
+
+        const lyrics = data.candidates[0].content.parts[0].text.trim();
+        res.json({ lyrics });
+
+    } catch (error) {
+        console.error("-> [Gemini Auto-Lyrics Error]", error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Suno v5.0 API 연동 (EvoLink 비공식 API)
 app.post('/api/music', async (req, res) => {
     try {
