@@ -1322,6 +1322,18 @@
         </div>
     </div>
 
+    <!-- Nickname Modal (First Time Users Only) -->
+    <div class="library-modal-overlay" id="nickname-modal" style="z-index: 4000; display: none;">
+        <div class="library-modal" style="max-width: 400px; text-align: center;">
+            <div class="library-header" style="margin-bottom: 25px;">
+                <h2 style="font-size: 24px; color: var(--primary-gold);">닉네임 설정</h2>
+                <p style="margin-top: 10px; font-size: 14px; color: #D1D5DB;">GILS SOUND에서 사용할 멋진 닉네임을 정해주세요!</p>
+            </div>
+            <input type="text" id="new-nickname-input" placeholder="예: 천재작곡가" style="width: 100%; padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.5); color: #fff; font-size: 16px; margin-bottom: 20px; text-align: center; outline: none;">
+            <button class="btn-submit" style="width: 100%; padding: 14px; font-size: 15px;" onclick="saveNickname()">확인 및 시작하기</button>
+        </div>
+    </div>
+
     <!-- Welcome Modal Overlay (First Time Users Only) -->
     <div class="library-modal-overlay" id="welcome-modal" style="z-index: 3000;">
         <div class="library-modal" style="max-width: 600px; text-align: center;">
@@ -1366,12 +1378,32 @@
                 document.getElementById('user-credits').innerText = `${currentCredits}곡`;
             }
             
-            // 신규 유저 환영 팝업 처리
+            // 신규 유저 환영 팝업 및 닉네임 설정 처리
             if (localStorage.getItem('gils_is_new_user') === 'true') {
-                document.getElementById('welcome-modal').style.display = 'flex';
-                localStorage.removeItem('gils_is_new_user'); // 다시 안 뜨게 삭제
+                document.getElementById('nickname-modal').style.display = 'flex';
+                // welcome-modal은 닉네임 설정 완료 후 띄움
             }
         });
+
+        function saveNickname() {
+            const nickname = document.getElementById('new-nickname-input').value.trim();
+            if (!nickname) {
+                alert('닉네임을 입력해 주세요.');
+                return;
+            }
+            
+            const platform = localStorage.getItem('gils_platform') || '소셜';
+            const displayUser = `[${platform}] ${nickname}`;
+            
+            localStorage.setItem('gils_user', displayUser);
+            
+            // 닉네임 모달 닫기
+            document.getElementById('nickname-modal').style.display = 'none';
+            
+            // 웰컴 모달(3코인) 띄우기
+            document.getElementById('welcome-modal').style.display = 'flex';
+            localStorage.removeItem('gils_is_new_user'); // 다시 안 뜨게 삭제
+        }
 
         function closeWelcomeModal() {
             document.getElementById('welcome-modal').style.display = 'none';

@@ -210,6 +210,7 @@
             }
 
             localStorage.setItem('gils_user', displayUser);
+            localStorage.setItem('gils_platform', platform); // 닉네임 변경 시 사용하기 위해 플랫폼 따로 저장
 
             if (!localStorage.getItem('gils_credits')) {
                 // 신규 가입 시 3코인 지급 및 신규 회원 환영 플래그 저장
