@@ -3,7 +3,35 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const nodemailer = require('nodemailer');
+const mongoose = require('mongoose');
 
+// Mongoose Connection
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('✅ MongoDB Connected'))
+  .catch(err => console.error('❌ MongoDB Connection Error:', err));
+
+// Mongoose Schemas
+const userSchema = new mongoose.Schema({
+    userId: { type: String, required: true, unique: true },
+    platform: { type: String },
+    nickname: { type: String },
+    credits: { type: Number, default: 3 }, // 기본 가입 축하 코인 3개
+    createdAt: { type: Date, default: Date.now }
+});
+
+const songSchema = new mongoose.Schema({
+    userId: { type: String, required: true },
+    title: { type: String, required: true },
+    genreLabel: { type: String },
+    stylePrompt: { type: String },
+    lyrics: { type: String },
+    audioUrl: { type: String },
+    imageUrl: { type: String },
+    createdAt: { type: Date, default: Date.now }
+});
+
+const User = mongoose.model('User', userSchema);
+const Song = mongoose.model('Song', songSchema);
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -14,6 +42,47 @@ app.use(express.json());
 
 // 정적 파일 서빙 (HTML, CSS, 이미지 등)
 app.use(express.static(__dirname));
+
+// [DB] 로그인 및 정보 동기화 (최초 로그인 시 DB 등록, 기존 유저면 DB 정보 반환)
+app.post('/api/user/sync', async (req, res) => {
+    try {
+        const { userId, platform, nickname } = req.body;
+        if (!userId) return res.status(400).json({ error: "userId is required" });
+
+        let user = await User.findOne({ userId });
+        if (!user) {
+            // 첫 가입 3크레딧 지급
+            user = new User({ userId, platform, nickname, credits: 3 });
+            await user.save();
+            console.log(`[DB] New User Created: ${userId} (${platform})`);
+        } else {
+            // 기존 유저 닉네임 업데이트 (필요 시)
+            if (nickname && user.nickname !== nickname) {
+                user.nickname = nickname;
+                await user.save();
+            }
+            console.log(`[DB] Existing User Synced: ${userId} (Credits: ${user.credits})`);
+        }
+        res.json({ success: true, user });
+    } catch (error) {
+        console.error("DB Sync Error:", error);
+        res.status(500).json({ error: "DB Sync Failed" });
+    }
+});
+
+// [DB] 보관함 리스트 불러오기
+app.get('/api/user/library', async (req, res) => {
+    try {
+        const { userId } = req.query;
+        if (!userId) return res.status(400).json({ error: "userId is required" });
+
+        const songs = await Song.find({ userId }).sort({ createdAt: -1 });
+        res.json({ success: true, songs });
+    } catch (error) {
+        console.error("Fetch Library Error:", error);
+        res.status(500).json({ error: "Fetch Library Failed" });
+    }
+});
 
 // Gemini API 연동 (사연 작사 모드)
 app.post('/api/story', async (req, res) => {
@@ -118,9 +187,16 @@ app.post('/api/auto-lyrics', async (req, res) => {
 // Suno v5.0 API 연동 (EvoLink 비공식 API)
 app.post('/api/music', async (req, res) => {
     try {
-        const { lyrics, style, title } = req.body;
+        const { userId, lyrics, style, title, imageUrl, genreLabel } = req.body;
         if (!style && !lyrics) {
             return res.status(400).json({ error: "음악 생성 데이터가 없습니다." });
+        }
+        
+        if (userId) {
+            const user = await User.findOne({ userId });
+            if (!user || user.credits < 1) {
+                return res.status(403).json({ error: "크레딧이 부족합니다. 결제가 필요합니다." });
+            }
         }
 
         console.log("[Request Received] Starting Suno music generation...");
@@ -186,9 +262,35 @@ app.post('/api/music', async (req, res) => {
 
         if ((status === "completed" || status === "succeeded") && finalAudioUrl) {
             console.log(" -> [SUCCESS] Audio URL:", finalAudioUrl);
+            
+            // [DB 연동] 크레딧 차감 및 노래 보관함 저장
+            let updatedCredits = null;
+            if (userId) {
+                const user = await User.findOne({ userId });
+                if (user && user.credits >= 1) {
+                    user.credits -= 1;
+                    await user.save();
+                    updatedCredits = user.credits;
+                    
+                    // 노래 데이터 저장
+                    const newSong = new Song({
+                        userId: userId,
+                        title: title || "GILS SOUND Original",
+                        genreLabel: genreLabel || style || "AI Music",
+                        stylePrompt: style || "",
+                        lyrics: lyrics || "",
+                        audioUrl: finalAudioUrl,
+                        imageUrl: imageUrl || '2.한국인/여자/woman_influencer_2.png'
+                    });
+                    await newSong.save();
+                    console.log(`[DB] Song saved and credit deducted for ${userId}. Remaining credits: ${updatedCredits}`);
+                }
+            }
+
             res.json({
                 status: "success",
-                audioUrl: finalAudioUrl
+                audioUrl: finalAudioUrl,
+                remaining_credits: updatedCredits
             });
         } else {
             console.log(" -> [ERROR] Generation failed on Suno AI server.");

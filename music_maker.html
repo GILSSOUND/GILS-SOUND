@@ -1416,13 +1416,36 @@
 
         let currentCredits = localStorage.getItem('gils_credits') !== null ? parseInt(localStorage.getItem('gils_credits')) : 0;
         let myLibrarySongs = []; // 생성된 음악 목록 배열 저장
+        const currentUserId = localStorage.getItem('gils_userId');
 
-        window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', async () => {
             if (currentCredits === 9999) {
                 document.getElementById('user-credits').innerText = '∞ 무제한';
             } else {
                 document.getElementById('user-credits').innerText = `${currentCredits}곡`;
             }
+
+            // [DB 연동] 서버에서 실제 내 보관함 데이터 불러오기
+            if (currentUserId) {
+                try {
+                    const libRes = await fetch(`/api/user/library?userId=${currentUserId}`);
+                    const libData = await libRes.json();
+                    if (libData.success) {
+                        myLibrarySongs = libData.songs.map(song => ({
+                            title: song.title,
+                            genre: song.genreLabel,
+                            cover: song.imageUrl || '2.한국인/여자/woman_influencer_2.png',
+                            audioUrl: song.audioUrl,
+                            prompt: song.stylePrompt,
+                            lyrics: song.lyrics
+                        }));
+                        document.getElementById('library-count-badge').innerText = myLibrarySongs.length;
+                    }
+                } catch(e) {
+                    console.error("Library sync failed", e);
+                }
+            }
+
             
             // 신규 유저 환영 팝업 및 닉네임 설정 처리
             if (localStorage.getItem('gils_is_new_user') === 'true') {
@@ -1442,6 +1465,18 @@
             const displayUser = `[${platform}] ${nickname}`;
             
             localStorage.setItem('gils_user', displayUser);
+            
+            // 닉네임이 설정 완료되었다는 플래그
+            localStorage.setItem('gils_is_new_user_done', 'true');
+            
+            // DB에 닉네임 업데이트(비동기로 몰래)
+            if (currentUserId) {
+                fetch('/api/user/sync', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId: currentUserId, platform: platform, nickname: displayUser })
+                }).catch(e => console.log('Nickname sync error', e));
+            }
             
             // 닉네임 모달 닫기
             document.getElementById('nickname-modal').style.display = 'none';
@@ -1994,15 +2029,25 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
+                        userId: currentUserId,
                         lyrics: finalData.lyrics,
                         style: finalData.stylePrompt,
-                        title: finalTitle
+                        title: finalTitle,
+                        imageUrl: finalData.image,
+                        genreLabel: finalData.genreLabel
                     })
                 });
 
                 clearInterval(loadingInterval);
                 const data = await response.json();
                 if (!response.ok) throw new Error(data.error || '음악 생성 요청 중 오류가 발생했습니다.');
+
+                // 서버에서 진짜 차감된 크레딧 갱신
+                if (data.remaining_credits !== undefined && data.remaining_credits !== null) {
+                    currentCredits = data.remaining_credits;
+                    localStorage.setItem('gils_credits', currentCredits);
+                    document.getElementById('user-credits').innerText = `${currentCredits}곡`;
+                }
 
                 btn.disabled = false;
                 btn.innerText = '✍️ AI 가사 초안 생성 및 확인 (Next)';
@@ -2090,13 +2135,7 @@
                 if (!titleInput) titleInput = '아름다운 선율';
             }
 
-            // 크레딧 차감
-            if (currentCredits !== 9999) {
-                currentCredits -= 1;
-                document.getElementById('user-credits').innerText = `${currentCredits}곡`;
-                saveCredits();
-            }
-
+            // 크레딧 차감은 서버에서 안전하게 수행하므로 프론트엔드에서는 우선 패스 (결과 응답 시 업데이트)
             // 로딩 상태 전환
             btn.disabled = true;
             btn.innerText = '로컬 프록시 서버 연결 및 생성 요청 중...';
@@ -2118,9 +2157,12 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ 
+                        userId: currentUserId,
                         lyrics: lyricsInput,
                         style: styleTags,
-                        title: titleInput
+                        title: titleInput,
+                        imageUrl: imageInput,
+                        genreLabel: generatedGenreLabel
                     })
                 });
 
@@ -2135,6 +2177,13 @@
                 // 생성 성공! 버튼 복구
                 btn.disabled = false;
                 btn.innerText = '작품 완성하기 (Create)';
+
+                // 서버에서 진짜 차감된 크레딧 갱신
+                if (data.remaining_credits !== undefined && data.remaining_credits !== null) {
+                    currentCredits = data.remaining_credits;
+                    localStorage.setItem('gils_credits', currentCredits);
+                    document.getElementById('user-credits').innerText = `${currentCredits}곡`;
+                }
                 
                 // 결과 UI 출력 및 오디오 소스 연결
                 document.getElementById('result-title').innerText = titleInput;

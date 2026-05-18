@@ -198,32 +198,53 @@
         const GOOGLE_CLIENT_ID = "714178334730-l0bdt808735qm2pasm26lnou5i5chaud.apps.googleusercontent.com";
 
         // 공통 로그인 성공 처리 함수
-        function handleLoginSuccess(platform, email, nickname) {
+        async function handleLoginSuccess(platform, email, nickname) {
             let displayUser = "";
+            let userId = "";
             
-            // 카카오는 이메일이 없는 경우가 많아 번호가 뜨므로 닉네임 우선 표시
+            // 유저 고유 ID 생성 (이메일이 없으면 닉네임이나 타임스탬프 활용)
+            const uniqueKey = email || nickname || Date.now().toString();
+            userId = `${platform}_${uniqueKey}`;
+
             if (platform === "카카오") {
                 displayUser = `[카카오] ${nickname || "카카오 회원"}`;
             } else {
-                // 네이버 계정이 구글 이메일로 가입된 경우 혼동을 막기 위해 앞에 플랫폼 명시
                 displayUser = `[${platform}] ${email || nickname || "회원"}`;
             }
 
-            localStorage.setItem('gils_user', displayUser);
-            localStorage.setItem('gils_platform', platform); // 닉네임 변경 시 사용하기 위해 플랫폼 따로 저장
+            try {
+                // 1. 서버 DB에 유저 정보 동기화 요청
+                const response = await fetch('/api/user/sync', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId, platform, nickname: displayUser })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    // 2. 서버에서 받은 '진짜' 크레딧과 정보를 로컬에 저장 (화면 표시용)
+                    localStorage.setItem('gils_userId', userId);
+                    localStorage.setItem('gils_user', data.user.nickname || displayUser);
+                    localStorage.setItem('gils_platform', platform);
+                    localStorage.setItem('gils_credits', data.user.credits);
+                    
+                    // 만약 닉네임이 기본 설정 상태라면 첫 가입자로 간주하여 팝업을 띄우기 위함
+                    if (!localStorage.getItem('gils_is_new_user_done') && data.user.credits === 3) {
+                        localStorage.setItem('gils_is_new_user', 'true');
+                    }
 
-            if (!localStorage.getItem('gils_credits')) {
-                // 신규 가입 시 3코인 지급 및 신규 회원 환영 플래그 저장
-                localStorage.setItem('gils_credits', 3);
-                localStorage.setItem('gils_is_new_user', 'true');
-            }
-            
-            // 네이버처럼 팝업으로 열린 경우, 팝업을 닫고 부모(원래) 창을 이동시킴
-            if (window.opener && !window.opener.closed) {
-                window.opener.location.href = 'music_maker.html';
-                window.close();
-            } else {
-                window.location.href = 'music_maker.html';
+                    // 3. 화면 이동
+                    if (window.opener && !window.opener.closed) {
+                        window.opener.location.href = 'music_maker.html';
+                        window.close();
+                    } else {
+                        window.location.href = 'music_maker.html';
+                    }
+                } else {
+                    alert("서버 로그인 동기화 실패: " + data.error);
+                }
+            } catch (error) {
+                alert("서버 통신 에러: " + error.message);
             }
         }
 
