@@ -305,6 +305,79 @@ app.post('/api/music', async (req, res) => {
 
 
 
+// ==========================================
+// 💰 포트원(PortOne) 결제 검증 및 크레딧 충전 API
+// ==========================================
+app.post('/api/payment/verify', async (req, res) => {
+    try {
+        const { imp_uid, merchant_uid, planName, expectedPrice, creditsToAdd, userId, isSubscription } = req.body;
+        
+        // 1. 포트원 API 서버에서 엑세스 토큰(Access Token) 발급 받기
+        const tokenResponse = await fetch('https://api.iamport.kr/users/getToken', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                imp_key: process.env.PORTONE_API_KEY,
+                imp_secret: process.env.PORTONE_API_SECRET
+            })
+        });
+        
+        const tokenData = await tokenResponse.json();
+        if (tokenData.code !== 0) {
+            console.error("포트원 토큰 발급 실패:", tokenData.message);
+            return res.status(401).json({ success: false, error: "결제 서버 토큰 발급에 실패했습니다." });
+        }
+        
+        const accessToken = tokenData.response.access_token;
+
+        // 2. 발급받은 토큰으로 imp_uid를 이용해 실제 결제 정보 조회
+        const paymentResponse = await fetch(`https://api.iamport.kr/payments/${imp_uid}`, {
+            method: 'GET',
+            headers: { 'Authorization': accessToken }
+        });
+        
+        const paymentData = await paymentResponse.json();
+        if (paymentData.code !== 0) {
+            console.error("포트원 결제내역 조회 실패:", paymentData.message);
+            return res.status(400).json({ success: false, error: "결제 내역을 찾을 수 없습니다." });
+        }
+        
+        const paymentInfo = paymentData.response;
+
+        // 3. 보안 검증 (클라이언트 요청 금액과 포트원 실제 결제 금액 대조)
+        if (paymentInfo.amount === expectedPrice && paymentInfo.status === 'paid') {
+            // 결제 금액이 일치하고 정상 결제 승인된 경우 DB 크레딧 충전 진행
+            let user = await User.findOne({ userId });
+            
+            if (!user) {
+                // 비정상 케이스이나 혹시 유저 DB가 없으면 생성
+                user = new User({ userId, platform: '소셜', nickname: userId, credits: 3 });
+            }
+
+            // 구독형 결제 처리: 100크레딧 부여, 향후 billing key 로직 확장 시 customer_uid 사용
+            if (isSubscription) {
+                user.credits += 100; // 구독은 매월 100크레딧 부여
+                console.log(`[결제성공] 정기구독(빌링키 발급완료) - 유저: ${userId}, 부여: 100크레딧`);
+            } else {
+                user.credits += creditsToAdd;
+                console.log(`[결제성공] 단건결제 - 유저: ${userId}, 상품: ${planName}, 충전금액: ${expectedPrice}원, 충전량: ${creditsToAdd}곡`);
+            }
+            
+            await user.save();
+            
+            res.json({ success: true, newCredits: user.credits });
+        } else {
+            // 위조된 결제 시도: 금액이 다르거나 paid 상태가 아님
+            console.error(`[결제위조 의심] 유저: ${userId}, 요청금액: ${expectedPrice}, 실제결제: ${paymentInfo.amount}`);
+            res.status(400).json({ success: false, error: "결제 금액이 위조되었거나 정상 승인되지 않았습니다." });
+        }
+
+    } catch (error) {
+        console.error("결제 검증 서버 에러:", error);
+        res.status(500).json({ success: false, error: "서버 오류로 인해 결제 검증에 실패했습니다." });
+    }
+});
+
 // 404 폴백 라우팅 (모든 경로를 index로 - React/SPA 구조 확장 대비)
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
