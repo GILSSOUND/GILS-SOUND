@@ -2532,8 +2532,8 @@
             
             // 결제 요청 데이터 준비
             const payData = {
-                pg: "html5_inicis", // 기본 범용 PG 설정 (포트원 콘솔에서 변경 가능)
-                pay_method: "card", // 카드, 카카오페이, 휴대폰 등
+                pg: "kakaopay", // 사장님이 방금 추가하신 카카오페이 채널 지정
+                pay_method: "card", // 카카오페이 내부 결제 수단
                 merchant_uid: merchant_uid,
                 name: planName,
                 amount: price,
