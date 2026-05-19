@@ -2532,8 +2532,7 @@
             
             // 결제 요청 데이터 준비
             const payData = {
-                pg: "kakaopay", // 사장님이 방금 추가하신 카카오페이 채널 지정
-                pay_method: "card", // 카카오페이 내부 결제 수단
+                // 특정 PG사를 강제하지 않으면, 포트원 콘솔에 추가된 모든 결제수단(카카오, 다날 등)이 통합 결제창으로 나타납니다.
                 merchant_uid: merchant_uid,
                 name: planName,
                 amount: price,
