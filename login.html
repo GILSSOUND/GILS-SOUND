@@ -263,6 +263,7 @@
                 }
                 
                 Kakao.Auth.login({
+                    prompts: 'login', // 항상 로그인 화면을 띄워 계정 입력 강제
                     success: function(authObj) {
                         Kakao.API.request({
                             url: '/v2/user/me',
@@ -310,7 +311,8 @@
             const cleanUrl = window.location.origin + window.location.pathname;
             const redirectUri = encodeURIComponent(cleanUrl);
             
-            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=token&scope=email%20profile`;
+            // prompt=select_account 를 추가하여 매번 계정 선택 창 띄우기
+            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=token&scope=email%20profile&prompt=select_account`;
             
             // 구글 로그인 창으로 이동
             window.location.href = authUrl;
@@ -333,6 +335,11 @@
             // 네이버 로그인 버튼 클릭 시 숨겨진 네이버 버튼을 클릭하도록 트리거
             const naverLoginBtn = document.querySelector('#naverIdLogin a');
             if (naverLoginBtn) {
+                // auth_type=reprompt 를 추가하여 매번 계정 선택/로그인 강제
+                let href = naverLoginBtn.getAttribute('href');
+                if (href && !href.includes('auth_type=reprompt')) {
+                    naverLoginBtn.setAttribute('href', href + '&auth_type=reprompt');
+                }
                 naverLoginBtn.click();
             }
         }
