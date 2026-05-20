@@ -171,8 +171,8 @@
     <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 7000; display: none; justify-content: center; align-items: center; padding: 20px;" id="inapp-browser-modal" onclick="if(event.target === this) this.style.display='none'">
         <div style="background: rgba(20, 20, 20, 0.95); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 28px; width: 100%; max-width: 400px; padding: 30px; text-align: center;">
             <div style="font-size: 40px; margin-bottom: 15px;">🚨</div>
-            <h2 style="font-size: 20px; color: #D4AF37; line-height: 1.4;">카카오톡 시스템상<br>다운로드할 수 없어요 ㅜ</h2>
-            <p style="margin-top: 15px; font-size: 14px; color: #D1D5DB; line-height: 1.6;">다른 웹 브라우저(Chrome, Safari 등)로 열어서<br>다운로드 할 수 있습니다.</p>
+            <h2 style="font-size: 20px; color: #D4AF37; line-height: 1.4;">카카오톡 브라우저 정책상<br>직접 다운로드가 제한되어 있습니다.</h2>
+            <p style="margin-top: 15px; font-size: 14px; color: #D1D5DB; line-height: 1.6;">안전하고 원활한 파일 저장을 위해<br>기본 브라우저(Chrome, Safari 등)를 이용해 주세요.</p>
             
             <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
                 <button onclick="openExternalBrowser()" style="background: #D4AF37; color: #000; border: none; font-size: 15px; font-weight: bold; padding: 14px; border-radius: 12px; cursor: pointer; transition: 0.2s;">
@@ -228,13 +228,24 @@
 
         function openExternalBrowser() {
             var targetUrl = window.location.href;
+            try {
+                const uid = localStorage.getItem('gils_userId');
+                const uname = localStorage.getItem('gils_user');
+                if (uid) {
+                    const urlObj = new URL(targetUrl);
+                    urlObj.searchParams.set('autoLoginId', uid);
+                    if (uname) urlObj.searchParams.set('autoLoginNick', uname);
+                    targetUrl = urlObj.toString();
+                }
+            } catch(e) {}
+
             var userAgent = navigator.userAgent.toLowerCase();
             if (userAgent.indexOf("kakaotalk") > -1) {
                 location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(targetUrl);
             } else if (userAgent.indexOf("android") > -1) {
-                location.href = 'intent://' + targetUrl.replace(/https?:\\/\\//i, '') + '#Intent;scheme=https;package=com.android.chrome;end';
+                location.href = 'intent://' + targetUrl.replace(/https?:\/\//i, '') + '#Intent;scheme=https;package=com.android.chrome;end';
             } else {
-                alert('화면 하단 또는 상단의 [ ⋮ ] 메뉴 버튼을 눌러서\\n👉 "다른 브라우저로 열기(Safari / Chrome)"를 선택해 주세요.');
+                alert('화면 하단 또는 상단의 [ ⋮ ] 메뉴 버튼을 눌러서\n👉 "다른 브라우저로 열기(Safari / Chrome)"를 선택해 주세요.');
             }
         }
 
@@ -263,7 +274,8 @@
             }
         }
 
-        window.onload = loadTrackInfo;
+        // window.onload 대신 즉시 실행 (모바일 인앱 브라우저 호환성)
+        loadTrackInfo();
     </script>
 </body>
 </html>
