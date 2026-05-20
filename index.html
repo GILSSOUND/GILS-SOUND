@@ -84,11 +84,45 @@
 </head>
 <body>
     <div class="overlay"></div>
-    <div class="hero-card">
+    
+    <!-- Main Hero -->
+    <div class="hero-card" style="margin-bottom: 40px; margin-top: 60px;">
         <div class="logo">GILS SOUND</div>
         <div class="subtitle">단 몇 번의 클릭으로 당신만의 완벽한 음악을.<br>지금 가입하고 AI가 작곡한 프리미엄 사운드를 경험하세요.</div>
         <a href="login.html" class="btn-start">지금 회원가입하기 (3곡 무료)</a>
     </div>
+    </div>
+
+    <!-- Pricing Section (for PG Approval) -->
+    <div class="hero-card" style="margin-bottom: 60px; padding: 40px; max-width: 800px;">
+        <h2 style="color: var(--primary-gold); margin-bottom: 30px; font-size: 24px;">GILS SOUND 요금제 (플랜) 안내</h2>
+        <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+            <div style="background: rgba(0,0,0,0.5); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(255,255,255,0.1);">
+                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;">베이직 플랜 (Basic)</h3>
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">무료 (Free)</p>
+                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">가입 시 3크레딧 즉시 지급<br>개인 소장용 음악 생성</p>
+            </div>
+            <div style="background: rgba(212,175,55,0.1); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(212,175,55,0.3);">
+                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;">프로 크리에이터 팩</h3>
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩19,900 / 월</p>
+                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">매월 100크레딧 지급<br>상업적 이용 100% 허용 (유튜브 등)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PG Required Footer -->
+    <footer style="width: 100%; padding: 40px 20px; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: #9CA3AF; font-size: 12px; line-height: 1.8;">
+        <div style="margin-bottom: 15px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            <a href="terms.html" style="color: #D4AF37; text-decoration: none; font-weight: bold;">이용약관 (환불정책 포함)</a>
+            <a href="privacy.html" style="color: #D4AF37; text-decoration: none; font-weight: bold;">개인정보처리방침</a>
+        </div>
+        <p>
+            상호명: 길스유통 | 대표자: [대표자 성함] | 사업자등록번호: 293-45-01112<br>
+            연락처: 010-9929-4199 | 이메일: support@gilssound.com<br>
+            사업장 소재지: 부산광역시 북구 의성로 127번길 5 1층
+        </p>
+        <p style="margin-top: 15px; opacity: 0.5;">© 2026 GILS SOUND. All rights reserved.</p>
+    </footer>
     
     <script>
         // 만약 이미 로그인 되어 있다면 로그인 과정을 스킵하고 메인으로 이동
