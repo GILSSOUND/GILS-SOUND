@@ -263,7 +263,7 @@
                 }
                 
                 Kakao.Auth.login({
-                    prompts: 'login', // 항상 로그인 화면을 띄워 계정 입력 강제
+                    throughTalk: false, // 카카오톡 앱 자동 로그인을 방지하고 브라우저 로그인 창을 유도
                     success: function(authObj) {
                         Kakao.API.request({
                             url: '/v2/user/me',

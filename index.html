@@ -110,10 +110,12 @@
                 alert("서비스 가입을 위해 이용약관 및 개인정보처리방침을 읽고 동의 체크를 해주세요!");
                 return;
             }
-            window.location.href = "login.html";
+            // 아이폰(Safari)이나 카카오톡 인앱 브라우저에서 화면 전환이 무시되는 버그를 방지
+            setTimeout(() => {
+                window.location.href = "/login.html";
+            }, 100);
         }
     </script>
-    </div>
 
     <!-- Pricing Section (for PG Approval) -->
     <div class="hero-card" style="margin-bottom: 60px; padding: 40px; max-width: 1000px;">
