@@ -89,23 +89,50 @@
     <div class="hero-card" style="margin-bottom: 40px; margin-top: 60px;">
         <div class="logo">GILS SOUND</div>
         <div class="subtitle">단 몇 번의 클릭으로 당신만의 완벽한 음악을.<br>지금 가입하고 AI가 작곡한 프리미엄 사운드를 경험하세요.</div>
-        <a href="login.html" class="btn-start">지금 회원가입하기 (3곡 무료)</a>
+        <!-- 약관 동의 체크박스 -->
+        <div style="margin: 30px 0 20px 0; text-align: left; background: rgba(0,0,0,0.4); padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                <input type="checkbox" id="agree-terms" style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--primary-gold);">
+                <span style="font-size: 14px; color: #E5E7EB;">
+                    <a href="terms.html" target="_blank" style="color: var(--primary-gold); text-decoration: underline;">이용약관(환불정책)</a> 및 
+                    <a href="privacy.html" target="_blank" style="color: var(--primary-gold); text-decoration: underline;">개인정보처리방침</a>을 읽었으며 이에 동의합니다. (필수)
+                </span>
+            </label>
+        </div>
+        
+        <button onclick="checkTermsAndGo()" class="btn-start" style="border: none; cursor: pointer;">지금 회원가입하기 (3곡 무료)</button>
     </div>
+
+    <script>
+        function checkTermsAndGo() {
+            const isChecked = document.getElementById('agree-terms').checked;
+            if (!isChecked) {
+                alert("서비스 가입을 위해 이용약관 및 개인정보처리방침을 읽고 동의 체크를 해주세요!");
+                return;
+            }
+            window.location.href = "login.html";
+        }
+    </script>
     </div>
 
     <!-- Pricing Section (for PG Approval) -->
-    <div class="hero-card" style="margin-bottom: 60px; padding: 40px; max-width: 800px;">
+    <div class="hero-card" style="margin-bottom: 60px; padding: 40px; max-width: 1000px;">
         <h2 style="color: var(--primary-gold); margin-bottom: 30px; font-size: 24px;">GILS SOUND 요금제 (플랜) 안내</h2>
         <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
             <div style="background: rgba(0,0,0,0.5); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(255,255,255,0.1);">
-                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;">베이직 플랜 (Basic)</h3>
-                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">무료 (Free)</p>
-                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">가입 시 3크레딧 즉시 지급<br>개인 소장용 음악 생성</p>
+                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;">싱글 체험 팩</h3>
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩990 / 1곡</p>
+                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">1곡 생성 크레딧 충전<br>모든 상업적 이용 허용 가능</p>
+            </div>
+            <div style="background: rgba(212,175,55,0.1); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(212,175,55,0.3);">
+                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;">스타터 패키지</h3>
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩5,990 / 10곡</p>
+                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">총 10곡 생성 크레딧 충전<br>모든 상업적 이용 허용 가능</p>
             </div>
             <div style="background: rgba(212,175,55,0.1); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(212,175,55,0.3);">
                 <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;">프로 크리에이터 팩</h3>
-                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩19,900 / 월</p>
-                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">매월 100크레딧 지급<br>상업적 이용 100% 허용 (유튜브 등)</p>
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩19,900 / 100곡</p>
+                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">총 100곡 생성 크레딧 충전<br>모든 상업적 이용 허용 가능</p>
             </div>
         </div>
     </div>
