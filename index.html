@@ -25,6 +25,27 @@
             justify-content: center;
             padding: 20px;
         }
+        .top-left-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #E5E7EB;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        .top-left-link:hover {
+            background: rgba(212,175,55,0.2);
+            color: #D4AF37;
+            border-color: rgba(212,175,55,0.5);
+        }
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.4));
@@ -83,6 +104,7 @@
     </style>
 </head>
 <body>
+    <a href="notice.html" class="top-left-link">📢 상업적이용 및 공지사항</a>
     <div class="overlay"></div>
     
     <!-- Main Hero -->
@@ -122,19 +144,31 @@
         <h2 style="color: var(--primary-gold); margin-bottom: 30px; font-size: 24px;">GILS SOUND 요금제 (플랜) 안내</h2>
         <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
             <div style="background: rgba(0,0,0,0.5); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(255,255,255,0.1);">
-                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;">싱글 체험 팩</h3>
-                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩990 / 1곡</p>
-                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">1곡 생성 크레딧 충전<br>모든 상업적 이용 허용 가능</p>
+                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;">싱글 체험 팩 (단건)</h3>
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩990 <span style="font-size:14px; color:#9ca3af;">/ 1곡</span></p>
+                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">1곡 생성 크레딧 충전<br>모든 상업적 이용 허용</p>
             </div>
-            <div style="background: rgba(212,175,55,0.1); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(212,175,55,0.3);">
-                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;">스타터 패키지</h3>
-                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩5,990 / 10곡</p>
-                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">총 10곡 생성 크레딧 충전<br>모든 상업적 이용 허용 가능</p>
+            <div style="background: rgba(0,0,0,0.5); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(255,255,255,0.1);">
+                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;">스타터 패키지 (단건)</h3>
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩5,990 <span style="font-size:14px; color:#9ca3af;">/ 10곡</span></p>
+                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">총 10곡 생성 크레딧 충전<br>모든 상업적 이용 허용</p>
             </div>
-            <div style="background: rgba(212,175,55,0.1); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(212,175,55,0.3);">
-                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;">프로 크리에이터 팩</h3>
-                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩19,900 / 100곡</p>
-                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">총 100곡 생성 크레딧 충전<br>모든 상업적 이용 허용 가능</p>
+            <div style="background: rgba(212,175,55,0.1); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(212,175,55,0.4); position: relative;">
+                <div style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--primary-gold); color:#000; font-size:11px; font-weight:bold; padding:4px 10px; border-radius:12px;">월플랜 (한달이용권)</div>
+                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px; margin-top:10px;">프로 크리에이터 팩</h3>
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩19,900 <span style="font-size:14px; color:#9ca3af;">/ 30일</span></p>
+                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">총 100곡 생성 크레딧 제공<br>결제일로부터 30일간 유효<br>모든 상업적 이용 허용</p>
+            </div>
+            <div style="background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(0,0,0,0.8)); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 2px solid var(--primary-gold); position: relative; box-shadow: 0 10px 30px rgba(212,175,55,0.2);">
+                <div style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:linear-gradient(90deg, #D4AF37, #FDE047); color:#000; font-size:11px; font-weight:bold; padding:4px 12px; border-radius:12px;">연플랜 (1년구독권)</div>
+                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px; margin-top:10px;">VVIP 마스터 플랜</h3>
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩99,000 <span style="font-size:14px; color:#9ca3af;">/ 365일</span></p>
+                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6; text-align: left; padding-left: 10px;">
+                    ✨ <b>매달 100곡 리필</b> (총 1,200곡)<br>
+                    🎧 <b>VVIP 초고음질 음원</b> 제공<br>
+                    🚀 <b>최우선 생성 대기열</b> 배정<br>
+                    💾 무제한 고음질 다운로드
+                </p>
             </div>
         </div>
     </div>

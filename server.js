@@ -17,6 +17,9 @@ const userSchema = new mongoose.Schema({
     platform: { type: String },
     nickname: { type: String },
     credits: { type: Number, default: 3 }, // 기본 가입 축하 코인 3개
+    planType: { type: String, default: 'none' }, // 'none', 'monthly', 'yearly'
+    planEndDate: { type: Date }, // 플랜 전체 만료일
+    planResetDate: { type: Date }, // 연플랜의 다음 크레딧 리셋 날짜
     createdAt: { type: Date, default: Date.now }
 });
 
@@ -44,6 +47,39 @@ app.use(express.json());
 // 정적 파일 서빙 (HTML, CSS, 이미지 등)
 app.use(express.static(__dirname));
 
+// [유틸] 유저 플랜 지연 평가 (Lazy Evaluation)
+// 접속하거나 동작할 때마다 만료/리셋 여부를 검사하여 처리합니다.
+async function evaluateUserPlan(user) {
+    if (!user) return null;
+    const now = new Date();
+    let isModified = false;
+
+    // 1. 만료 체크 (월플랜/연플랜 공통)
+    if (user.planType !== 'none' && user.planEndDate && now > user.planEndDate) {
+        user.planType = 'none';
+        user.planEndDate = undefined;
+        user.planResetDate = undefined;
+        user.credits = 0; // 플랜 만료 시 남은 크레딧 전액 소멸 (이월 불가 원칙)
+        isModified = true;
+        console.log(`[Plan Expired] User: ${user.userId}`);
+    } 
+    // 2. 리셋 체크 (연플랜 전용, 아직 만료 전일 경우)
+    else if (user.planType === 'yearly' && user.planResetDate && now > user.planResetDate) {
+        // 현재 시간이 리셋 날짜를 여러 달 지났을 수도 있으므로, 현재 시점보다 미래가 될 때까지 30일씩 더함
+        while (now > user.planResetDate && user.planResetDate < user.planEndDate) {
+            user.planResetDate = new Date(user.planResetDate.getTime() + 30 * 24 * 60 * 60 * 1000);
+        }
+        user.credits = 100; // 무조건 100으로 덮어쓰기 (이월 절대 불가)
+        isModified = true;
+        console.log(`[Plan Reset] User: ${user.userId} - 100 credits refilled. Next reset: ${user.planResetDate}`);
+    }
+
+    if (isModified) {
+        await user.save();
+    }
+    return user;
+}
+
 // [DB] 로그인 및 정보 동기화 (최초 로그인 시 DB 등록, 기존 유저면 DB 정보 반환)
 app.post('/api/user/sync', async (req, res) => {
     try {
@@ -57,12 +93,13 @@ app.post('/api/user/sync', async (req, res) => {
             await user.save();
             console.log(`[DB] New User Created: ${userId} (${platform})`);
         } else {
-            // 기존 유저 닉네임 업데이트 (필요 시)
+            // 기존 유저 닉네임 업데이트 및 플랜 평가
             if (nickname && user.nickname !== nickname) {
                 user.nickname = nickname;
                 await user.save();
             }
-            console.log(`[DB] Existing User Synced: ${userId} (Credits: ${user.credits})`);
+            user = await evaluateUserPlan(user);
+            console.log(`[DB] Existing User Synced: ${userId} (Credits: ${user.credits}, Plan: ${user.planType})`);
         }
         res.json({ success: true, user });
     } catch (error) {
@@ -194,9 +231,14 @@ app.post('/api/music', async (req, res) => {
         }
         
         if (userId) {
-            const user = await User.findOne({ userId });
-            if (!user || user.credits < 1) {
-                return res.status(403).json({ error: "크레딧이 부족합니다. 결제가 필요합니다." });
+            let user = await User.findOne({ userId });
+            if (user) {
+                user = await evaluateUserPlan(user);
+                if (user.credits < 1) {
+                    return res.status(403).json({ error: "크레딧이 부족합니다. 결제가 필요합니다." });
+                }
+            } else {
+                return res.status(403).json({ error: "유저를 찾을 수 없습니다." });
             }
         }
 
@@ -357,14 +399,27 @@ app.post('/api/payment/verify', async (req, res) => {
                 // 비정상 케이스이나 혹시 유저 DB가 없으면 생성
                 user = new User({ userId, platform: '소셜', nickname: userId, credits: 3 });
             }
+            
+            // 만약 기존 플랜이 있다면 평가 후 처리
+            user = await evaluateUserPlan(user);
 
-            // 구독형 결제 처리: 100크레딧 부여, 향후 billing key 로직 확장 시 customer_uid 사용
-            if (isSubscription) {
-                user.credits += 100; // 구독은 매월 100크레딧 부여
-                console.log(`[결제성공] 정기구독(빌링키 발급완료) - 유저: ${userId}, 부여: 100크레딧`);
+            const now = new Date();
+            if (planName === '연플랜') {
+                user.planType = 'yearly';
+                user.planEndDate = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000); // 365일 뒤 만료
+                user.planResetDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30일 뒤 리셋
+                user.credits = 100; // 결제 즉시 100크레딧 (이월 안 됨)
+                console.log(`[결제성공] 연플랜(1년구독권) - 유저: ${userId}, 100크레딧 지급`);
+            } else if (planName === '월플랜') {
+                user.planType = 'monthly';
+                user.planEndDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30일 뒤 만료
+                user.planResetDate = undefined;
+                user.credits = 100; // 결제 즉시 100크레딧 (이월 안 됨)
+                console.log(`[결제성공] 월플랜(1달이용권) - 유저: ${userId}, 100크레딧 지급`);
             } else {
+                // 일반 단건 결제
                 user.credits += creditsToAdd;
-                console.log(`[결제성공] 단건결제 - 유저: ${userId}, 상품: ${planName}, 충전금액: ${expectedPrice}원, 충전량: ${creditsToAdd}곡`);
+                console.log(`[결제성공] 단건결제 - 유저: ${userId}, 상품: ${planName}, 충전량: ${creditsToAdd}곡`);
             }
             
             await user.save();
