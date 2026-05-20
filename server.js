@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const nodemailer = require('nodemailer');
 const mongoose = require('mongoose');
+const fs = require('fs');
 
 // Mongoose Connection
 mongoose.connect(process.env.MONGODB_URI)
@@ -265,6 +266,7 @@ app.post('/api/music', async (req, res) => {
             
             // [DB 연동] 크레딧 차감 및 노래 보관함 저장
             let updatedCredits = null;
+            let newSongId = null;
             if (userId) {
                 const user = await User.findOne({ userId });
                 if (user && user.credits >= 1) {
@@ -283,6 +285,7 @@ app.post('/api/music', async (req, res) => {
                         imageUrl: imageUrl || '2.한국인/여자/woman_influencer_2.png'
                     });
                     await newSong.save();
+                    newSongId = newSong._id;
                     console.log(`[DB] Song saved and credit deducted for ${userId}. Remaining credits: ${updatedCredits}`);
                 }
             }
@@ -290,7 +293,8 @@ app.post('/api/music', async (req, res) => {
             res.json({
                 status: "success",
                 audioUrl: finalAudioUrl,
-                remaining_credits: updatedCredits
+                remaining_credits: updatedCredits,
+                trackId: newSongId
             });
         } else {
             console.log(" -> [ERROR] Generation failed on Suno AI server.");
@@ -375,6 +379,44 @@ app.post('/api/payment/verify', async (req, res) => {
     } catch (error) {
         console.error("결제 검증 서버 에러:", error);
         res.status(500).json({ success: false, error: "서버 오류로 인해 결제 검증에 실패했습니다." });
+    }
+});
+
+// [DB] 특정 곡 정보 API (공유 페이지용)
+app.get('/api/track/:id', async (req, res) => {
+    try {
+        const song = await Song.findById(req.params.id);
+        if (!song) return res.status(404).json({ error: "곡을 찾을 수 없습니다." });
+        res.json({ success: true, song });
+    } catch (e) {
+        res.status(500).json({ error: "서버 오류" });
+    }
+});
+
+// 동적 공유 페이지 (Open Graph 메타 태그 렌더링)
+app.get('/track/:id', async (req, res) => {
+    try {
+        const song = await Song.findById(req.params.id);
+        if (!song) {
+            return res.redirect('/');
+        }
+        
+        let html = fs.readFileSync(path.join(__dirname, 'track_template.html'), 'utf8');
+        html = html.replace(/__OG_TITLE__/g, song.title || 'GILS SOUND Original');
+        html = html.replace(/__OG_DESCRIPTION__/g, 'GILS SOUND에서 AI로 창작된 프리미엄 음악입니다. 지금 바로 들어보세요!');
+        
+        // 커버 이미지 절대 경로로 변환 (상대 경로일 경우 대비)
+        let safeImageUrl = song.imageUrl || '2.한국인/여자/woman_influencer_2.png';
+        if (safeImageUrl && !safeImageUrl.startsWith('http')) {
+            safeImageUrl = 'https://gilssound.com/' + safeImageUrl;
+        }
+        html = html.replace(/__OG_IMAGE__/g, safeImageUrl);
+        html = html.replace(/__OG_URL__/g, `https://gilssound.com/track/${req.params.id}`);
+        html = html.replace(/__TRACK_ID__/g, req.params.id);
+        
+        res.send(html);
+    } catch(e) {
+        res.redirect('/');
     }
 });
 

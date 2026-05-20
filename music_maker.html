@@ -1519,6 +1519,27 @@
         </div>
     </div>
 
+    <!-- In-App Browser Warning Modal -->
+    <div class="library-modal-overlay" id="inapp-browser-modal" style="z-index: 7000; display: none;" onclick="if(event.target === this) this.style.display='none'">
+        <div class="library-modal" style="max-width: 400px; text-align: center; padding: 30px;">
+            <div class="library-close" onclick="document.getElementById('inapp-browser-modal').style.display='none'">×</div>
+            <div class="library-header" style="margin-bottom: 25px;">
+                <div style="font-size: 40px; margin-bottom: 15px;">🚨</div>
+                <h2 style="font-size: 20px; color: var(--primary-gold); line-height: 1.4;">카카오톡 시스템상<br>다운로드할 수 없어요 ㅜ</h2>
+                <p style="margin-top: 15px; font-size: 14px; color: #D1D5DB; line-height: 1.6;">다른 웹 브라우저(Chrome, Safari 등)로 열어서<br>다운로드 할 수 있습니다.</p>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
+                <button class="btn-checkout" onclick="openExternalBrowser()" style="background: var(--primary-gold); color: #000; border: none; font-size: 15px; font-weight: bold; padding: 14px; border-radius: 12px; cursor: pointer; transition: 0.2s;">
+                    🌐 다른 웹브라우저로 열기
+                </button>
+                <button class="btn-checkout" onclick="document.getElementById('inapp-browser-modal').style.display='none'" style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); font-size: 15px; font-weight: bold; padding: 14px; border-radius: 12px; cursor: pointer; transition: 0.2s;">
+                    닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         if (!localStorage.getItem('gils_user')) {
             alert('로그인이 필요한 프리미엄 서비스입니다.');
@@ -1543,6 +1564,7 @@
                     const libData = await libRes.json();
                     if (libData.success) {
                         myLibrarySongs = libData.songs.map(song => ({
+                            id: song._id,
                             title: song.title,
                             genre: song.genreLabel,
                             cover: song.imageUrl || '2.한국인/여자/woman_influencer_2.png',
@@ -1715,10 +1737,10 @@
             document.getElementById('full-lyrics-modal').style.display = 'none';
         }
 
-        let currentShareData = { title: '', audioUrl: '', cover: '' };
+        let currentShareData = { title: '', trackId: '', cover: '', audioUrl: '' };
 
-        function shareSong(title, audioUrl, cover) {
-            currentShareData = { title, audioUrl, cover: cover || '' };
+        function shareSong(title, trackId, cover, audioUrl) {
+            currentShareData = { title, trackId, cover: cover || '', audioUrl: audioUrl || '' };
             document.getElementById('share-modal').style.display = 'flex';
         }
 
@@ -1731,8 +1753,7 @@
                 Kakao.init('71152f0f5bebe8e5723b2859888b4a15'); // 카카오 JavaScript 키
             }
             
-            let linkUrl = currentShareData.audioUrl;
-            if (linkUrl.startsWith('/')) linkUrl = window.location.origin + linkUrl;
+            const trackUrl = 'https://gilssound.com/track/' + currentShareData.trackId;
             
             let coverUrl = currentShareData.cover;
             if (coverUrl && coverUrl.startsWith('/')) {
@@ -1741,21 +1762,21 @@
                 coverUrl = window.location.origin + '/' + coverUrl;
             }
             
-            const shareText = `${currentShareData.title} - 🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${currentShareData.title}\n\n👇 아래 링크를 눌러 노래 듣기 (MP3):\n${currentShareData.audioUrl}\n\n✨ 나도 AI 음악 만들기:\nhttps://gilssound.com`;
+            const shareText = `${currentShareData.title} - 🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${currentShareData.title}\n\n👇 아래 링크를 눌러 전용 플레이어로 듣기:\n${trackUrl}\n\n✨ 나도 AI 음악 만들기:\nhttps://gilssound.com`;
 
             Kakao.Share.sendDefault({
                 objectType: 'text',
                 text: shareText,
                 link: {
-                    mobileWebUrl: 'https://gilssound.com',
-                    webUrl: 'https://gilssound.com',
+                    mobileWebUrl: trackUrl,
+                    webUrl: trackUrl,
                 },
                 buttons: [
                     {
-                        title: '✨ GILS SOUND 바로가기',
+                        title: '✨ 전용 플레이어로 노래 듣기',
                         link: {
-                            mobileWebUrl: 'https://gilssound.com',
-                            webUrl: 'https://gilssound.com',
+                            mobileWebUrl: trackUrl,
+                            webUrl: trackUrl,
                         },
                     }
                 ],
@@ -1764,14 +1785,16 @@
         }
 
         function shareToBand() {
-            const shareText = `🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${currentShareData.title}\n\n👇 아래 링크를 눌러 노래 듣기 (MP3):\n${currentShareData.audioUrl}\n\n✨ 나도 AI 음악 만들기:\n${window.location.origin}`;
+            const trackUrl = 'https://gilssound.com/track/' + currentShareData.trackId;
+            const shareText = `🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${currentShareData.title}\n\n👇 아래 링크를 눌러 전용 플레이어로 듣기:\n${trackUrl}\n\n✨ 나도 AI 음악 만들기:\n${window.location.origin}`;
             const encodedText = encodeURIComponent(shareText);
             window.open(`https://band.us/plugin/share?body=${encodedText}&route=${encodeURIComponent(window.location.origin)}`, '_blank');
             closeShareModal();
         }
 
         function shareToSMS() {
-            const shareText = `🎵 [GILS SOUND]에서 제가 만든 음악 들어보세요!\n\n🎧 제목: ${currentShareData.title}\n👇 노래 바로 듣기:\n${currentShareData.audioUrl}`;
+            const trackUrl = 'https://gilssound.com/track/' + currentShareData.trackId;
+            const shareText = `🎵 [GILS SOUND]에서 제가 만든 음악 들어보세요!\n\n🎧 제목: ${currentShareData.title}\n👇 노래 바로 듣기:\n${trackUrl}`;
             const encodedText = encodeURIComponent(shareText);
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
             if(isIOS) {
@@ -1783,8 +1806,9 @@
         }
 
         async function copyShareText() {
+            const trackUrl = 'https://gilssound.com/track/' + currentShareData.trackId;
             const title = currentShareData.title || 'GILS_SOUND_Music';
-            const shareText = `${title} - 🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${title}\n\n👇 아래 링크를 눌러 노래 듣기 (MP3):\n${currentShareData.audioUrl}\n\n✨ 나도 AI 음악 만들기:\nhttps://gilssound.com`;
+            const shareText = `${title} - 🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${title}\n\n👇 아래 링크를 눌러 전용 플레이어로 듣기:\n${trackUrl}\n\n✨ 나도 AI 음악 만들기:\nhttps://gilssound.com`;
             
             try {
                 if (navigator.share) {
@@ -1844,7 +1868,7 @@
                                     <button onclick="toggleMenu(${originalIndex})" style="background: none; border: none; color: #ccc; font-size: 18px; font-weight: bold; cursor: pointer; padding: 0 5px; height: 100%;" title="메뉴">⋮</button>
                                     <div id="live-menu-${originalIndex}" style="display: none; position: absolute; right: 0; top: 25px; background: #1F2937; border: 1px solid #374151; border-radius: 8px; padding: 6px; z-index: 100; flex-direction: column; gap: 4px; min-width: 150px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
                                         <button onclick="toggleMenu(${originalIndex}); downloadSong('${song.audioUrl}', '${safeTitle}')" style="background:none; border:none; color:white; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='none'">다운로드</button>
-                                        <button onclick="toggleMenu(${originalIndex}); shareSong('${safeTitle}', '${song.audioUrl}', '${song.cover}')" style="background:none; border:none; color:#60A5FA; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(96, 165, 250, 0.1)'" onmouseout="this.style.background='none'">공유하기</button>
+                                        <button onclick="toggleMenu(${originalIndex}); shareSong('${safeTitle}', '${song.id}', '${song.cover}', '${song.audioUrl}')" style="background:none; border:none; color:#60A5FA; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(96, 165, 250, 0.1)'" onmouseout="this.style.background='none'">공유하기</button>
                                         <button onclick="toggleMenu(${originalIndex}); viewPrompt('${safePrompt}')" style="background:none; border:none; color:var(--primary-gold); text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(212, 175, 55, 0.1)'" onmouseout="this.style.background='none'">상세 프롬프트 보기</button>
                                         <button onclick="toggleMenu(${originalIndex}); deleteSong(${originalIndex})" style="background:none; border:none; color:#F87171; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(248, 113, 113, 0.1)'" onmouseout="this.style.background='none'">삭제</button>
                                     </div>
@@ -1934,10 +1958,22 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function openExternalBrowser() {
+            var targetUrl = window.location.href;
+            var userAgent = navigator.userAgent.toLowerCase();
+            if (userAgent.indexOf("kakaotalk") > -1) {
+                location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(targetUrl);
+            } else if (userAgent.indexOf("android") > -1) {
+                location.href = 'intent://' + targetUrl.replace(/https?:\/\//i, '') + '#Intent;scheme=https;package=com.android.chrome;end';
+            } else {
+                alert('화면 하단 또는 상단의 [ ⋮ ] 메뉴 버튼을 눌러서\n👉 "다른 브라우저로 열기(Safari / Chrome)"를 선택해 주세요.');
+            }
+        }
+
         async function downloadSong(audioUrl, title) {
             const userAgent = navigator.userAgent.toLowerCase();
             if (userAgent.indexOf("kakaotalk") > -1 || userAgent.indexOf("instagram") > -1 || userAgent.indexOf("line") > -1 || userAgent.indexOf("inapp") > -1) {
-                alert("🚨 카카오톡 등 앱 내장 브라우저에서는 파일 다운로드가 막혀있습니다!\n\n화면 하단 또는 상단의 [ ⋮ ] 메뉴 버튼을 눌러서\n👉 '다른 브라우저로 열기(Safari / Chrome)'를 선택하신 후 다시 시도해 주세요.");
+                document.getElementById('inapp-browser-modal').style.display = 'flex';
                 return;
             }
 
@@ -2307,6 +2343,7 @@
                 resultArea.style.display = 'block';
                 
                 myLibrarySongs.unshift({
+                    id: data.trackId,
                     title: finalTitle,
                     genre: finalData.genreLabel,
                     cover: finalData.image,
@@ -2447,6 +2484,7 @@
                 
                 // 내 보관함(Library) 배열에 새로 창작된 곡 추가 및 뱃지 업데이트
                 myLibrarySongs.unshift({
+                    id: data.trackId,
                     title: titleInput || '아름다운 선율',
                     genre: generatedGenreLabel,
                     cover: imageInput,
