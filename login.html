@@ -262,8 +262,8 @@
                     Kakao.init(KAKAO_JAVASCRIPT_KEY);
                 }
                 
-                Kakao.Auth.login({
-                    throughTalk: false, // 카카오톡 앱 자동 로그인을 방지하고 브라우저 로그인 창을 유도
+                // 카카오 로그인 시 무조건 폼(계정 입력창)을 띄우는 전용 함수 사용
+                Kakao.Auth.loginForm({
                     success: function(authObj) {
                         Kakao.API.request({
                             url: '/v2/user/me',
@@ -303,6 +303,17 @@
                 alert("구글 Client ID가 입력되지 않았습니다.");
                 return;
             }
+
+            // 구글 '보안 브라우저 정책(403 disallowed_useragent)' 대응: 인앱 브라우저 강제 탈출
+            const userAgent = navigator.userAgent.toLowerCase();
+            if (userAgent.includes('kakaotalk')) {
+                alert("카카오톡 브라우저에서는 구글 로그인이 차단되어 있습니다.\n확인을 누르시면 안전한 기본 웹브라우저(Safari/Chrome)로 자동 연결됩니다.");
+                location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(window.location.href);
+                return;
+            } else if (userAgent.includes('line') || userAgent.includes('instagram') || userAgent.includes('naver')) {
+                alert("구글 보안 정책으로 인해 현재 앱 내 브라우저에서는 로그인이 불가능합니다.\n화면 우측 하단의 [다른 브라우저(Safari/Chrome)로 열기]를 선택해 주세요.");
+                return;
+            }
             
             // 콜백 시 구글인지 네이버인지 명확히 구분하기 위해 세션에 기록
             sessionStorage.setItem('gils_login_provider', 'google');
@@ -332,16 +343,13 @@
             // 네이버는 팝업을 사용하므로 세션 기록 불필요 (단일 팝업)
             sessionStorage.removeItem('gils_login_provider');
             
-            // 네이버 로그인 버튼 클릭 시 숨겨진 네이버 버튼을 클릭하도록 트리거
-            const naverLoginBtn = document.querySelector('#naverIdLogin a');
-            if (naverLoginBtn) {
-                // auth_type=reprompt 를 추가하여 매번 계정 선택/로그인 강제
-                let href = naverLoginBtn.getAttribute('href');
-                if (href && !href.includes('auth_type=reprompt')) {
-                    naverLoginBtn.setAttribute('href', href + '&auth_type=reprompt');
-                }
-                naverLoginBtn.click();
-            }
+            // 네이버 SDK 버튼 대신 직접 리디렉션 주소 생성 (auth_type=reprompt 강제 적용을 위해)
+            sessionStorage.setItem('gils_login_provider', 'naver');
+            const cleanUrl = window.location.origin + window.location.pathname;
+            const redirectUri = encodeURIComponent(cleanUrl);
+            const state = Math.random().toString(36).substring(2, 15);
+            const authUrl = `https://nid.naver.com/oauth2.0/authorize?client_id=${NAVER_CLIENT_ID}&response_type=token&redirect_uri=${redirectUri}&state=${state}&auth_type=reprompt`;
+            window.location.href = authUrl;
         }
 
         // 네이버 SDK 초기화
