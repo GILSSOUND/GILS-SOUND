@@ -149,18 +149,34 @@ JSON 구조:
         const fullPrompt = systemPromptText + story;
         const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_TOKEN}`;
 
-        console.log("-> Calling Google Gemini API...");
-        const fetchResponse = await fetch(geminiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: fullPrompt }] }]
-            })
-        });
+        let fetchResponse;
+        let data;
+        let retries = 3; // 최대 3번 시도
+        let delayMs = 1500; // 1.5초 대기 후 재시도
 
-        const data = await fetchResponse.json();
-        if (!fetchResponse.ok) {
-            throw new Error(data.error?.message || "Gemini API 요청 실패");
+        for (let i = 0; i < retries; i++) {
+            console.log(`-> Calling Google Gemini API... (Attempt ${i + 1}/${retries})`);
+            fetchResponse = await fetch(geminiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: fullPrompt }] }]
+                })
+            });
+
+            data = await fetchResponse.json();
+            
+            if (fetchResponse.ok) {
+                break; // 성공 시 반복문 탈출
+            }
+            
+            // 마지막 시도이거나, 503(과부하) 에러가 아닌 경우에는 바로 에러 던짐
+            if (i === retries - 1 || fetchResponse.status !== 503) {
+                throw new Error(data.error?.message || "Gemini API 요청 실패");
+            }
+            
+            console.log(`[Gemini API] 503 Error. Retrying in ${delayMs}ms...`);
+            await new Promise(resolve => setTimeout(resolve, delayMs));
         }
 
         const rawText = data.candidates[0].content.parts[0].text;
