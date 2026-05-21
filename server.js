@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     platform: { type: String },
     nickname: { type: String },
     credits: { type: Number, default: 3 }, // 기본 가입 축하 코인 3개
-    planType: { type: String, default: 'none' }, // 'none', 'monthly', 'yearly'
+    planType: { type: String, default: 'none' }, // 'none', 'single', 'monthly', 'yearly'
     planEndDate: { type: Date }, // 플랜 전체 만료일
     planResetDate: { type: Date }, // 연플랜의 다음 크레딧 리셋 날짜
     createdAt: { type: Date, default: Date.now }
@@ -433,9 +433,12 @@ app.post('/api/payment/verify', async (req, res) => {
                 user.credits = 100; // 결제 즉시 100크레딧 (이월 안 됨)
                 console.log(`[결제성공] 월플랜(1달이용권) - 유저: ${userId}, 100크레딧 지급`);
             } else {
-                // 일반 단건 결제
+                // 일반 단건 결제 (싱글 체험 팩 / 스타터 패키지)
+                user.planType = 'single';
+                user.planEndDate = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000); // 365일 뒤 자동 소멸
+                user.planResetDate = undefined;
                 user.credits += creditsToAdd;
-                console.log(`[결제성공] 단건결제 - 유저: ${userId}, 상품: ${planName}, 충전량: ${creditsToAdd}곡`);
+                console.log(`[결제성공] 단건결제 - 유저: ${userId}, 상품: ${planName}, 충전량: ${creditsToAdd}곡 (12개월 유효)`);
             }
             
             await user.save();
