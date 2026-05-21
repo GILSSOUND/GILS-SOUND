@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GILS SOUND | 프리미엄 AI 뮤직 스튜디오</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary-gold: #D4AF37;
             --bg-glass: rgba(15, 15, 15, 0.75);
             --text-main: #F9FAFB;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
         body {
             background-image: url('2.한국인/여자/indie_kr_woman_1_1778646998075.png');
             background-size: cover;
@@ -25,35 +35,21 @@
             justify-content: center;
             padding: 20px;
         }
-        .top-left-link {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(0,0,0,0.6);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #E5E7EB;
-            padding: 8px 16px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 500;
-            transition: all 0.3s;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-        }
-        .top-left-link:hover {
-            background: rgba(212,175,55,0.2);
-            color: #D4AF37;
-            border-color: rgba(212,175,55,0.5);
-        }
+
         .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.4));
-            backdrop-filter: blur(15px); z-index: -1;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4));
+            backdrop-filter: blur(15px);
+            z-index: -1;
         }
+
         .hero-card {
             background: var(--bg-glass);
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 24px;
             padding: 60px 40px;
             text-align: center;
@@ -63,8 +59,19 @@
             backdrop-filter: blur(20px);
             animation: slideUp 1s ease-out;
         }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-        
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .logo {
             font-family: 'Playfair Display', serif;
             font-size: 52px;
@@ -75,9 +82,15 @@
             -webkit-text-fill-color: transparent;
             margin-bottom: 15px;
         }
+
         .subtitle {
-            font-size: 16px; color: #D1D5DB; font-weight: 300; line-height: 1.6; margin-bottom: 40px;
+            font-size: 16px;
+            color: #D1D5DB;
+            font-weight: 300;
+            line-height: 1.6;
+            margin-bottom: 40px;
         }
+
         .btn-start {
             display: inline-block;
             background: linear-gradient(135deg, #D4AF37, #AA8022);
@@ -91,38 +104,53 @@
             transition: all 0.3s;
             width: 100%;
         }
+
         .btn-start:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 35px rgba(212, 175, 55, 0.5);
         }
-        
+
         @media (max-width: 768px) {
-            .logo { font-size: 40px; }
-            .subtitle { font-size: 14px; }
-            .hero-card { padding: 40px 25px; }
+            .logo {
+                font-size: 40px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+
+            .hero-card {
+                padding: 40px 25px;
+            }
         }
     </style>
 </head>
+
 <body>
-    <a href="notice.html" class="top-left-link">📢 상업적이용 및 공지사항</a>
     <div class="overlay"></div>
-    
+
     <!-- Main Hero -->
     <div class="hero-card" style="margin-bottom: 40px; margin-top: 60px;">
         <div class="logo">GILS SOUND</div>
         <div class="subtitle">단 몇 번의 클릭으로 당신만의 완벽한 음악을.<br>지금 가입하고 AI가 작곡한 프리미엄 사운드를 경험하세요.</div>
         <!-- 약관 동의 체크박스 -->
-        <div style="margin: 30px 0 20px 0; text-align: left; background: rgba(0,0,0,0.4); padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+        <div
+            style="margin: 30px 0 20px 0; text-align: left; background: rgba(0,0,0,0.4); padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
             <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                <input type="checkbox" id="agree-terms" style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--primary-gold);">
+                <input type="checkbox" id="agree-terms"
+                    style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--primary-gold);">
                 <span style="font-size: 14px; color: #E5E7EB;">
-                    <a href="terms.html" target="_blank" style="color: var(--primary-gold); text-decoration: underline;">이용약관(환불정책)</a> 및 
-                    <a href="privacy.html" target="_blank" style="color: var(--primary-gold); text-decoration: underline;">개인정보처리방침</a>을 읽었으며 이에 동의합니다. (필수)
+                    <a href="terms.html" target="_blank"
+                        style="color: var(--primary-gold); text-decoration: underline;">이용약관(환불정책)</a> 및
+                    <a href="privacy.html" target="_blank"
+                        style="color: var(--primary-gold); text-decoration: underline;">개인정보처리방침</a>을 읽었으며 이에 동의합니다.
+                    (필수)
                 </span>
             </label>
         </div>
-        
-        <button onclick="checkTermsAndGo()" class="btn-start" style="border: none; cursor: pointer;">지금 회원가입하기 (3곡 무료)</button>
+
+        <button onclick="checkTermsAndGo()" class="btn-start" style="border: none; cursor: pointer;">지금 회원가입하기 (3곡
+            무료)</button>
     </div>
 
     <script>
@@ -140,29 +168,42 @@
     </script>
 
     <!-- Pricing Section (for PG Approval) -->
-    <div class="hero-card" style="margin-bottom: 60px; padding: 40px; max-width: 1000px;">
+    <div class="hero-card" style="margin-bottom: 60px; padding: 40px; max-width: 1200px;">
         <h2 style="color: var(--primary-gold); margin-bottom: 30px; font-size: 24px;">GILS SOUND 요금제 (플랜) 안내</h2>
         <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
-            <div style="background: rgba(0,0,0,0.5); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(255,255,255,0.1);">
+            <div
+                style="background: rgba(0,0,0,0.5); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(255,255,255,0.1);">
                 <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;">싱글 체험 팩 (단건)</h3>
-                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩990 <span style="font-size:14px; color:#9ca3af;">/ 1곡</span></p>
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩990
+                    <span style="font-size:14px; color:#9ca3af;">/ 1곡</span></p>
                 <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">1곡 생성 크레딧 충전<br>모든 상업적 이용 허용</p>
             </div>
-            <div style="background: rgba(0,0,0,0.5); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(255,255,255,0.1);">
+            <div
+                style="background: rgba(0,0,0,0.5); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(255,255,255,0.1);">
                 <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;">스타터 패키지 (단건)</h3>
-                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩5,990 <span style="font-size:14px; color:#9ca3af;">/ 10곡</span></p>
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩5,990
+                    <span style="font-size:14px; color:#9ca3af;">/ 10곡</span></p>
                 <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">총 10곡 생성 크레딧 충전<br>모든 상업적 이용 허용</p>
             </div>
-            <div style="background: rgba(212,175,55,0.1); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(212,175,55,0.4); position: relative;">
-                <div style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--primary-gold); color:#000; font-size:11px; font-weight:bold; padding:4px 10px; border-radius:12px;">월플랜 (한달이용권)</div>
+            <div
+                style="background: rgba(212,175,55,0.1); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(212,175,55,0.4); position: relative;">
+                <div
+                    style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--primary-gold); color:#000; font-size:11px; font-weight:bold; padding:4px 10px; border-radius:12px;">
+                    월플랜 (한달이용권)</div>
                 <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px; margin-top:10px;">프로 크리에이터 팩</h3>
-                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩19,900 <span style="font-size:14px; color:#9ca3af;">/ 30일</span></p>
-                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">총 100곡 생성 크레딧 제공<br>결제일로부터 30일간 유효<br>모든 상업적 이용 허용</p>
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩19,900
+                    <span style="font-size:14px; color:#9ca3af;">/ 30일</span></p>
+                <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">총 100곡 생성 크레딧 제공<br>결제일로부터 30일간 유효<br>모든
+                    상업적 이용 허용</p>
             </div>
-            <div style="background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(0,0,0,0.8)); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 2px solid var(--primary-gold); position: relative; box-shadow: 0 10px 30px rgba(212,175,55,0.2);">
-                <div style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:linear-gradient(90deg, #D4AF37, #FDE047); color:#000; font-size:11px; font-weight:bold; padding:4px 12px; border-radius:12px;">연플랜 (1년구독권)</div>
+            <div
+                style="background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(0,0,0,0.8)); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 2px solid var(--primary-gold); position: relative; box-shadow: 0 10px 30px rgba(212,175,55,0.2);">
+                <div
+                    style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:linear-gradient(90deg, #D4AF37, #FDE047); color:#000; font-size:11px; font-weight:bold; padding:4px 12px; border-radius:12px;">
+                    연플랜 (1년구독권)</div>
                 <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px; margin-top:10px;">VVIP 마스터 플랜</h3>
-                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩99,000 <span style="font-size:14px; color:#9ca3af;">/ 365일</span></p>
+                <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩99,000
+                    <span style="font-size:14px; color:#9ca3af;">/ 365일</span></p>
                 <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6; text-align: left; padding-left: 10px;">
                     ✨ <b>매달 100곡 리필</b> (총 1,200곡)<br>
                     🎧 <b>VVIP 초고음질 음원</b> 제공<br>
@@ -174,7 +215,8 @@
     </div>
 
     <!-- PG Required Footer -->
-    <footer style="width: 100%; padding: 40px 20px; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: #9CA3AF; font-size: 12px; line-height: 1.8;">
+    <footer
+        style="width: 100%; padding: 40px 20px; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: #9CA3AF; font-size: 12px; line-height: 1.8;">
         <div style="margin-bottom: 15px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
             <a href="terms.html" style="color: #D4AF37; text-decoration: none; font-weight: bold;">이용약관 (환불정책 포함)</a>
             <a href="privacy.html" style="color: #D4AF37; text-decoration: none; font-weight: bold;">개인정보처리방침</a>
@@ -187,7 +229,7 @@
         </p>
         <p style="margin-top: 15px; opacity: 0.5;">© 2026 GILS SOUND. All rights reserved.</p>
     </footer>
-    
+
     <script>
         // 만약 이미 로그인 되어 있다면 로그인 과정을 스킵하고 메인으로 이동
         if (localStorage.getItem('gils_user')) {
@@ -195,4 +237,5 @@
         }
     </script>
 </body>
+
 </html>

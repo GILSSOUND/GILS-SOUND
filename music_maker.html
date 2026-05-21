@@ -375,7 +375,7 @@
             border: 1px solid var(--border-glass);
             border-radius: 28px;
             width: 100%;
-            max-width: 950px;
+            max-width: 1100px;
             padding: 45px;
             box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
             position: relative;
@@ -423,7 +423,7 @@
 
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
         }
 
@@ -909,18 +909,20 @@
             .genre-grid { grid-template-columns: repeat(3, 1fr); }
             .pricing-grid {
                 display: flex;
-                flex-direction: row;
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                gap: 15px;
+                flex-direction: column;
+                gap: 12px;
                 padding-bottom: 15px;
             }
-            .pricing-grid::-webkit-scrollbar { height: 6px; }
+            .pricing-grid::-webkit-scrollbar { width: 6px; }
             .pricing-grid::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.5); border-radius: 10px; }
             .pricing-card {
-                flex: 0 0 85%;
-                scroll-snap-align: center;
+                width: 100%;
+                padding: 20px 15px;
             }
+            .pricing-card .plan-price { font-size: 24px; }
+            .pricing-card .plan-features { font-size: 11px; margin-bottom: 15px; }
+            .pricing-card .plan-features li { margin-bottom: 6px; }
+            .pricing-card .btn-checkout { padding: 12px; font-size: 13px; }
             .store-modal, .mypage-modal, .library-modal { padding: 25px 20px; max-height: 90vh; overflow-y: auto; }
             .main-card { padding: 30px 20px; }
         }
@@ -1135,7 +1137,7 @@
                     </span>
                 </div>
             </div>
-            <textarea id="input-story" style="height: 120px;" placeholder="오늘 있었던 일, 누군가에게 전하고 싶은 마음, 잊지 못할 추억 등 어떤 이야기든 편하게 입력하세요.&#10;서버 단에 연동된 구글 제미나이(Gemini) AI가 접속자별로 사연을 완벽히 파악하여 전문 작사가처럼 가사와 사운드를 즉시 창작합니다!"></textarea>
+            <textarea id="input-story" style="height: 120px;" placeholder="오늘 있었던 일, 누군가에게 전하고 싶은 마음, 잊지 못할 추억 등 어떤 이야기든 편하게 입력하세요.&#10;GILS SOUND만의 독창성과 창작성으로 트렌디하고 감동적인 가사가 창작됩니다"></textarea>
             
             <!-- 생성된 가사 중간 확인 및 제어 패널 (기본 숨김) -->
             <div id="story-preview-panel" style="display: none; margin-top: 15px; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--primary-gold); border-radius: 12px; padding: 16px; animation: fadeIn 0.4s ease-out;">
@@ -1151,7 +1153,7 @@
                 </div>
             </div>
 
-            <div style="font-size: 12px; color: var(--primary-gold); margin-top: 8px;">💡 방문자의 개별 키 입력 없이도 사장님이 설정해두신 안전한 프록시 서버 통신을 통해 즉시 전자동 작사가 진행됩니다.</div>
+            <div style="font-size: 12px; color: var(--primary-gold); margin-top: 8px;">💡 서버 과부하 시 오류가 날 수도 있어요. 잠시 후 다시 시도해 주시면 정상적으로 작동합니다.</div>
         </div>
 
         <!-- Step 2 -->
