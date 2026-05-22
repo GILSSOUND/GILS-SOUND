@@ -443,6 +443,49 @@ app.post('/api/music', async (req, res) => {
 // ==========================================
 // 💰 포트원(PortOne) 결제 검증 및 크레딧 충전 API
 // ==========================================
+// 구글 인앱 결제 (IAP) 성공 처리 API
+// ==========================================
+app.post('/api/payment/iap-success', async (req, res) => {
+    try {
+        const { userId, productId, transactionId, receipt, planName, price, credits } = req.body;
+        
+        if (!userId || userId.includes('guest')) {
+            return res.status(400).json({ success: false, message: '유효하지 않은 사용자입니다.' });
+        }
+
+        const user = await User.findOne({ userId: userId });
+        if (!user) {
+            return res.status(404).json({ success: false, message: '사용자를 찾을 수 없습니다.' });
+        }
+
+        // 실제 운영 시 구글 Play Developer API를 통한 영수증(receipt) 검증 로직 추가 권장
+        // 현재는 클라이언트의 결제 성공 메시지를 기반으로 처리합니다.
+        
+        const creditsToAdd = parseInt(credits || 0, 10);
+        user.credits += creditsToAdd;
+        user.planType = planName;
+        
+        if (planName.includes('프로') || productId === 'gils_pro_19900') {
+            const endDate = new Date();
+            endDate.setDate(endDate.getDate() + 30);
+            user.planEndDate = endDate;
+        } else if (planName.includes('마스터') || productId === 'gils_vvip_99000') {
+            const endDate = new Date();
+            endDate.setFullYear(endDate.getFullYear() + 1);
+            user.planEndDate = endDate;
+        }
+
+        await user.save();
+        console.log(`[인앱결제 성공] ${userId}님 - 상품명: ${planName}(${productId}) 충전 완료. 총 크레딧: ${user.credits}`);
+
+        res.json({ success: true, currentCredits: user.credits });
+    } catch (error) {
+        console.error('인앱 결제 처리 에러:', error);
+        res.status(500).json({ success: false, message: '서버 오류' });
+    }
+});
+
+// ==========================================
 app.post('/api/payment/verify', async (req, res) => {
     try {
         const { imp_uid, merchant_uid, planName, expectedPrice, creditsToAdd, userId, isSubscription } = req.body;

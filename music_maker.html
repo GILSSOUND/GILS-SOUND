@@ -2601,6 +2601,49 @@
         let currentPayPrice = null;
         let currentPayCredits = null;
 
+        // 앱(React Native)으로부터 인앱 결제 결과를 수신하는 리스너
+        window.addEventListener('message', async (event) => {
+            try {
+                let message = event.data;
+                if (typeof message === 'string') {
+                    message = JSON.parse(message);
+                }
+                
+                if (message.type === 'IAP_SUCCESS') {
+                    // 구글 결제 성공! 서버에 크레딧 충전 요청
+                    const verifyRes = await fetch('/api/payment/iap-success', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            userId: currentUserId,
+                            productId: message.payload.productId,
+                            transactionId: message.payload.transactionId,
+                            receipt: message.payload.receipt,
+                            planName: currentPayPlan || '인앱요금제',
+                            price: currentPayPrice,
+                            credits: currentPayCredits
+                        })
+                    });
+                    const verifyData = await verifyRes.json();
+                    if (verifyData.success) {
+                        alert('구글 인앱 결제가 성공적으로 완료되었습니다! 크레딧이 충전되었습니다.');
+                        window.location.reload();
+                    } else {
+                        alert('결제 검증에 실패했습니다: ' + verifyData.message);
+                    }
+                } else if (message.type === 'IAP_ERROR') {
+                    alert('구글 앱 결제 중 오류가 발생했습니다: ' + message.payload);
+                }
+            } catch (e) {
+                // JSON 파싱 에러 등은 무시
+            }
+        });
+
+        // 안드로이드 WebView의 경우 document에도 이벤트 리스너 추가
+        document.addEventListener('message', async (event) => {
+            window.dispatchEvent(new MessageEvent('message', { data: event.data }));
+        });
+
         function processPayment(planName, price, credits) {
             if (!currentUserId || currentUserId.includes('guest')) {
                 alert("결제하려면 로그인이 필요합니다.");
