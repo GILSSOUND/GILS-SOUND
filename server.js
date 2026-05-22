@@ -315,7 +315,37 @@ app.post('/api/music', async (req, res) => {
                 n: 1,
                 size: "1024x1024"
             })
-        }).then(res => res.json()).catch(err => {
+        }).then(res => res.json()).then(async (initImgData) => {
+            console.log(" -> [DEBUG] Image Init Response:", JSON.stringify(initImgData));
+            
+            // 1. 만약 비동기(Task) 방식이라면 (id 반환)
+            if (initImgData.id) {
+                let imgStatus = initImgData.status;
+                let imgPollData = null;
+                while (imgStatus !== "completed" && imgStatus !== "succeeded" && imgStatus !== "failed" && imgStatus !== "canceled" && imgStatus !== "error") {
+                    await new Promise(r => setTimeout(r, 4000));
+                    const pollRes = await fetch(`https://api.evolink.ai/v1/tasks/${initImgData.id}`, {
+                        headers: { 'Authorization': `Bearer ${evoKey}` }
+                    });
+                    imgPollData = await pollRes.json();
+                    imgStatus = imgPollData.status;
+                }
+                if ((imgStatus === "completed" || imgStatus === "succeeded") && imgPollData.result_data && imgPollData.result_data.length > 0) {
+                    return imgPollData.result_data[0].url || imgPollData.result_data[0].image_url;
+                }
+                console.error(" -> [DEBUG] Image Polling Failed:", JSON.stringify(imgPollData));
+                return null;
+            } 
+            // 2. 만약 동기(Sync) 방식이라면 (data.url 반환)
+            else if (initImgData.data && initImgData.data.length > 0) {
+                return initImgData.data[0].url;
+            } 
+            // 3. 에러 발생 시
+            else {
+                console.error(" -> [DEBUG] Image generation error response.");
+                return null;
+            }
+        }).catch(err => {
             console.error("Image generation request error:", err);
             return null;
         });
@@ -356,8 +386,8 @@ app.post('/api/music', async (req, res) => {
             // 이미지 생성이 다 될 때까지 기다림 (보통 음악보다 빨리 끝남)
             try {
                 const imgResult = await imageGenerationPromise;
-                if (imgResult && imgResult.data && imgResult.data.length > 0 && imgResult.data[0].url) {
-                    finalImageUrl = imgResult.data[0].url;
+                if (typeof imgResult === 'string' && imgResult.startsWith('http')) {
+                    finalImageUrl = imgResult;
                     console.log(" -> [SUCCESS] Image URL:", finalImageUrl);
                 }
             } catch (e) {
