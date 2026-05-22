@@ -2608,6 +2608,24 @@
                 return;
             }
 
+            // App 환경(하이브리드 앱)에서 접근한 경우 앱 내부 결제(인앱결제) 요청 메시지 전송
+            if (window.isApp) {
+                if (window.ReactNativeWebView) {
+                    window.ReactNativeWebView.postMessage(JSON.stringify({
+                        type: 'PAYMENT_REQUEST',
+                        payload: {
+                            planName: planName,
+                            price: price,
+                            creditsToAdd: credits,
+                            isSubscription: (planName === '프로 크리에이터 팩')
+                        }
+                    }));
+                } else {
+                    alert('앱 결제 모듈을 로드할 수 없습니다.');
+                }
+                return; // 기존 웹 PG 결제 진행 중지
+            }
+
             // 결제 정보 임시 저장 후 결제 수단 선택 모달 띄우기
             currentPayPlan = planName;
             currentPayPrice = price;
