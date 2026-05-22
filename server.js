@@ -228,7 +228,13 @@ app.post('/api/auto-lyrics', async (req, res) => {
         });
 
         const data = await fetchResponse.json();
-        if (!fetchResponse.ok) throw new Error(data.error?.message || "Gemini API 요청 실패");
+        if (!fetchResponse.ok) {
+            let errorMsg = data.error?.message || "Gemini API 요청 실패";
+            if (fetchResponse.status === 429 || errorMsg.toLowerCase().includes("quota")) {
+                errorMsg = "AI 서버 무료 할당량이 일시적으로 초과되었습니다. (구글 정책상 1분당 15회 제한). 약 1분 뒤에 다시 버튼을 눌러주세요!";
+            }
+            throw new Error(errorMsg);
+        }
 
         const lyrics = data.candidates[0].content.parts[0].text.trim();
         res.json({ lyrics });
@@ -291,6 +297,30 @@ app.post('/api/music', async (req, res) => {
         const taskId = initData.id;
         let status = initData.status;
 
+        // ============================================
+        // 앨범 아트(이미지) 비동기 생성 요청 (z-image-turbo)
+        // ============================================
+        let finalImageUrl = imageUrl || '2.한국인/여자/woman_influencer_2.png';
+        const imagePrompt = `A beautiful and aesthetic album cover art, no text, masterpiece, high quality, 4k. Genre or Mood: ${genreLabel || style || 'Pop'}. Theme: ${title || 'Music'}.`;
+        
+        const imageGenerationPromise = fetch("https://api.evolink.ai/v1/images/generations", {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${evoKey}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: "z-image-turbo",
+                prompt: imagePrompt,
+                n: 1,
+                size: "1024x1024"
+            })
+        }).then(res => res.json()).catch(err => {
+            console.error("Image generation request error:", err);
+            return null;
+        });
+        // ============================================
+
         console.log(" -> Generating Suno audio (takes about 60 to 120 seconds)...");
         
         let pollData = null;
@@ -323,6 +353,17 @@ app.post('/api/music', async (req, res) => {
         if ((status === "completed" || status === "succeeded") && finalAudioUrl) {
             console.log(" -> [SUCCESS] Audio URL:", finalAudioUrl);
             
+            // 이미지 생성이 다 될 때까지 기다림 (보통 음악보다 빨리 끝남)
+            try {
+                const imgResult = await imageGenerationPromise;
+                if (imgResult && imgResult.data && imgResult.data.length > 0 && imgResult.data[0].url) {
+                    finalImageUrl = imgResult.data[0].url;
+                    console.log(" -> [SUCCESS] Image URL:", finalImageUrl);
+                }
+            } catch (e) {
+                console.log(" -> [WARNING] Failed to fetch generated image:", e.message);
+            }
+
             // [DB 연동] 크레딧 차감 및 노래 보관함 저장
             let updatedCredits = null;
             let newSongId = null;
@@ -341,7 +382,7 @@ app.post('/api/music', async (req, res) => {
                         stylePrompt: style || "",
                         lyrics: lyrics || "",
                         audioUrl: finalAudioUrl,
-                        imageUrl: imageUrl || '2.한국인/여자/woman_influencer_2.png'
+                        imageUrl: finalImageUrl
                     });
                     await newSong.save();
                     newSongId = newSong._id;
@@ -352,6 +393,7 @@ app.post('/api/music', async (req, res) => {
             res.json({
                 status: "success",
                 audioUrl: finalAudioUrl,
+                imageUrl: finalImageUrl,
                 remaining_credits: updatedCredits,
                 trackId: newSongId
             });

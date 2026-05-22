@@ -2411,7 +2411,9 @@
 
                 document.getElementById('result-title').innerText = finalTitle;
                 document.getElementById('result-genre').innerText = finalData.genreLabel;
-                document.getElementById('result-cover').style.backgroundImage = `url('${finalData.image}')`;
+                
+                const coverImage = data.imageUrl || finalData.image;
+                document.getElementById('result-cover').style.backgroundImage = `url('${coverImage}')`;
                 
                 resultLyricsDiv.innerText = finalData.lyrics;
                 resultLyricsDiv.style.display = 'block';
@@ -2424,7 +2426,7 @@
                     id: data.trackId,
                     title: finalTitle,
                     genre: finalData.genreLabel,
-                    cover: finalData.image,
+                    cover: coverImage,
                     audioUrl: data.audioUrl,
                     prompt: finalData.stylePrompt,
                     lyrics: finalData.lyrics
@@ -2546,7 +2548,9 @@
                 // 결과 UI 출력 및 오디오 소스 연결
                 document.getElementById('result-title').innerText = titleInput;
                 document.getElementById('result-genre').innerText = generatedGenreLabel;
-                document.getElementById('result-cover').style.backgroundImage = `url('${imageInput}')`;
+                
+                const coverImage = data.imageUrl || imageInput;
+                document.getElementById('result-cover').style.backgroundImage = `url('${coverImage}')`;
                 
                 // 생성된 가사가 있다면 가사 패널 표시
                 if (lyricsInput.trim()) {
@@ -2565,7 +2569,7 @@
                     id: data.trackId,
                     title: titleInput || '아름다운 선율',
                     genre: generatedGenreLabel,
-                    cover: imageInput,
+                    cover: coverImage,
                     audioUrl: data.audioUrl,
                     prompt: styleTags,
                     lyrics: lyricsInput
