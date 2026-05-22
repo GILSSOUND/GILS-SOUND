@@ -301,7 +301,7 @@ app.post('/api/music', async (req, res) => {
         // 앨범 아트(이미지) 비동기 생성 요청 (z-image-turbo)
         // ============================================
         let finalImageUrl = imageUrl || '2.한국인/여자/woman_influencer_2.png';
-        const imagePrompt = `A beautiful and aesthetic album cover art, no text, masterpiece, high quality, 4k. Genre or Mood: ${genreLabel || style || 'Pop'}. Theme: ${title || 'Music'}.`;
+        const imagePrompt = `A beautiful and aesthetic album cover art, purely visual, NO TEXT, NO LETTERS, NO WORDS, NO TITLE, NO LOGOS, masterpiece, high quality, 4k. Genre or Mood: ${genreLabel || style || 'Pop'}. Theme: ${title || 'Music'}.`;
         
         const imageGenerationPromise = fetch("https://api.evolink.ai/v1/images/generations", {
             method: 'POST',
