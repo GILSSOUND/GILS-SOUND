@@ -1194,10 +1194,19 @@
             <input type="hidden" id="selected-mood" value="신나는">
         </div>
 
-        <!-- Step 4 (Easy Mode Only): Vocal Gender Selection -->
-        <div class="step-container" id="section-vocal-gender">
+        <!-- Title Input -->
+        <div class="step-container" style="margin-bottom: 30px;">
             <div class="step-title">
-                <span class="step-number">Step 04</span>
+                <span class="step-number" id="step-number-title">Step 04</span>
+                곡의 제목을 정해주세요
+            </div>
+            <input type="text" id="input-title" placeholder="나만의 특별한 제목">
+        </div>
+
+        <!-- Vocal Gender Selection -->
+        <div class="step-container" id="section-vocal-gender" style="margin-bottom: 50px;">
+            <div class="step-title">
+                <span class="step-number" id="step-number-gender">Step 05</span>
                 보컬 성별을 선택하세요
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 8px;">
@@ -1207,15 +1216,6 @@
                 <div class="text-genre-tag gender-tag" onclick="selectGender(this, 'instrumental, no vocal')">🎸 보컬 없음 (연주곡)</div>
             </div>
             <input type="hidden" id="selected-gender" value="female vocal">
-        </div>
-
-        <!-- Step 5 -->
-        <div class="step-container" style="margin-bottom: 50px;">
-            <div class="step-title">
-                <span class="step-number" id="step-number-title">Step 05</span>
-                곡의 제목을 정해주세요
-            </div>
-            <input type="text" id="input-title" placeholder="나만의 특별한 제목">
         </div>
 
         <!-- Submit Button -->
@@ -2163,16 +2163,22 @@
             if (sectionMood) sectionMood.style.display = 'none';
             if (sectionGender) sectionGender.style.display = 'none';
 
+            const stepGenderLabel = document.getElementById('step-number-gender');
+
             if (mode === 'pro') {
                 tabPro.classList.add('active');
                 sectionCustom.style.display = 'block';
                 document.getElementById('btn-submit').disabled = false;
                 document.getElementById('btn-submit').innerText = '작품 완성하기 (Create)';
-                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 03 (Pro)';
+                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 02 (Pro)';
             } else if (mode === 'story') {
                 tabStory.classList.add('active');
                 sectionStory.style.display = 'block';
                 sectionLyrics.style.display = 'none'; // 스토리 모드는 가사가 자동 생성되므로 직접 입력칸 숨김
+                if (sectionGender) {
+                    sectionGender.style.display = 'block';
+                    if (stepGenderLabel) stepGenderLabel.innerText = 'Step 03 (Story)';
+                }
                 document.getElementById('btn-submit').disabled = false;
                 document.getElementById('btn-submit').innerText = '✍️ AI 가사 초안 생성 및 확인 (Next)';
                 if (stepTitleLabel) stepTitleLabel.innerText = 'Step 02 (Story)';
@@ -2180,10 +2186,13 @@
                 tabEasy.classList.add('active');
                 sectionGrid.style.display = 'block';
                 if (sectionMood) sectionMood.style.display = 'block';
-                if (sectionGender) sectionGender.style.display = 'block';
+                if (sectionGender) {
+                    sectionGender.style.display = 'block';
+                    if (stepGenderLabel) stepGenderLabel.innerText = 'Step 05';
+                }
                 document.getElementById('btn-submit').disabled = false;
                 document.getElementById('btn-submit').innerText = '작품 완성하기 (Create)';
-                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 05';
+                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 04';
             }
         }
 
@@ -2306,6 +2315,12 @@
             
             // 사용자가 수정한 가사를 가져와서 반영
             pendingStoryData.lyrics = previewLyrics.value;
+
+            // 보컬 성별 추가
+            const genderInput = document.getElementById('selected-gender') ? document.getElementById('selected-gender').value : '';
+            if (genderInput) {
+                pendingStoryData.stylePrompt += `, ${genderInput}`;
+            }
 
             // 최종 노래 생성 직전에 유저가 직접 수정한 제목이 있는지 다시 한 번 읽어옵니다!
             const currentTitleInput = document.getElementById('input-title').value;
