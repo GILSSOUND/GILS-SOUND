@@ -981,38 +981,38 @@
 
     <!-- Left Notice Navigation -->
     <button class="top-notice-btn" onclick="document.getElementById('notice-modal').style.display='flex'">
-        📢 상업적 이용 및 공지사항
+        <span data-i18n="top_notice">📢 상업적 이용 및 공지사항</span>
     </button>
 
     <!-- Floating Logout Button -->
     <button class="floating-logout-btn" onclick="logout()">
-        🚪 로그아웃
+        <span data-i18n="btn_logout">🚪 로그아웃</span>
     </button>
 
     <!-- Top Store Navigation Bar -->
     <div class="top-nav">
-        <div class="credit-badge">⚡ 잔여 크레딧: <span id="user-credits">0곡</span></div>
-        <button class="btn-library" onclick="openMyPage()">👤 마이페이지</button>
-        <button class="btn-library" onclick="openLibrary()">🎵 내 보관함 (<span id="library-count-badge">0</span>)</button>
-        <button class="btn-store" onclick="openStore()">👑 GILS 스토어</button>
+        <div class="credit-badge">⚡ <span data-i18n="credit_left">잔여 크레딧:</span> <span id="user-credits">0곡</span></div>
+        <button class="btn-library" onclick="openMyPage()"><span data-i18n="btn_mypage">👤 마이페이지</span></button>
+        <button class="btn-library" onclick="openLibrary()"><span data-i18n="btn_library">🎵 내 보관함</span> (<span id="library-count-badge">0</span>)</button>
+        <button class="btn-store" onclick="openStore()"><span data-i18n="btn_store">👑 GILS 스토어</span></button>
     </div>
 
     <div class="app-container">
         <!-- Live Library Sidebar -->
         <div class="live-sidebar">
             <div class="sidebar-header">
-                <h3>🎶 실시간 작업 리스트</h3>
-                <p>내가 만든 음악 모아보기</p>
+                <h3 data-i18n="sidebar_title">🎶 실시간 작업 리스트</h3>
+                <p data-i18n="sidebar_subtitle">내가 만든 음악 모아보기</p>
             </div>
             <div class="sidebar-list" id="live-library-list">
-                <div class="empty-sidebar">아직 창작된 곡이 없습니다.<br>나만의 첫 음악을 완성해 보세요!</div>
+                <div class="empty-sidebar" data-i18n="sidebar_empty">아직 창작된 곡이 없습니다.<br>나만의 첫 음악을 완성해 보세요!</div>
             </div>
         </div>
 
         <div class="main-content-wrapper">
             <div class="header" style="position: relative;">
                 <div class="logo">GILS SOUND</div>
-                <div class="subtitle">프리미엄 AI 뮤직 스튜디오</div>
+                <div class="subtitle" data-i18n="studio_subtitle">프리미엄 AI 뮤직 스튜디오</div>
                 <div style="margin-top: 20px; text-align: center;">
                     <select id="lang-selector" style="background: rgba(0,0,0,0.5); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 5px 10px; border-radius: 5px; cursor: pointer;">
                         <option value="ko">한국어</option>
@@ -1027,16 +1027,16 @@
         
         <!-- Mode Tabs Selection Bar -->
         <div class="mode-tabs">
-            <div class="mode-tab active" id="tab-story" onclick="switchMode('story')">📖 사연 스토리 작사 (Story)</div>
-            <div class="mode-tab" id="tab-easy" onclick="switchMode('easy')">✨ 간편 생성 (Easy)</div>
-            <div class="mode-tab" id="tab-pro" onclick="switchMode('pro')">🎛️ 전문가 (Pro)</div>
+            <div class="mode-tab active" id="tab-story" onclick="switchMode('story')" data-i18n="tab_story">📖 사연 스토리 작사 (Story)</div>
+            <div class="mode-tab" id="tab-easy" onclick="switchMode('easy')" data-i18n="tab_easy">✨ 간편 생성 (Easy)</div>
+            <div class="mode-tab" id="tab-pro" onclick="switchMode('pro')" data-i18n="tab_pro">🎛️ 전문가 (Pro)</div>
         </div>
 
         <!-- Step 1 (Easy Mode): Genre Grid -->
         <div class="step-container" id="section-genre-grid">
             <div class="step-title">
                 <span class="step-number">Step 01</span>
-                곡의 무드를 선택하세요
+                <span data-i18n="step1_genre">곡의 무드를 선택하세요</span>
             </div>
             
             <!-- 상위 10개 대표 장르 (이미지 포함) -->
@@ -1131,7 +1131,7 @@
         <div class="step-container custom-prompt-container" id="section-custom-prompt">
             <div class="step-title">
                 <span class="step-number">Step 01 (Pro)</span>
-                세부 작곡 프롬프트(명령어) 직접 입력
+                <span data-i18n="step1_pro">세부 작곡 프롬프트(명령어) 직접 입력</span>
             </div>
             <textarea id="input-custom-prompt" style="height: 120px;" placeholder="원하시는 음악 장르, 악기 구성, 분위기, 보컬 스타일 등을 영어 또는 한글로 자유롭게 적어주세요.&#10;예) 120 BPM synthwave, heavy synth bass, ethereal female vocal, futuristic pop"></textarea>
             <div style="font-size: 12px; color: var(--primary-gold); margin-top: 8px;">💡 팁: 세부 악기와 무드를 쉼표(,)로 나열할수록 더욱 풍성하고 독창적인 사운드가 완성됩니다.</div>
@@ -1142,7 +1142,7 @@
             <div class="step-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <div style="display: flex; align-items: center; gap: 12px;">
                     <span class="step-number">Step 01 (Story)</span>
-                    본인의 사연(스토리)을 편하게 들려주세요
+                    <span data-i18n="step1_story">본인의 사연(스토리)을 편하게 들려주세요</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 6px;">
                     <span style="background: rgba(212, 175, 55, 0.2); border: 1px solid var(--primary-gold); color: var(--primary-gold); padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700;">
@@ -1174,7 +1174,7 @@
             <div class="step-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <div style="display: flex; align-items: center; gap: 12px;">
                     <span class="step-number">Step 02</span>
-                    가사를 입력하세요
+                    <span data-i18n="step2_lyrics">가사를 입력하세요</span>
                 </div>
                 <button type="button" class="btn-checkout" id="btn-auto-lyrics" style="padding: 6px 12px; font-size: 12px; border-radius: 8px; width: auto; background: rgba(212, 175, 55, 0.2); border: 1px solid var(--primary-gold); color: var(--primary-gold);" onclick="autoGenerateLyrics()">
                     ✨ AI 가사 자동 생성
@@ -1187,7 +1187,7 @@
         <div class="step-container" id="section-mood-selection">
             <div class="step-title">
                 <span class="step-number">Step 03</span>
-                곡의 세부 감성을 선택하세요
+                <span data-i18n="step3_mood">곡의 세부 감성을 선택하세요</span>
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                 <div class="text-genre-tag mood-tag selected" onclick="selectMood(this, '신나는')">😄 신나는</div>
@@ -1211,7 +1211,7 @@
         <div class="step-container" style="margin-bottom: 30px;">
             <div class="step-title">
                 <span class="step-number" id="step-number-title">Step 04</span>
-                곡의 제목을 정해주세요
+                <span data-i18n="step4_title">곡의 제목을 정해주세요</span>
             </div>
             <input type="text" id="input-title" placeholder="나만의 특별한 제목">
         </div>
@@ -1220,7 +1220,7 @@
         <div class="step-container" id="section-vocal-gender" style="margin-bottom: 50px;">
             <div class="step-title">
                 <span class="step-number" id="step-number-gender">Step 05</span>
-                보컬 성별을 선택하세요
+                <span data-i18n="step5_gender">보컬 성별을 선택하세요</span>
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                 <div class="text-genre-tag gender-tag selected" onclick="selectGender(this, 'female vocal')">👩 여성 보컬</div>
@@ -1236,13 +1236,13 @@
             <button type="button" onclick="clearInputs()" style="background: rgba(255,50,50,0.1); border: 1px solid rgba(255,50,50,0.3); border-radius: 12px; width: 60px; height: 60px; font-size: 24px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s;" title="모든 입력내용 지우기" onmouseover="this.style.background='rgba(255,50,50,0.2)'" onmouseout="this.style.background='rgba(255,50,50,0.1)'">
                 🗑️
             </button>
-            <button type="button" class="btn-submit" id="btn-submit-easy" onclick="generateMusic()" style="flex: 1; display: none;">
+            <button type="button" class="btn-submit" id="btn-submit-easy" onclick="generateMusic()" style="flex: 1; display: none;" data-i18n="btn_create">
                 작품 완성하기 (Create)
             </button>
-            <button type="button" class="btn-submit" id="btn-submit-story" onclick="generateMusic()" style="flex: 1; display: none;">
+            <button type="button" class="btn-submit" id="btn-submit-story" onclick="generateMusic()" style="flex: 1; display: none;" data-i18n="btn_create_next">
                 ✍️ AI 가사 초안 생성 및 확인 (Next)
             </button>
-            <button type="button" class="btn-submit" id="btn-submit-pro" onclick="generateMusic()" style="flex: 1; display: none;">
+            <button type="button" class="btn-submit" id="btn-submit-pro" onclick="generateMusic()" style="flex: 1; display: none;" data-i18n="btn_create">
                 작품 완성하기 (Create)
             </button>
         </div>
