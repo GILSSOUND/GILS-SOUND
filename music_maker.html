@@ -11,6 +11,8 @@
     <!-- 카카오톡 공유 SDK 및 포트원 결제 SDK -->
     <script src="https://t1.kakaocdn.net/kakao_js_sdk/1.43.1/kakao.min.js"></script>
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <!-- 다국어 지원 스크립트 -->
+    <script src="translations.js"></script>
     <style>
         :root {
             --primary-gold: #D4AF37;
@@ -973,6 +975,16 @@
     <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.1/kakao.min.js"></script>
 </head>
 <body>
+    <!-- 언어 선택기 -->
+    <div style="position: absolute; top: 20px; right: 20px; z-index: 10;">
+        <select id="lang-selector" style="background: rgba(0,0,0,0.5); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+            <option value="ko">한국어</option>
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+            <option value="zh">中文</option>
+        </select>
+    </div>
+
     <div class="overlay"></div>
 
     <!-- Left Notice Navigation -->
@@ -2247,7 +2259,7 @@
                 const response = await fetch('/api/story', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ story: storyInput })
+                    body: JSON.stringify({ story: storyInput, language: localStorage.getItem('gils_lang') || 'ko' })
                 });
                 const resData = await response.json();
                 if (!response.ok) throw new Error(resData.error || 'API 에러');
@@ -2313,7 +2325,7 @@
                 const response = await fetch('/api/auto-lyrics', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ context: context })
+                    body: JSON.stringify({ context: context, language: localStorage.getItem('gils_lang') || 'ko' })
                 });
                 const data = await response.json();
                 if (!response.ok) throw new Error(data.error);

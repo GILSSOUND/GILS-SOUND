@@ -125,13 +125,20 @@ app.get('/api/user/library', async (req, res) => {
 // Gemini API 연동 (사연 작사 모드)
 app.post('/api/story', async (req, res) => {
     try {
-        const { story } = req.body;
+        const { story, language = 'ko' } = req.body;
         if (!story) {
             return res.status(400).json({ error: "사연 내용이 없습니다." });
         }
 
+        let langInstruction = "";
+        if (language === 'en') langInstruction = "MUST write the lyrics entirely in English.";
+        else if (language === 'ja') langInstruction = "MUST write the lyrics entirely in Japanese (日本語).";
+        else if (language === 'zh') langInstruction = "MUST write the lyrics entirely in Chinese (中文).";
+        else langInstruction = "반드시 한국어로 가사를 작성해라.";
+
         const systemPromptText = `당신은 대중가요 및 K-Pop 최고의 작사가입니다.
 [가장 중요한 규칙]: 반드시 사용자가 입력한 '사연 내용'을 바탕으로, 사연에 등장하는 특정 단어, 핵심 상황, 감정을 가사 속에 직접적으로 100% 반영하여 작사해야 합니다! 사용자의 사연과 무관한 엉뚱한 이야기(예: 사연에 없는 이별 등)를 절대 지어내지 마세요.
+[언어 설정]: 사용자가 선택한 언어가 '${language}'이므로, ${langInstruction}
 
 대중음악 구조에 맞게 [Verse 1] -> [Chorus 1] -> [Verse 2] -> [Chorus 2] -> [Bridge] -> [Outro] 구조로 세련되게 작성하세요.
 응답은 절대로 다른 설명 없이 오직 순수한 JSON 문자열로만 반환하세요.
@@ -205,11 +212,17 @@ JSON 구조:
 // Gemini API 연동 (일반/프로 모드 가사 자동 생성)
 app.post('/api/auto-lyrics', async (req, res) => {
     try {
-        const { context } = req.body;
+        const { context, language = 'ko' } = req.body;
         if (!context) return res.status(400).json({ error: "음악 정보(컨텍스트)가 없습니다." });
 
+        let langInstruction = "";
+        if (language === 'en') langInstruction = "write the lyrics entirely in English.";
+        else if (language === 'ja') langInstruction = "write the lyrics entirely in Japanese (日本語).";
+        else if (language === 'zh') langInstruction = "write the lyrics entirely in Chinese (中文).";
+        else langInstruction = "완벽하게 어울리는 한국어 가사를 창작해 주세요.";
+
         const systemPromptText = `당신은 대중가요 및 K-Pop 최고의 작사가입니다.
-사용자가 입력한 다음 '음악 정보(장르, 분위기 또는 작곡 프롬프트)'의 내용을 100% 반영하여, 그 주제와 분위기에 완벽하게 어울리는 한국어 가사를 창작해 주세요. 
+사용자가 입력한 다음 '음악 정보(장르, 분위기 또는 작곡 프롬프트)'의 내용을 100% 반영하여, 그 주제와 분위기에 맞게 ${langInstruction}
 특히 사용자가 특정 키워드, 스토리, 또는 곡의 의도를 제공했다면 그 내용이 가사 스토리에 자연스럽게 녹아들도록 랜덤 생성해 주셔야 합니다.
 대중음악 구조에 맞게 [Verse 1] -> [Chorus] -> [Verse 2] -> [Chorus] -> [Bridge] -> [Outro] 형식으로 세련되게 작성하세요.
 응답은 다른 설명 일절 없이 오직 "순수한 텍스트 가사 내용"만 출력하세요.
