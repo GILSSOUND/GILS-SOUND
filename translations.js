@@ -69,7 +69,46 @@ const translations = {
         "step4_title": "곡의 제목을 정해주세요",
         "step5_gender": "보컬 성별을 선택하세요",
         "btn_create": "작품 완성하기 (Create)",
-        "btn_create_next": "✍️ AI 가사 초안 생성 및 확인 (Next)"
+        "btn_create_next": "✍️ AI 가사 초안 생성 및 확인 (Next)",
+        "gemini_active": "✨ 통합 백엔드 AI (Gemini 연동 가동 중)",
+        "placeholder_pro": "원하시는 음악 장르, 악기 구성, 분위기, 보컬 스타일 등을 영어 또는 한글로 자유롭게 적어주세요.\n예) 120 BPM synthwave, heavy synth bass, ethereal female vocal, futuristic pop",
+        "tip_pro": "💡 팁: 세부 악기와 무드를 쉼표(,)로 나열할수록 더욱 풍성하고 독창적인 사운드가 완성됩니다.",
+        "placeholder_story": "오늘 있었던 일, 누군가에게 전하고 싶은 마음, 잊지 못할 추억 등 어떤 이야기든 편하게 입력하세요.\nGILS SOUND만의 독창성과 창작성으로 트렌디하고 감동적인 가사가 창작됩니다",
+        "draft_title": "📜 AI 작사 초안 확인",
+        "analyzing": "분석 중",
+        "btn_remake_lyrics": "🔄 가사 다시 만들기",
+        "tip_story": "💡 서버 과부하 시 오류가 날 수도 있어요. 잠시 후 다시 시도해 주시면 정상적으로 작동합니다.",
+        "btn_auto_lyrics_top": "✨ AI 가사 자동 생성",
+        "placeholder_lyrics": "아름다운 노랫말을 적어주세요.\n우측 상단의 'AI 가사 자동 생성' 버튼을 누르시면, 선택하신 장르나 프롬프트에 딱 맞는 가사를 제미나이가 자동으로 써드립니다!",
+        "placeholder_title": "나만의 특별한 제목",
+        "gen_time_notice": "(노래 생성에는 약 1~2분 정도 소요됩니다)",
+
+        // 모달 (마이페이지, 스토어, 결제, 보관함)
+        "mypage_subtitle": "내 계정 정보 및 결제 내역",
+        "mypage_guest": "게스트 님",
+        "mypage_join_date": "가입일: -",
+        "mypage_current_plan": "현재 요금제",
+        "mypage_credits_left": "잔여 크레딧",
+        "mypage_songs_created": "생성한 곡 수",
+        "btn_logout_mypage": "로그아웃",
+        "plan_basic": "기본 플랜",
+        "store_subtitle": "합리적인 종량제 및 맞춤형 크레딧 충전으로 나만의 AI 스튜디오를 누리세요.",
+        "plan_single_desc_sub": "가볍게 한 곡 만들기",
+        "plan_common_hq": "초고음질 MP3 파일 다운로드",
+        "btn_pay": "결제하기",
+        "plan_starter_desc_sub": "기존가 ₩9,900 → 40% 특별 할인",
+        "plan_common_fast": "우선 생성 대기열 고속 처리",
+        "btn_pay_recharge": "충전 결제하기",
+        "plan_pro_desc_sub": "대용량 크리에이터 맞춤형",
+        "btn_pay_monthly": "월플랜 시작하기",
+        "plan_master_desc_sub": "최고의 선택, 프리미엄 혜택",
+        "btn_pay_yearly": "연플랜 혜택받기",
+        "payment_method_title": "결제 수단 선택",
+        "payment_card": "💳 신용카드 / 체크카드",
+        "payment_notice1": "* PG사(KG이니시스) 충전업종 규정에 따라 신용/체크카드 결제만 지원합니다. (간편/휴대폰 결제 불가)",
+        "payment_notice2": "안전한 전자결제를 위해 KG이니시스(PortOne) 시스템을 사용합니다.",
+        "library_modal_title": "🎵 내 보관함 (My Library)",
+        "library_modal_subtitle": "내가 창작한 소중한 AI 음악 목록입니다. 언제든 다시 듣고 확인하세요."
     },
     en: {
         // Common
@@ -140,7 +179,46 @@ const translations = {
         "step4_title": "Set your song title",
         "step5_gender": "Select vocal gender",
         "btn_create": "Create Music (Create)",
-        "btn_create_next": "✍️ Generate AI Lyrics Draft (Next)"
+        "btn_create_next": "✍️ Generate AI Lyrics Draft (Next)",
+        "gemini_active": "✨ Integrated Backend AI (Gemini Connected)",
+        "placeholder_pro": "Freely describe your desired genre, instruments, mood, and vocal style in English or Korean.\nEx) 120 BPM synthwave, heavy synth bass, ethereal female vocal, futuristic pop",
+        "tip_pro": "💡 Tip: Listing detailed instruments and moods with commas (,) creates richer, more unique sounds.",
+        "placeholder_story": "Write about what happened today, what you want to say to someone, or unforgettable memories comfortably.\nGILS SOUND's unique creativity will craft trendy and moving lyrics.",
+        "draft_title": "📜 AI Lyrics Draft Preview",
+        "analyzing": "Analyzing",
+        "btn_remake_lyrics": "🔄 Re-generate Lyrics",
+        "tip_story": "💡 Temporary errors may occur during high server loads. Please try again after a moment.",
+        "btn_auto_lyrics_top": "✨ Auto Generate AI Lyrics",
+        "placeholder_lyrics": "Please write beautiful lyrics.\nClick the 'Auto Generate AI Lyrics' button on the top right, and Gemini will automatically write lyrics that perfectly match your selected genre or prompt!",
+        "placeholder_title": "My special song title",
+        "gen_time_notice": "(Generating the song takes about 1~2 minutes)",
+        
+        // Modal translations
+        "mypage_subtitle": "My account info & payment history",
+        "mypage_guest": "Guest",
+        "mypage_join_date": "Joined: -",
+        "mypage_current_plan": "Current Plan",
+        "mypage_credits_left": "Credits Left",
+        "mypage_songs_created": "Songs Created",
+        "btn_logout_mypage": "Logout",
+        "plan_basic": "Basic Plan",
+        "store_subtitle": "Enjoy your own AI studio with reasonable pay-as-you-go and custom credit recharges.",
+        "plan_single_desc_sub": "Lightly make one song",
+        "plan_common_hq": "Ultra-high quality MP3 download",
+        "btn_pay": "Pay Now",
+        "plan_starter_desc_sub": "Orig. ₩9,900 → 40% Special Discount",
+        "plan_common_fast": "Priority fast processing queue",
+        "btn_pay_recharge": "Recharge Now",
+        "plan_pro_desc_sub": "Custom for high-volume creators",
+        "btn_pay_monthly": "Start Monthly Plan",
+        "plan_master_desc_sub": "The Best Choice, Premium Benefits",
+        "btn_pay_yearly": "Get Yearly Benefits",
+        "payment_method_title": "Select Payment Method",
+        "payment_card": "💳 Credit / Debit Card",
+        "payment_notice1": "* Due to PG (KG Inicis) regulations, only Credit/Debit card payments are supported. (Easy/Mobile payments not allowed)",
+        "payment_notice2": "We use the KG Inicis (PortOne) system for secure electronic payments.",
+        "library_modal_title": "🎵 My Library",
+        "library_modal_subtitle": "List of your precious created AI music. Listen and check anytime."
     },
     ja: {
         // Common
@@ -211,7 +289,46 @@ const translations = {
         "step4_title": "曲のタイトルを決めてください",
         "step5_gender": "ボーカルの性別を選択してください",
         "btn_create": "作品を完成させる (Create)",
-        "btn_create_next": "✍️ AI歌詞ドラフト作成 (Next)"
+        "btn_create_next": "✍️ AI歌詞ドラフト作成 (Next)",
+        "gemini_active": "✨ 統合バックエンドAI (Gemini連動中)",
+        "placeholder_pro": "希望する音楽ジャンル、楽器構成、雰囲気、ボーカルスタイルなどを英語または韓国語で自由に入力してください。\n例) 120 BPM synthwave, heavy synth bass, ethereal female vocal, futuristic pop",
+        "tip_pro": "💡 ヒント: 詳細な楽器やムードをカンマ(,)で並べるほど、より豊かで独創的なサウンドが完成します。",
+        "placeholder_story": "今日あった出来事、誰かに伝えたい気持ち、忘れられない思い出など、どんなお話でもお気軽に入力してください。\nGILS SOUNDならではの独創性でトレンディな歌詞が創作されます。",
+        "draft_title": "📜 AI作詞ドラフト確認",
+        "analyzing": "分析中",
+        "btn_remake_lyrics": "🔄 歌詞を作り直す",
+        "tip_story": "💡 サーバー過負荷時にエラーが発生することがあります。しばらくしてからもう一度お試しください。",
+        "btn_auto_lyrics_top": "✨ AI歌詞自動生成",
+        "placeholder_lyrics": "美しい歌詞を書いてください。\n右上の「AI歌詞自動生成」ボタンを押すと、選択したジャンルやプロンプトにぴったりの歌詞をGeminiが自動で作成します！",
+        "placeholder_title": "私だけの特別なタイトル",
+        "gen_time_notice": "(曲の作成には約1〜2分かかります)",
+        
+        // Modal translations
+        "mypage_subtitle": "アカウント情報および決済履歴",
+        "mypage_guest": "ゲスト 様",
+        "mypage_join_date": "登録日: -",
+        "mypage_current_plan": "現在のプラン",
+        "mypage_credits_left": "残りクレジット",
+        "mypage_songs_created": "作成した曲数",
+        "btn_logout_mypage": "ログアウト",
+        "plan_basic": "基本プラン",
+        "store_subtitle": "合理的な従量制とカスタムクレジットチャージで自分だけのAIスタジオをお楽しみください。",
+        "plan_single_desc_sub": "気軽に1曲作る",
+        "plan_common_hq": "超高音質MP3ファイルのダウンロード",
+        "btn_pay": "決済する",
+        "plan_starter_desc_sub": "従来価格 ₩9,900 → 40% 特別割引",
+        "plan_common_fast": "優先作成キューの高速処理",
+        "btn_pay_recharge": "チャージ決済する",
+        "plan_pro_desc_sub": "大容量クリエイター向け",
+        "btn_pay_monthly": "月額プランを始める",
+        "plan_master_desc_sub": "最高の選択、プレミアム特典",
+        "btn_pay_yearly": "年間プランの特典を受ける",
+        "payment_method_title": "決済手段の選択",
+        "payment_card": "💳 クレジット / デビットカード",
+        "payment_notice1": "* PG社(KGイニシス)の規定により、クレジット/デビットカード決済のみ対応しています。(簡易/携帯電話決済不可)",
+        "payment_notice2": "安全な電子決済のためにKGイニシス(PortOne)システムを使用しています。",
+        "library_modal_title": "🎵 マイライブラリ",
+        "library_modal_subtitle": "作成した大切なAI音楽のリストです。いつでも聞き直して確認できます。"
     },
     zh: {
         // Common
@@ -282,7 +399,46 @@ const translations = {
         "step4_title": "设置歌曲标题",
         "step5_gender": "选择主唱性别",
         "btn_create": "完成作品 (Create)",
-        "btn_create_next": "✍️ 生成AI歌词草稿 (Next)"
+        "btn_create_next": "✍️ 生成AI歌词草稿 (Next)",
+        "gemini_active": "✨ 统一后台 AI (Gemini 联动中)",
+        "placeholder_pro": "请用英语或韩语自由描述您想要的音乐流派、乐器、氛围、声乐风格等。\n例) 120 BPM synthwave, heavy synth bass, ethereal female vocal, futuristic pop",
+        "tip_pro": "💡 提示：用逗号(,)列出详细乐器和氛围，可以创造更丰富独特的声音。",
+        "placeholder_story": "今天发生的事情，想对某人说的话，难忘的回忆等，请随意输入。\nGILS SOUND 独创性将为您谱写出感人至深的歌词。",
+        "draft_title": "📜 AI 歌词草稿预览",
+        "analyzing": "分析中",
+        "btn_remake_lyrics": "🔄 重新生成歌词",
+        "tip_story": "💡 服务器负载高时可能会发生错误。请稍后重试。",
+        "btn_auto_lyrics_top": "✨ AI 自动生成歌词",
+        "placeholder_lyrics": "请写下美丽的歌词。\n点击右上角的“AI 自动生成歌词”按钮，Gemini将自动为您写出符合所选流派或提示语的歌词！",
+        "placeholder_title": "我专属的特别标题",
+        "gen_time_notice": "(生成歌曲大约需要1~2分钟)",
+        
+        // Modal translations
+        "mypage_subtitle": "我的账户信息及付款历史",
+        "mypage_guest": "访客",
+        "mypage_join_date": "加入日期: -",
+        "mypage_current_plan": "当前套餐",
+        "mypage_credits_left": "剩余积分",
+        "mypage_songs_created": "已创作歌曲数",
+        "btn_logout_mypage": "登出",
+        "plan_basic": "基本套餐",
+        "store_subtitle": "通过合理的按量付费和定制积分充值，享受属于您的AI工作室。",
+        "plan_single_desc_sub": "轻松制作一首歌曲",
+        "plan_common_hq": "超高音质MP3下载",
+        "btn_pay": "立即付款",
+        "plan_starter_desc_sub": "原价 ₩9,900 → 40% 特别折扣",
+        "plan_common_fast": "优先生成队列快速处理",
+        "btn_pay_recharge": "充值付款",
+        "plan_pro_desc_sub": "为大容量创作者量身定制",
+        "btn_pay_monthly": "开始包月计划",
+        "plan_master_desc_sub": "最佳选择，尊享福利",
+        "btn_pay_yearly": "获取包年福利",
+        "payment_method_title": "选择付款方式",
+        "payment_card": "💳 信用卡 / 借记卡",
+        "payment_notice1": "* 根据PG(KG Inicis)规定，仅支持信用卡/借记卡支付。（不支持快捷/手机支付）",
+        "payment_notice2": "我们使用KG Inicis (PortOne)系统进行安全的电子支付。",
+        "library_modal_title": "🎵 我的曲库",
+        "library_modal_subtitle": "您创作的珍贵AI音乐列表。可随时收听和查看。"
     }
 };
 
@@ -302,6 +458,15 @@ function applyLanguage(lang) {
         const key = el.getAttribute('data-i18n');
         if (translations[lang][key]) {
             el.innerHTML = translations[lang][key];
+        }
+    });
+
+    // data-i18n-placeholder 속성을 가진 요소의 placeholder 텍스트 변경
+    const placeElements = document.querySelectorAll('[data-i18n-placeholder]');
+    placeElements.forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (translations[lang][key]) {
+            el.placeholder = translations[lang][key];
         }
     });
 }
