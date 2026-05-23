@@ -975,15 +975,7 @@
     <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.1/kakao.min.js"></script>
 </head>
 <body>
-    <!-- 언어 선택기 -->
-    <div style="position: absolute; top: 20px; right: 20px; z-index: 10;">
-        <select id="lang-selector" style="background: rgba(0,0,0,0.5); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 5px 10px; border-radius: 5px; cursor: pointer;">
-            <option value="ko">한국어</option>
-            <option value="en">English</option>
-            <option value="ja">日本語</option>
-            <option value="zh">中文</option>
-        </select>
-    </div>
+    <!-- 언어 선택기 제거 (헤더로 이동) -->
 
     <div class="overlay"></div>
 
@@ -1018,9 +1010,17 @@
         </div>
 
         <div class="main-content-wrapper">
-            <div class="header">
+            <div class="header" style="position: relative;">
                 <div class="logo">GILS SOUND</div>
                 <div class="subtitle">프리미엄 AI 뮤직 스튜디오</div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <select id="lang-selector" style="background: rgba(0,0,0,0.5); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+                        <option value="ko">한국어</option>
+                        <option value="en">English</option>
+                        <option value="ja">日本語</option>
+                        <option value="zh">中文</option>
+                    </select>
+                </div>
             </div>
 
     <div class="main-card">

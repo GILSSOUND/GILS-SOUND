@@ -128,16 +128,6 @@
 </head>
 
 <body>
-    <!-- 언어 선택기 -->
-    <div style="position: absolute; top: 20px; right: 20px; z-index: 10;">
-        <select id="lang-selector" style="background: rgba(0,0,0,0.5); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 5px 10px; border-radius: 5px; cursor: pointer;">
-            <option value="ko">한국어</option>
-            <option value="en">English</option>
-            <option value="ja">日本語</option>
-            <option value="zh">中文</option>
-        </select>
-    </div>
-
     <div class="overlay"></div>
 
     <!-- Main Hero -->
@@ -179,18 +169,18 @@
 
     <!-- Pricing Section (for PG Approval) -->
     <div class="hero-card" style="margin-bottom: 60px; padding: 40px; max-width: 1200px;">
-        <h2 style="color: var(--primary-gold); margin-bottom: 30px; font-size: 24px;">GILS SOUND 요금제 (플랜) 안내</h2>
+        <h2 style="color: var(--primary-gold); margin-bottom: 30px; font-size: 24px;" data-i18n="plan_title">GILS SOUND 요금제 (플랜) 안내</h2>
         <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
             <div
                 style="background: rgba(0,0,0,0.5); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(255,255,255,0.1);">
-                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;">싱글 체험 팩 (단건)</h3>
+                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;" data-i18n="plan_single_title">싱글 체험 팩 (단건)</h3>
                 <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩990
                     <span style="font-size:14px; color:#9ca3af;">/ 1곡</span></p>
                 <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">1곡 생성 크레딧 충전<br>모든 상업적 이용 허용</p>
             </div>
             <div
                 style="background: rgba(0,0,0,0.5); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(255,255,255,0.1);">
-                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;">스타터 패키지 (단건)</h3>
+                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px;" data-i18n="plan_starter_title">스타터 패키지 (단건)</h3>
                 <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩5,990
                     <span style="font-size:14px; color:#9ca3af;">/ 10곡</span></p>
                 <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">총 10곡 생성 크레딧 충전<br>모든 상업적 이용 허용</p>
@@ -198,9 +188,9 @@
             <div
                 style="background: rgba(212,175,55,0.1); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 1px solid rgba(212,175,55,0.4); position: relative;">
                 <div
-                    style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--primary-gold); color:#000; font-size:11px; font-weight:bold; padding:4px 10px; border-radius:12px;">
+                    style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--primary-gold); color:#000; font-size:11px; font-weight:bold; padding:4px 10px; border-radius:12px;" data-i18n="plan_pro_badge">
                     월플랜 (한달이용권)</div>
-                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px; margin-top:10px;">프로 크리에이터 팩</h3>
+                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px; margin-top:10px;" data-i18n="plan_pro_title">프로 크리에이터 팩</h3>
                 <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩19,900
                     <span style="font-size:14px; color:#9ca3af;">/ 30일</span></p>
                 <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6;">총 100곡 생성 크레딧 제공<br>결제일로부터 30일간 유효<br>모든
@@ -209,9 +199,9 @@
             <div
                 style="background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(0,0,0,0.8)); padding: 25px; border-radius: 16px; flex: 1; min-width: 250px; border: 2px solid var(--primary-gold); position: relative; box-shadow: 0 10px 30px rgba(212,175,55,0.2);">
                 <div
-                    style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:linear-gradient(90deg, #D4AF37, #FDE047); color:#000; font-size:11px; font-weight:bold; padding:4px 12px; border-radius:12px;">
+                    style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:linear-gradient(90deg, #D4AF37, #FDE047); color:#000; font-size:11px; font-weight:bold; padding:4px 12px; border-radius:12px;" data-i18n="plan_master_badge">
                     연플랜 (1년구독권)</div>
-                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px; margin-top:10px;">VVIP 마스터 플랜</h3>
+                <h3 style="font-size: 18px; color: #fff; margin-bottom: 10px; margin-top:10px;" data-i18n="plan_master_title">VVIP 마스터 플랜</h3>
                 <p style="font-size: 24px; font-weight: bold; color: var(--primary-gold); margin-bottom: 15px;">₩99,000
                     <span style="font-size:14px; color:#9ca3af;">/ 365일</span></p>
                 <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6; text-align: left; padding-left: 10px;">
@@ -227,9 +217,15 @@
     <!-- PG Required Footer -->
     <footer
         style="width: 100%; padding: 40px 20px; background: rgba(0,0,0,0.8); border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: #9CA3AF; font-size: 12px; line-height: 1.8;">
-        <div style="margin-bottom: 15px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+        <div style="margin-bottom: 15px; display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;">
             <a href="terms.html" style="color: #D4AF37; text-decoration: none; font-weight: bold;" data-i18n="footer_terms">이용약관 (환불정책 포함)</a>
             <a href="privacy.html" style="color: #D4AF37; text-decoration: none; font-weight: bold;" data-i18n="footer_privacy">개인정보처리방침</a>
+            <select id="lang-selector" style="background: rgba(0,0,0,0.5); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px;">
+                <option value="ko">한국어</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+                <option value="zh">中文</option>
+            </select>
         </div>
         <p data-i18n="footer_company_info">
             상호명: 길스유통 | 대표자: 손길동 | 사업자등록번호: 293-45-01112<br>
