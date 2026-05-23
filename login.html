@@ -341,15 +341,10 @@
             
             sessionStorage.setItem('gils_login_provider', 'naver');
             
-            // SDK가 안전하게 생성한 버튼의 고유 주소(state 포함)를 가져와서 리디렉션
+            // SDK가 생성한 숨겨진 진짜 네이버 로그인 버튼을 프로그래밍 방식으로 클릭!
             const naverBtn = document.getElementById("naverIdLogin").querySelector("a");
-            if (naverBtn && naverBtn.href) {
-                // 계정 선택창을 강제로 띄우기 위해 auth_type=reprompt 추가
-                let authUrl = naverBtn.href;
-                if (!authUrl.includes('auth_type=reprompt')) {
-                    authUrl += "&auth_type=reprompt";
-                }
-                window.location.href = authUrl;
+            if (naverBtn) {
+                naverBtn.click(); // SDK 자체 클릭 이벤트 트리거 (이 방식이 가장 안전함)
             } else {
                 alert("네이버 로그인을 준비 중입니다. 잠시 후 다시 시도해주세요.");
             }
