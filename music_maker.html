@@ -1043,83 +1043,83 @@
             <div class="genre-grid" id="genre-grid">
                 <div class="genre-card selected" onclick="selectGenre(this, '감성적인 발라드', '2.한국인/여자/indie_kr_woman_1_1778646998075.png')">
                     <div class="genre-bg" style="background-image: url('2.한국인/여자/indie_kr_woman_1_1778646998075.png');"></div>
-                    <div class="genre-overlay"><span class="genre-name">발라드</span></div>
+                    <div class="genre-overlay"><span class="genre-name" data-i18n="genre_ballad">발라드</span></div>
                 </div>
                 <div class="genre-card" onclick="selectGenre(this, '따뜻한 어쿠스틱', '2.한국인/여자/indie_kr_woman_3_1778647024176.png')">
                     <div class="genre-bg" style="background-image: url('2.한국인/여자/indie_kr_woman_3_1778647024176.png');"></div>
-                    <div class="genre-overlay"><span class="genre-name">어쿠스틱</span></div>
+                    <div class="genre-overlay"><span class="genre-name" data-i18n="genre_acoustic">어쿠스틱</span></div>
                 </div>
                 <div class="genre-card" onclick="selectGenre(this, '트렌디한 힙합', '2.한국인/남자/indie_kr_man_2_1778647103208.png')">
                     <div class="genre-bg" style="background-image: url('2.한국인/남자/indie_kr_man_2_1778647103208.png');"></div>
-                    <div class="genre-overlay"><span class="genre-name">힙합</span></div>
+                    <div class="genre-overlay"><span class="genre-name" data-i18n="genre_hiphop">힙합</span></div>
                 </div>
                 <div class="genre-card" onclick="selectGenre(this, '매력적인 인디 팝', '2.한국인/여자/indie_kr_woman_5_1778647065765.png')">
                     <div class="genre-bg" style="background-image: url('2.한국인/여자/indie_kr_woman_5_1778647065765.png');"></div>
-                    <div class="genre-overlay"><span class="genre-name">인디 팝</span></div>
+                    <div class="genre-overlay"><span class="genre-name" data-i18n="genre_indiepop">인디 팝</span></div>
                 </div>
                 <div class="genre-card" onclick="selectGenre(this, '신나는 댄스 팝', '2.한국인/여자/woman_influencer_3.png')">
                     <div class="genre-bg" style="background-image: url('2.한국인/여자/woman_influencer_3.png');"></div>
-                    <div class="genre-overlay"><span class="genre-name">댄스 팝</span></div>
+                    <div class="genre-overlay"><span class="genre-name" data-i18n="genre_dancepop">댄스 팝</span></div>
                 </div>
                 <div class="genre-card" onclick="selectGenre(this, '소울풀 R&B', '2.한국인/남자/indie_kr_man_1_1778647088018.png')">
                     <div class="genre-bg" style="background-image: url('2.한국인/남자/indie_kr_man_1_1778647088018.png');"></div>
-                    <div class="genre-overlay"><span class="genre-name">R&B</span></div>
+                    <div class="genre-overlay"><span class="genre-name" data-i18n="genre_rnb">R&B</span></div>
                 </div>
                 <div class="genre-card" onclick="selectGenre(this, '경쾌한 모던 록', '2.한국인/여자/indie_kr_woman_4_1778647046070.png')">
                     <div class="genre-bg" style="background-image: url('2.한국인/여자/indie_kr_woman_4_1778647046070.png');"></div>
-                    <div class="genre-overlay"><span class="genre-name">모던 록</span></div>
+                    <div class="genre-overlay"><span class="genre-name" data-i18n="genre_modernrock">모던 록</span></div>
                 </div>
                 <div class="genre-card" onclick="selectGenre(this, '편안한 로파이 (Lo-Fi)', '2.한국인/여자/woman_influencer_1.png')">
                     <div class="genre-bg" style="background-image: url('2.한국인/여자/woman_influencer_1.png');"></div>
-                    <div class="genre-overlay"><span class="genre-name">로파이</span></div>
+                    <div class="genre-overlay"><span class="genre-name" data-i18n="genre_lofi">로파이</span></div>
                 </div>
                 <div class="genre-card" onclick="selectGenre(this, '부드러운 재즈 라운지', '2.한국인/여자/indie_kr_woman_2_1778647011070.png')">
                     <div class="genre-bg" style="background-image: url('2.한국인/여자/indie_kr_woman_2_1778647011070.png');"></div>
-                    <div class="genre-overlay"><span class="genre-name">재즈</span></div>
+                    <div class="genre-overlay"><span class="genre-name" data-i18n="genre_jazz">재즈</span></div>
                 </div>
                 <div class="genre-card" onclick="selectGenre(this, '웅장한 시네마틱', '2.한국인/여자/woman_influencer_2.png')">
                     <div class="genre-bg" style="background-image: url('2.한국인/여자/woman_influencer_2.png');"></div>
-                    <div class="genre-overlay"><span class="genre-name">시네마틱</span></div>
+                    <div class="genre-overlay"><span class="genre-name" data-i18n="genre_cinematic">시네마틱</span></div>
                 </div>
             </div>
 
             <!-- 더보기 (텍스트 전용 장르) -->
             <div style="margin-top: 15px; text-align: center;">
-                <button type="button" class="btn-checkout" id="btn-more-genres" onclick="toggleMoreGenres()" style="background: transparent; border: 1px solid var(--border-glass); color: #ccc; padding: 10px 20px; font-size: 14px;">
+                <button type="button" class="btn-checkout" id="btn-more-genres" onclick="toggleMoreGenres()" style="background: transparent; border: 1px solid var(--border-glass); color: #ccc; padding: 10px 20px; font-size: 14px;" data-i18n="btn_more_genres">
                     👇 더 많은 장르 보기 (텍스트 전용)
                 </button>
             </div>
             
             <div id="more-genres-container" style="display: none; margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid var(--border-glass);">
-                <div style="font-size: 12px; color: var(--primary-gold); margin-bottom: 10px; text-align: center;">원하시는 장르 텍스트를 클릭하시면 선택됩니다.</div>
+                <div style="font-size: 12px; color: var(--primary-gold); margin-bottom: 10px; text-align: center;" data-i18n="more_genres_desc">원하시는 장르 텍스트를 클릭하시면 선택됩니다.</div>
                 <div class="text-genre-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;">
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, 'K-Pop 아이돌 스타일')">K-Pop 아이돌</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '신나는 트로트')">트로트</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '강렬한 일렉트로닉 댄스 (EDM)')">EDM / 일렉트로닉</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '레트로 시티팝')">레트로 시티팝</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '어쿠스틱 포크')">어쿠스틱 포크</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '강렬한 펑크 록')">펑크 록</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '얼터너티브 록')">얼터너티브 록</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '딥 블루스')">블루스</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '부드러운 보사노바')">보사노바</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '그루브한 레게')">레게</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '흥겨운 라틴 팝')">라틴 팝</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '웅장한 클래식 오케스트라')">오케스트라</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '잔잔한 뉴에이지 피아노')">뉴에이지 피아노</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '미래지향적 사이버펑크')">사이버펑크</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '화려한 뮤지컬 넘버')">뮤지컬 넘버</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '헤비 메탈')">헤비 메탈</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '신나는 레트로 디스코')">디스코</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '은혜로운 가스펠 CCM')">가스펠 / CCM</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '아름다운 국악 퓨전')">국악 퓨전</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '맑고 순수한 동요')">동요</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '신비로운 앰비언트')">앰비언트</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '신나는 로큰롤')">로큰롤</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '트렌디 트랩 힙합')">트랩 힙합</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '올드스쿨 붐뱁 힙합')">붐뱁 힙합</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '퓨처 베이스')">퓨처 베이스</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '경쾌한 하우스')">하우스</div>
-                    <div class="text-genre-tag" onclick="selectTextGenre(this, '강렬한 테크노')">테크노</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, 'K-Pop 아이돌 스타일')" data-i18n="genre_text_kpop">K-Pop 아이돌</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '신나는 트로트')" data-i18n="genre_text_trot">트로트</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '강렬한 일렉트로닉 댄스 (EDM)')" data-i18n="genre_text_edm">EDM / 일렉트로닉</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '레트로 시티팝')" data-i18n="genre_text_retro">레트로 시티팝</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '어쿠스틱 포크')" data-i18n="genre_text_folk">어쿠스틱 포크</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '강렬한 펑크 록')" data-i18n="genre_text_punk">펑크 록</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '얼터너티브 록')" data-i18n="genre_text_alt">얼터너티브 록</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '딥 블루스')" data-i18n="genre_text_blues">블루스</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '부드러운 보사노바')" data-i18n="genre_text_bossa">보사노바</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '그루브한 레게')" data-i18n="genre_text_reggae">레게</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '흥겨운 라틴 팝')" data-i18n="genre_text_latin">라틴 팝</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '웅장한 클래식 오케스트라')" data-i18n="genre_text_orchestra">오케스트라</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '잔잔한 뉴에이지 피아노')" data-i18n="genre_text_newage">뉴에이지 피아노</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '미래지향적 사이버펑크')" data-i18n="genre_text_cyberpunk">사이버펑크</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '화려한 뮤지컬 넘버')" data-i18n="genre_text_musical">뮤지컬 넘버</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '헤비 메탈')" data-i18n="genre_text_metal">헤비 메탈</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '신나는 레트로 디스코')" data-i18n="genre_text_disco">디스코</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '은혜로운 가스펠 CCM')" data-i18n="genre_text_gospel">가스펠 / CCM</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '아름다운 국악 퓨전')" data-i18n="genre_text_gugak">국악 퓨전</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '맑고 순수한 동요')" data-i18n="genre_text_children">동요</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '신비로운 앰비언트')" data-i18n="genre_text_ambient">앰비언트</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '신나는 로큰롤')" data-i18n="genre_text_rocknroll">로큰롤</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '트렌디 트랩 힙합')" data-i18n="genre_text_trap">트랩 힙합</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '올드스쿨 붐뱁 힙합')" data-i18n="genre_text_boombap">붐뱁 힙합</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '퓨처 베이스')" data-i18n="genre_text_futurebass">퓨처 베이스</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '경쾌한 하우스')" data-i18n="genre_text_house">하우스</div>
+                    <div class="text-genre-tag" onclick="selectTextGenre(this, '강렬한 테크노')" data-i18n="genre_text_techno">테크노</div>
                 </div>
             </div>
 
@@ -1190,19 +1190,19 @@
                 <span data-i18n="step3_mood">곡의 세부 감성을 선택하세요</span>
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                <div class="text-genre-tag mood-tag selected" onclick="selectMood(this, '신나는')">😄 신나는</div>
-                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '슬픈')">😢 슬픈</div>
-                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '화나는')">😡 화나는</div>
-                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '감성적인')">🥺 감성적인</div>
-                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '몽환적인')">🌌 몽환적인</div>
-                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '평온한')">😌 평온한</div>
-                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '희망찬')">🌟 희망찬</div>
-                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '강렬한')">🔥 강렬한</div>
-                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '긴장감 있는')">😬 긴장감 있는</div>
-                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '우울한')">🌧️ 우울한</div>
-                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '로맨틱한')">💕 로맨틱한</div>
-                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '시원한')">🌊 시원한</div>
-                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '어두운')">🌑 어두운</div>
+                <div class="text-genre-tag mood-tag selected" onclick="selectMood(this, '신나는')" data-i18n="mood_happy">😄 신나는</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '슬픈')" data-i18n="mood_sad">😢 슬픈</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '화나는')" data-i18n="mood_angry">😡 화나는</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '감성적인')" data-i18n="mood_emotional">🥺 감성적인</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '몽환적인')" data-i18n="mood_dreamy">🌌 몽환적인</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '평온한')" data-i18n="mood_peaceful">😌 평온한</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '희망찬')" data-i18n="mood_hopeful">🌟 희망찬</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '강렬한')" data-i18n="mood_intense">🔥 강렬한</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '긴장감 있는')" data-i18n="mood_tense">😬 긴장감 있는</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '우울한')" data-i18n="mood_depressed">🌧️ 우울한</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '로맨틱한')" data-i18n="mood_romantic">💕 로맨틱한</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '시원한')" data-i18n="mood_refreshing">🌊 시원한</div>
+                <div class="text-genre-tag mood-tag" onclick="selectMood(this, '어두운')" data-i18n="mood_dark">🌑 어두운</div>
             </div>
             <input type="hidden" id="selected-mood" value="신나는">
         </div>
@@ -1900,7 +1900,7 @@
             if (liveListDiv) {
                 liveListDiv.innerHTML = '';
                 if (myLibrarySongs.length === 0) {
-                    liveListDiv.innerHTML = '<div class="empty-sidebar">아직 창작된 곡이 없습니다.<br>나만의 첫 음악을 완성해 보세요!</div>';
+                    liveListDiv.innerHTML = '<div class="empty-sidebar" data-i18n="sidebar_empty">아직 창작된 곡이 없습니다.<br>나만의 첫 음악을 완성해 보세요!</div>';
                 } else {
                     const recent10 = myLibrarySongs.slice(0, 10);
                     recent10.forEach((song, i) => {
@@ -1921,10 +1921,10 @@
                                 <div style="position: relative;">
                                     <button onclick="toggleMenu(${originalIndex})" style="background: none; border: none; color: #ccc; font-size: 18px; font-weight: bold; cursor: pointer; padding: 0 5px; height: 100%;" title="메뉴">⋮</button>
                                     <div id="live-menu-${originalIndex}" style="display: none; position: absolute; right: 0; top: 25px; background: #1F2937; border: 1px solid #374151; border-radius: 8px; padding: 6px; z-index: 100; flex-direction: column; gap: 4px; min-width: 150px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-                                        <button onclick="toggleMenu(${originalIndex}); downloadSong('${song.audioUrl}', '${safeTitle}')" style="background:none; border:none; color:white; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='none'">다운로드</button>
-                                        <button onclick="toggleMenu(${originalIndex}); shareSong('${safeTitle}', '${song.id}', '${song.cover}', '${song.audioUrl}')" style="background:none; border:none; color:#60A5FA; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(96, 165, 250, 0.1)'" onmouseout="this.style.background='none'">공유하기</button>
-                                        <button onclick="toggleMenu(${originalIndex}); viewPrompt('${safePrompt}')" style="background:none; border:none; color:var(--primary-gold); text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(212, 175, 55, 0.1)'" onmouseout="this.style.background='none'">상세 프롬프트 보기</button>
-                                        <button onclick="toggleMenu(${originalIndex}); deleteSong(${originalIndex})" style="background:none; border:none; color:#F87171; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(248, 113, 113, 0.1)'" onmouseout="this.style.background='none'">삭제</button>
+                                        <button onclick="toggleMenu(${originalIndex}); downloadSong('${song.audioUrl}', '${safeTitle}')" style="background:none; border:none; color:white; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='none'" data-i18n="menu_download">다운로드</button>
+                                        <button onclick="toggleMenu(${originalIndex}); shareSong('${safeTitle}', '${song.id}', '${song.cover}', '${song.audioUrl}')" style="background:none; border:none; color:#60A5FA; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(96, 165, 250, 0.1)'" onmouseout="this.style.background='none'" data-i18n="menu_share">공유하기</button>
+                                        <button onclick="toggleMenu(${originalIndex}); viewPrompt('${safePrompt}')" style="background:none; border:none; color:var(--primary-gold); text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(212, 175, 55, 0.1)'" onmouseout="this.style.background='none'" data-i18n="menu_prompt">상세 프롬프트 보기</button>
+                                        <button onclick="toggleMenu(${originalIndex}); deleteSong(${originalIndex})" style="background:none; border:none; color:#F87171; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(248, 113, 113, 0.1)'" onmouseout="this.style.background='none'" data-i18n="menu_delete">삭제</button>
                                     </div>
                                 </div>
                             </div>
@@ -1938,7 +1938,7 @@
             // 2. Main Library Modal Pagination
             listDiv.innerHTML = '';
             if (myLibrarySongs.length === 0) {
-                listDiv.innerHTML = '<div class="empty-library">아직 창작된 곡이 없습니다. 나만의 첫 음악을 완성해 보세요!</div>';
+                listDiv.innerHTML = '<div class="empty-library" data-i18n="library_empty">아직 창작된 곡이 없습니다. 나만의 첫 음악을 완성해 보세요!</div>';
                 return;
             }
 
@@ -1965,12 +1965,12 @@
                     <div style="display: flex; flex-direction: column; gap: 8px;">
                         <audio controls controlsList="nodownload noplaybackrate" src="${song.audioUrl}" style="height: 36px; max-width: 200px; outline: none;"></audio>
                         <div style="position: relative; align-self: flex-end;">
-                            <button onclick="toggleMenu(${originalIndex})" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: #fff; font-size: 14px; font-weight: bold; cursor: pointer; padding: 4px 12px; transition: all 0.2s;">··· 옵션</button>
+                            <button onclick="toggleMenu(${originalIndex})" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: #fff; font-size: 14px; font-weight: bold; cursor: pointer; padding: 4px 12px; transition: all 0.2s;" data-i18n="menu_options">··· 옵션</button>
                             <div id="menu-${originalIndex}" style="display: none; position: absolute; right: 0; top: 35px; background: #1F2937; border: 1px solid #374151; border-radius: 8px; padding: 6px; z-index: 100; flex-direction: column; gap: 4px; min-width: 150px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-                                <button onclick="toggleMenu(${originalIndex}); downloadSong('${song.audioUrl}', '${safeTitle}')" style="background:none; border:none; color:white; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='none'">다운로드</button>
-                                <button onclick="toggleMenu(${originalIndex}); shareSong('${safeTitle}', '${song.id}', '${song.cover}', '${song.audioUrl}')" style="background:none; border:none; color:#60A5FA; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(96, 165, 250, 0.1)'" onmouseout="this.style.background='none'">공유하기</button>
-                                <button onclick="toggleMenu(${originalIndex}); viewPrompt('${safePrompt}')" style="background:none; border:none; color:var(--primary-gold); text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(212, 175, 55, 0.1)'" onmouseout="this.style.background='none'">상세 프롬프트 보기</button>
-                                <button onclick="toggleMenu(${originalIndex}); deleteSong(${originalIndex})" style="background:none; border:none; color:#F87171; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(248, 113, 113, 0.1)'" onmouseout="this.style.background='none'">삭제</button>
+                                <button onclick="toggleMenu(${originalIndex}); downloadSong('${song.audioUrl}', '${safeTitle}')" style="background:none; border:none; color:white; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='none'" data-i18n="menu_download">다운로드</button>
+                                <button onclick="toggleMenu(${originalIndex}); shareSong('${safeTitle}', '${song.id}', '${song.cover}', '${song.audioUrl}')" style="background:none; border:none; color:#60A5FA; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(96, 165, 250, 0.1)'" onmouseout="this.style.background='none'" data-i18n="menu_share">공유하기</button>
+                                <button onclick="toggleMenu(${originalIndex}); viewPrompt('${safePrompt}')" style="background:none; border:none; color:var(--primary-gold); text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(212, 175, 55, 0.1)'" onmouseout="this.style.background='none'" data-i18n="menu_prompt">상세 프롬프트 보기</button>
+                                <button onclick="toggleMenu(${originalIndex}); deleteSong(${originalIndex})" style="background:none; border:none; color:#F87171; text-align:left; cursor:pointer; padding: 8px; width: 100%; font-size: 13px; border-radius: 4px; transition: 0.2s;" onmouseover="this.style.background='rgba(248, 113, 113, 0.1)'" onmouseout="this.style.background='none'" data-i18n="menu_delete">삭제</button>
                             </div>
                         </div>
                     </div>
