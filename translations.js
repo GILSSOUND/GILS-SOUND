@@ -118,6 +118,18 @@ const translations = {
         "menu_prompt": "상세 프롬프트 보기",
         "menu_delete": "삭제",
 
+        // 단위 및 기타 텍스트
+        "unit_songs": "곡",
+        "unlimited": "∞ 무제한",
+
+        // 보컬 성별
+        "gender_female": "👩 여성 보컬",
+        "gender_male": "👨 남성 보컬",
+        "gender_duet": "👫 남녀 듀엣",
+        "gender_none": "🚫 보컬 없음 (연주곡)",
+        "pro_genre_label": "직접 입력 아트 팝",
+        "inst_suffix": " (연주곡)",
+
         // 장르 및 분위기 (Mood) 번역
         "genre_ballad": "발라드",
         "genre_acoustic": "어쿠스틱",
@@ -130,6 +142,7 @@ const translations = {
         "genre_jazz": "재즈",
         "genre_cinematic": "시네마틱",
         "btn_more_genres": "👇 더 많은 장르 보기 (텍스트 전용)",
+        "btn_close_genres": "👆 더보기 숨기기",
         "more_genres_desc": "원하시는 장르 텍스트를 클릭하시면 선택됩니다.",
         "genre_text_kpop": "K-Pop 아이돌",
         "genre_text_trot": "트로트",
@@ -291,6 +304,18 @@ const translations = {
         "menu_prompt": "View detailed prompt",
         "menu_delete": "Delete",
 
+        // Units & Other Texts
+        "unit_songs": "songs",
+        "unlimited": "∞ Unlimited",
+
+        // Vocal Gender
+        "gender_female": "👩 Female Vocal",
+        "gender_male": "👨 Male Vocal",
+        "gender_duet": "👫 Duet",
+        "gender_none": "🚫 No Vocal (Inst.)",
+        "pro_genre_label": "Custom Art Pop",
+        "inst_suffix": " (Inst.)",
+
         // Genres & Moods
         "genre_ballad": "Ballad",
         "genre_acoustic": "Acoustic",
@@ -303,6 +328,7 @@ const translations = {
         "genre_jazz": "Jazz",
         "genre_cinematic": "Cinematic",
         "btn_more_genres": "👇 View more genres (Text only)",
+        "btn_close_genres": "👆 Hide more genres",
         "more_genres_desc": "Click the text of the genre you want to select.",
         "genre_text_kpop": "K-Pop Idol",
         "genre_text_trot": "Trot",
@@ -463,6 +489,18 @@ const translations = {
         "menu_prompt": "詳細プロンプトを見る",
         "menu_delete": "削除",
 
+        // Units & Other Texts
+        "unit_songs": "曲",
+        "unlimited": "∞ 無制限",
+
+        // Vocal Gender
+        "gender_female": "👩 女性ボーカル",
+        "gender_male": "👨 男性ボーカル",
+        "gender_duet": "👫 デュエット",
+        "gender_none": "🚫 ボーカルなし (インスト)",
+        "pro_genre_label": "カスタムアートポップ",
+        "inst_suffix": " (インスト)",
+
         // Genres & Moods
         "genre_ballad": "バラード",
         "genre_acoustic": "アコースティック",
@@ -475,6 +513,7 @@ const translations = {
         "genre_jazz": "ジャズ",
         "genre_cinematic": "シネマティック",
         "btn_more_genres": "👇 もっと多くのジャンルを見る（テキストのみ）",
+        "btn_close_genres": "👆 もっと見るを隠す",
         "more_genres_desc": "希望のジャンルのテキストをクリックして選択します。",
         "genre_text_kpop": "K-Popアイドル",
         "genre_text_trot": "トロット",
@@ -635,6 +674,18 @@ const translations = {
         "menu_prompt": "查看详细提示语",
         "menu_delete": "删除",
 
+        // Units & Other Texts
+        "unit_songs": "首",
+        "unlimited": "∞ 无限",
+
+        // Vocal Gender
+        "gender_female": "👩 女声",
+        "gender_male": "👨 男声",
+        "gender_duet": "👫 男女对唱",
+        "gender_none": "🚫 无人声 (纯音乐)",
+        "pro_genre_label": "自定义艺术流行",
+        "inst_suffix": " (纯音乐)",
+
         // Genres & Moods
         "genre_ballad": "民谣",
         "genre_acoustic": "原声",
@@ -647,6 +698,7 @@ const translations = {
         "genre_jazz": "爵士乐",
         "genre_cinematic": "电影配乐",
         "btn_more_genres": "👇 查看更多流派（仅文本）",
+        "btn_close_genres": "👆 隐藏更多流派",
         "more_genres_desc": "点击所需的流派文本即可选择。",
         "genre_text_kpop": "K-Pop 偶像",
         "genre_text_trot": "Trot（韩国演歌）",
@@ -718,6 +770,21 @@ function applyLanguage(lang) {
             el.placeholder = translations[lang][key];
         }
     });
+
+    // 동적으로 설정되는 텍스트(예: 무제한) 업데이트 로직
+    const userCreditsEl = document.getElementById('user-credits');
+    const mypageCreditsEl = document.getElementById('mypage-credits');
+    const unlimitedText = translations[lang]['unlimited'] || '∞ 무제한';
+    
+    // 로컬 스토리지 또는 전역 변수에서 현재 크레딧을 읽어와서 무제한일 경우 텍스트 업데이트
+    const savedCredits = localStorage.getItem('gils_credits');
+    if (savedCredits) {
+        const parsedCredits = parseInt(savedCredits, 10);
+        if (parsedCredits === 9999) {
+            if (userCreditsEl) userCreditsEl.innerText = unlimitedText;
+            if (mypageCreditsEl) mypageCreditsEl.innerText = unlimitedText;
+        }
+    }
 }
 
 // 브라우저 언어 감지 또는 저장된 언어 불러오기
@@ -746,3 +813,20 @@ function initLanguage() {
 
 // 스크립트가 로드되면 즉시 실행
 document.addEventListener('DOMContentLoaded', initLanguage);
+
+// 동적 조합 텍스트 (장르, 분위기)를 번역하는 함수
+function translateDynamicText(text, lang) {
+    if (!text || lang === 'ko' || !translations[lang]) return text;
+    
+    let translated = text;
+    const koDict = translations['ko'];
+    const targetDict = translations[lang];
+    
+    // koDict의 키들을 순회하며 포함된 한글을 매칭해서 대상 언어로 변경
+    for (const key in koDict) {
+        if (koDict[key] && translated.includes(koDict[key])) {
+            translated = translated.replace(koDict[key], targetDict[key]);
+        }
+    }
+    return translated;
+}
