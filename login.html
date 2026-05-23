@@ -336,28 +336,31 @@
         function loginWithNaver() {
             if (NAVER_CLIENT_ID === "YOUR_NAVER_CLIENT_ID") {
                 alert("네이버 Client ID가 입력되지 않았습니다. 네이버 개발자 센터에서 발급받은 키를 login.html 코드에 넣어주세요!");
-                // 임시 테스트용
-                handleLoginSuccess("네이버");
                 return;
             }
             
-            // 네이버는 팝업을 사용하므로 세션 기록 불필요 (단일 팝업)
-            sessionStorage.removeItem('gils_login_provider');
-            
-            // 네이버 SDK 버튼 대신 직접 리디렉션 주소 생성 (auth_type=reprompt 강제 적용을 위해)
             sessionStorage.setItem('gils_login_provider', 'naver');
-            const cleanUrl = window.location.origin + window.location.pathname;
-            const redirectUri = encodeURIComponent(cleanUrl);
-            const state = Math.random().toString(36).substring(2, 15);
-            const authUrl = `https://nid.naver.com/oauth2.0/authorize?client_id=${NAVER_CLIENT_ID}&response_type=token&redirect_uri=${redirectUri}&state=${state}&auth_type=reprompt`;
-            window.location.href = authUrl;
+            
+            // SDK가 안전하게 생성한 버튼의 고유 주소(state 포함)를 가져와서 리디렉션
+            const naverBtn = document.getElementById("naverIdLogin").querySelector("a");
+            if (naverBtn && naverBtn.href) {
+                // 계정 선택창을 강제로 띄우기 위해 auth_type=reprompt 추가
+                let authUrl = naverBtn.href;
+                if (!authUrl.includes('auth_type=reprompt')) {
+                    authUrl += "&auth_type=reprompt";
+                }
+                window.location.href = authUrl;
+            } else {
+                alert("네이버 로그인을 준비 중입니다. 잠시 후 다시 시도해주세요.");
+            }
         }
 
         // 네이버 SDK 초기화
         if (NAVER_CLIENT_ID !== "YOUR_NAVER_CLIENT_ID") {
+            const cleanUrl = window.location.origin + window.location.pathname; // 해시(#) 제거된 깨끗한 주소
             const naverLogin = new naver.LoginWithNaverId({
                 clientId: NAVER_CLIENT_ID,
-                callbackUrl: window.location.href, // 로그인 후 돌아올 주소
+                callbackUrl: cleanUrl, // 로그인 후 돌아올 주소
                 isPopup: false, // 팝업 대신 직접 리디렉션 사용
                 loginButton: {color: "green", type: 3, height: 60} // 숨겨진 버튼 설정
             });
@@ -387,12 +390,14 @@
                         return;
                     }
 
-                    // 구글이 아니면 네이버 팝업 콜백으로 간주
+                    // 구글이 아니면 네이버 콜백으로 간주
                     naverLogin.getLoginStatus(function (status) {
                         if (status) {
-                            const email = naverLogin.user.getEmail();
-                            const nickname = naverLogin.user.getNickName();
+                            const email = naverLogin.user.getEmail() || "";
+                            const nickname = naverLogin.user.getNickName() || "네이버 유저";
                             handleLoginSuccess("네이버", email, nickname);
+                        } else {
+                            alert("네이버 로그인 인증은 완료되었으나 프로필 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
                         }
                     });
                 }
