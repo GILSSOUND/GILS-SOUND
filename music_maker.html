@@ -1568,15 +1568,15 @@
             <div class="library-close" onclick="document.getElementById('inapp-browser-modal').style.display='none'">×</div>
             <div class="library-header" style="margin-bottom: 25px;">
                 <div style="font-size: 40px; margin-bottom: 15px;">🚨</div>
-                <h2 style="font-size: 20px; color: var(--primary-gold); line-height: 1.4;">카카오톡 브라우저 정책상<br>직접 다운로드가 제한되어 있습니다.</h2>
-                <p style="margin-top: 15px; font-size: 14px; color: #D1D5DB; line-height: 1.6;">안전하고 원활한 파일 저장을 위해<br>기본 브라우저(Chrome, Safari 등)를 이용해 주세요.</p>
+                <h2 data-i18n="modal_inapp_title" style="font-size: 20px; color: var(--primary-gold); line-height: 1.4;">카카오톡 브라우저 정책상<br>직접 다운로드가 제한되어 있습니다.</h2>
+                <p data-i18n="modal_inapp_desc" style="margin-top: 15px; font-size: 14px; color: #D1D5DB; line-height: 1.6;">안전하고 원활한 파일 저장을 위해<br>기본 브라우저(Chrome, Safari 등)를 이용해 주세요.</p>
             </div>
             
             <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
-                <button class="btn-checkout" onclick="openExternalBrowser()" style="background: var(--primary-gold); color: #000; border: none; font-size: 15px; font-weight: bold; padding: 14px; border-radius: 12px; cursor: pointer; transition: 0.2s;">
+                <button class="btn-checkout" onclick="openExternalBrowser()" data-i18n="btn_open_external" style="background: var(--primary-gold); color: #000; border: none; font-size: 15px; font-weight: bold; padding: 14px; border-radius: 12px; cursor: pointer; transition: 0.2s;">
                     🌐 다른 웹브라우저로 열기
                 </button>
-                <button class="btn-checkout" onclick="document.getElementById('inapp-browser-modal').style.display='none'" style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); font-size: 15px; font-weight: bold; padding: 14px; border-radius: 12px; cursor: pointer; transition: 0.2s;">
+                <button class="btn-checkout" onclick="document.getElementById('inapp-browser-modal').style.display='none'" data-i18n="btn_close" style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); font-size: 15px; font-weight: bold; padding: 14px; border-radius: 12px; cursor: pointer; transition: 0.2s;">
                     닫기
                 </button>
             </div>
@@ -2037,7 +2037,9 @@
             } else if (userAgent.indexOf("android") > -1) {
                 location.href = 'intent://' + targetUrl.replace(/https?:\/\//i, '') + '#Intent;scheme=https;package=com.android.chrome;end';
             } else {
-                alert('화면 하단 또는 상단의 [ ⋮ ] 메뉴 버튼을 눌러서\n👉 "다른 브라우저로 열기(Safari / Chrome)"를 선택해 주세요.');
+                const lang = localStorage.getItem('gils_lang') || 'ko';
+                const alertMsg = (typeof translations !== 'undefined' && translations[lang] && translations[lang]['alert_open_external']) ? translations[lang]['alert_open_external'] : '화면 하단 또는 상단의 [ ⋮ ] 메뉴 버튼을 눌러서\n👉 "다른 브라우저로 열기(Safari / Chrome)"를 선택해 주세요.';
+                alert(alertMsg);
             }
         }
 
@@ -2394,14 +2396,16 @@
 
             previewPanel.style.display = 'none';
             btn.disabled = true;
-            btn.innerText = '고품질 음원이 생성중입니다. 조금만 기다려주세요!!';
+            const lang = localStorage.getItem('gils_lang') || 'ko';
+            btn.innerText = (typeof translations !== 'undefined' && translations[lang] && translations[lang]['msg_generating']) ? translations[lang]['msg_generating'] : '고품질 음원이 생성중입니다. 조금만 기다려주세요!!';
             resultArea.style.display = 'none';
 
             let dotCount = 0;
             const loadingInterval = setInterval(() => {
                 dotCount = (dotCount + 1) % 4;
                 const dots = '.'.repeat(dotCount);
-                btn.innerText = `고품질 음원이 생성중입니다 조금만 기다려주세요!!${dots}`;
+                const dotsMsg = (typeof translations !== 'undefined' && translations[lang] && translations[lang]['msg_generating_dots']) ? translations[lang]['msg_generating_dots'] : '고품질 음원이 생성중입니다 조금만 기다려주세요!!';
+                btn.innerText = `${dotsMsg}${dots}`;
             }, 800);
 
             const finalData = { ...pendingStoryData };
@@ -2524,7 +2528,8 @@
             // 크레딧 차감은 서버에서 안전하게 수행하므로 프론트엔드에서는 우선 패스 (결과 응답 시 업데이트)
             // 로딩 상태 전환
             btn.disabled = true;
-            btn.innerText = '고품질 음원이 생성중입니다. 조금만 기다려주세요!!';
+            const lang = localStorage.getItem('gils_lang') || 'ko';
+            btn.innerText = (typeof translations !== 'undefined' && translations[lang] && translations[lang]['msg_generating']) ? translations[lang]['msg_generating'] : '고품질 음원이 생성중입니다. 조금만 기다려주세요!!';
             resultArea.style.display = 'none';
 
             // 동적 로딩 텍스트 애니메이션 (진행률 체감 향상)
@@ -2532,7 +2537,8 @@
             const loadingInterval = setInterval(() => {
                 dotCount = (dotCount + 1) % 4;
                 const dots = '.'.repeat(dotCount);
-                btn.innerText = `고품질 음원이 생성중입니다 조금만 기다려주세요!!${dots}`;
+                const dotsMsg = (typeof translations !== 'undefined' && translations[lang] && translations[lang]['msg_generating_dots']) ? translations[lang]['msg_generating_dots'] : '고품질 음원이 생성중입니다 조금만 기다려주세요!!';
+                btn.innerText = `${dotsMsg}${dots}`;
             }, 800);
 
             try {
