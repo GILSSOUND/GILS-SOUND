@@ -1019,6 +1019,12 @@
                         <option value="en">English</option>
                         <option value="ja">日本語</option>
                         <option value="zh">中文</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="pt">Português</option>
+                        <option value="vi">Tiếng Việt</option>
+                        <option value="id">Bahasa Ind.</option>
                     </select>
                 </div>
             </div>
@@ -1701,22 +1707,35 @@
 
         function openMyPage() {
             document.getElementById('mypage-modal').style.display = 'flex';
-            const user = localStorage.getItem('gils_user') || '게스트';
-            document.getElementById('mypage-user-id').innerText = user + ' 님';
+            
+            const lang = localStorage.getItem('gils_lang') || 'ko';
+            const t = (typeof translations !== 'undefined' && translations[lang]) ? translations[lang] : translations['ko'];
+            
+            let user = localStorage.getItem('gils_user') || '게스트';
+            if (user.includes('[구글]')) user = user.replace('[구글]', t['platform_google'] || '[구글]');
+            else if (user.includes('[카카오]')) user = user.replace('[카카오]', t['platform_kakao'] || '[카카오]');
+            else if (user.includes('[네이버]')) user = user.replace('[네이버]', t['platform_naver'] || '[네이버]');
+            
+            const suffix = t['user_suffix'] !== undefined ? t['user_suffix'] : ' 님';
+            if(user.endsWith(' 님') || user.endsWith('님')) {
+                 user = user.replace(/ 님|님$/, '');
+            }
+            document.getElementById('mypage-user-id').innerText = user + suffix;
             
             if (!localStorage.getItem('gils_join_date')) {
                 const today = new Date();
                 localStorage.setItem('gils_join_date', `${today.getFullYear()}. ${(today.getMonth()+1).toString().padStart(2, '0')}. ${today.getDate().toString().padStart(2, '0')}`);
             }
-            document.getElementById('mypage-join-date').innerText = '가입일: ' + localStorage.getItem('gils_join_date');
+            const joinDatePrefix = t['mypage_join_date_prefix'] || '가입일: ';
+            document.getElementById('mypage-join-date').innerText = joinDatePrefix + localStorage.getItem('gils_join_date');
             
-            let plan = '기본 플랜 (Free)';
-            if (currentCredits === 9999) plan = '무제한 (Pro)';
-            else if (currentCredits >= 10) plan = '프리미엄 요금제';
+            let plan = t['plan_basic'] || '기본 플랜 (Free)';
+            if (currentCredits === 9999) plan = t['plan_pro_mypage'] || '무제한 (Pro)';
+            else if (currentCredits >= 10) plan = t['plan_premium'] || '프리미엄 요금제';
             document.getElementById('mypage-plan').innerText = plan;
             
-            document.getElementById('mypage-credits').innerText = currentCredits === 9999 ? '∞' : `${currentCredits}곡`;
-            document.getElementById('mypage-song-count').innerText = `${myLibrarySongs.length}곡`;
+            document.getElementById('mypage-credits').innerText = currentCredits === 9999 ? '∞' : currentCredits;
+            document.getElementById('mypage-song-count').innerText = myLibrarySongs.length;
         }
 
         function closeMyPage() {
