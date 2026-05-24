@@ -134,6 +134,12 @@ app.post('/api/story', async (req, res) => {
         if (language === 'en') langInstruction = "MUST write the lyrics entirely in English.";
         else if (language === 'ja') langInstruction = "MUST write the lyrics entirely in Japanese (日本語).";
         else if (language === 'zh') langInstruction = "MUST write the lyrics entirely in Chinese (中文).";
+        else if (language === 'es') langInstruction = "MUST write the lyrics entirely in Spanish (Español).";
+        else if (language === 'fr') langInstruction = "MUST write the lyrics entirely in French (Français).";
+        else if (language === 'de') langInstruction = "MUST write the lyrics entirely in German (Deutsch).";
+        else if (language === 'pt') langInstruction = "MUST write the lyrics entirely in Portuguese (Português).";
+        else if (language === 'vi') langInstruction = "MUST write the lyrics entirely in Vietnamese (Tiếng Việt).";
+        else if (language === 'id') langInstruction = "MUST write the lyrics entirely in Indonesian (Bahasa Indonesia).";
         else langInstruction = "반드시 한국어로 가사를 작성해라.";
 
         const systemPromptText = `당신은 대중가요 및 K-Pop 최고의 작사가입니다.
@@ -219,6 +225,12 @@ app.post('/api/auto-lyrics', async (req, res) => {
         if (language === 'en') langInstruction = "write the lyrics entirely in English.";
         else if (language === 'ja') langInstruction = "write the lyrics entirely in Japanese (日本語).";
         else if (language === 'zh') langInstruction = "write the lyrics entirely in Chinese (中文).";
+        else if (language === 'es') langInstruction = "write the lyrics entirely in Spanish (Español).";
+        else if (language === 'fr') langInstruction = "write the lyrics entirely in French (Français).";
+        else if (language === 'de') langInstruction = "write the lyrics entirely in German (Deutsch).";
+        else if (language === 'pt') langInstruction = "write the lyrics entirely in Portuguese (Português).";
+        else if (language === 'vi') langInstruction = "write the lyrics entirely in Vietnamese (Tiếng Việt).";
+        else if (language === 'id') langInstruction = "write the lyrics entirely in Indonesian (Bahasa Indonesia).";
         else langInstruction = "완벽하게 어울리는 한국어 가사를 창작해 주세요.";
 
         const systemPromptText = `당신은 대중가요 및 K-Pop 최고의 작사가입니다.
