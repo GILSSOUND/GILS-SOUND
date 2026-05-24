@@ -1549,8 +1549,11 @@
                 <button class="btn-checkout" onclick="shareToKakao()" style="background: #FEE500; color: #000; border: none; font-size: 15px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 12px;">
                     <img src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png" style="width: 20px;"> 카카오톡 공유하기
                 </button>
-                <button class="btn-checkout" onclick="shareToBand()" style="background: #00C73C; color: #fff; border: none; font-size: 15px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 12px;">
-                    📗 네이버 밴드 공유하기
+                <button class="btn-checkout" onclick="shareToInstagramDM()" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: #fff; border: none; font-size: 15px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 12px;">
+                    📷 인스타그램 DM 공유
+                </button>
+                <button class="btn-checkout" onclick="shareToTwitterDM()" style="background: #000000; color: #fff; border: none; font-size: 15px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 12px;">
+                    𝕏 X(트위터) DM 공유
                 </button>
                 <button class="btn-checkout" onclick="shareToSMS()" style="background: #3B82F6; color: #fff; border: none; font-size: 15px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 12px;">
                     💬 문자 메시지(SMS)
@@ -1840,11 +1843,29 @@
             closeShareModal();
         }
 
-        function shareToBand() {
+        function shareToInstagramDM() {
             const trackUrl = 'https://gilssound.com/track/' + currentShareData.trackId;
-            const shareText = `🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${currentShareData.title}\n\n👇 아래 링크를 눌러 전용 플레이어로 듣기:\n${trackUrl}\n\n✨ 나도 AI 음악 만들기:\n${window.location.origin}`;
+            const shareText = `🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${currentShareData.title}\n\n👇 바로 듣기:\n${trackUrl}`;
+            
+            navigator.clipboard.writeText(shareText).then(() => {
+                alert("링크와 메시지가 복사되었습니다!\n인스타그램 DM 창에 붙여넣기 해주세요.");
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                if (isMobile) {
+                    window.location.href = 'instagram://direct-inbox';
+                } else {
+                    window.open('https://www.instagram.com/direct/inbox/', '_blank');
+                }
+            }).catch(() => {
+                alert('복사에 실패했습니다. 일반 텍스트 링크 복사를 이용해 주세요.');
+            });
+            closeShareModal();
+        }
+
+        function shareToTwitterDM() {
+            const trackUrl = 'https://gilssound.com/track/' + currentShareData.trackId;
+            const shareText = `🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${currentShareData.title}\n\n👇 노래 바로 듣기:\n${trackUrl}`;
             const encodedText = encodeURIComponent(shareText);
-            window.open(`https://band.us/plugin/share?body=${encodedText}&route=${encodeURIComponent(window.location.origin)}`, '_blank');
+            window.open(`https://twitter.com/messages/compose?text=${encodedText}`, '_blank');
             closeShareModal();
         }
 
