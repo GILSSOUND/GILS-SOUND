@@ -173,7 +173,42 @@ const translations = {
         "mood_depressed": "🌧️ 우울한",
         "mood_romantic": "💕 로맨틱한",
         "mood_refreshing": "🌊 시원한",
-        "mood_dark": "🌑 어두운"
+        "mood_dark": "🌑 어두운",
+        "notice_modal_title": "⚖️ GILS SOUND 서비스 이용약관",
+        "notice_modal_subtitle": "서비스 이용 전 권리 및 책임 사항을 반드시 확인해 주세요.",
+        "notice_term1_title": "1. 창작물의 권리 및 상업적 이용 전면 허용 💸",
+        "notice_term1_desc": "GILS SOUND를 통해 생성된 모든 AI 음악(음원 및 가사)의 상업적 이용은 <strong>100% 허용</strong>됩니다.<br>유튜브 BGM, 틱톡, 인스타그램 릴스, 팟캐스트, 개인/기업 광고 영상, 매장 음악 등 어떠한 제약 없이 수익 창출 목적으로 자유롭게 활용하실 수 있습니다. 생성된 곡의 1차적인 소유권 및 사용 권한은 곡을 직접 생성한 <strong>'유저 본인'</strong>에게 귀속됩니다.",
+        "notice_term2_title": "2. 타인의 권리 존중 및 창작의 책임 💡",
+        "notice_term2_desc": "GILS SOUND는 여러분의 멋진 아이디어를 음악으로 구현해 드리는 창작 지원 도구입니다.<br>- 건강한 창작 생태계를 위해 기존 아티스트의 고유한 음색을 의도적으로 모방하거나, 타인의 가사 및 저작물을 무단으로 사용하는 행위는 지양해 주시기 바랍니다.<br>- AI가 생성한 음악이 우연히 기존 창작물과 유사할 수 있으며, 이로 인해 외부에서 저작권 관련 이슈가 발생할 경우, 이에 대한 확인 및 책임은 곡을 직접 창작하고 활용하시는 사용자 본인에게 주어집니다.<br>- 플랫폼은 여러분의 독창적이고 순수한 창작 활동을 늘 응원하며, 서로의 권리를 존중하는 따뜻한 배려를 부탁드립니다.",
+        "notice_term3_title": "3. 외부 음원 플랫폼 유통 안내 🎧",
+        "notice_term3_desc": "완성된 곡을 멜론, 스포티파이, 애플뮤직 등 외부 음원 스트리밍 사이트에 공식 발매하는 것은 가능합니다. 다만, 각 음원 유통사(플랫폼)별 'AI 생성 음원 취급 정책'에 따라 심사 단계에서 반려되거나 등록이 제한될 수 있으며, GILS SOUND는 이로 인한 불이익을 보상하지 않습니다.",
+        "notice_term4_title": "4. 결제, 환불 및 정기 플랜 정책 🔄",
+        "notice_term4_desc": "- 디지털 콘텐츠(크레딧) 특성상, 결제 후 <strong>단 1곡이라도 크레딧을 소진한 경우에는 전액 환불이 불가</strong>하오니 신중한 결제 부탁드립니다.<br>- <strong>[월플랜 (한달 이용권)]</strong> 매월 자동 갱신 및 자동 결제되지 않는 30일 단기 이용권입니다. 30일간 한정된 100크레딧이 제공되며 미사용 크레딧은 이월되지 않습니다.<br>- <strong>[연플랜 (1년 이용권)]</strong> 매년 자동 갱신 및 자동 결제되지 않는 1년 이용권입니다. 결제일 기준 매월 동일한 날짜에 100크레딧씩 12회 리필되며, 이전 달 미사용 크레딧은 이월되지 않습니다.",
+        "notice_term5_title": "5. 서비스 이용 제한 및 점검 🛠️",
+        "notice_term5_desc": "최고의 AI 모델 컨디션을 위해 매주 화요일 정기 점검이 있을 수 있습니다. 또한, 시스템 매크로, 어뷰징 등 비정상적인 접근이 감지되거나 타인의 권리를 심각하게 침해하는 행위가 적발될 경우 사전 통보 없이 계정 영구 정지 조치가 취해질 수 있습니다.",
+        "btn_notice_agree": "위 약관에 동의하고 확인했습니다",
+        "share_modal_title": "공유하기",
+        "share_modal_subtitle": "친구들에게 내가 만든 음악을 자랑해보세요!",
+        "btn_share_kakao": "카카오톡 공유하기",
+        "btn_share_ig": "📷 인스타그램 DM 공유",
+        "btn_share_twitter": "𝕏 X(트위터) DM 공유",
+        "btn_share_sms": "💬 문자 메시지(SMS)",
+        "btn_share_link": "📋 일반 텍스트 링크 복사",
+        "terms_agree": "<a href='terms.html' target='_blank' style='color: var(--primary-gold); text-decoration: underline;'>이용약관(환불정책)</a> 및 <a href='privacy.html' target='_blank' style='color: var(--primary-gold); text-decoration: underline;'>개인정보처리방침</a>을 읽었으며 이에 동의합니다. (필수)",
+        "alert_terms_agree": "서비스 가입을 위해 이용약관 및 개인정보처리방침을 읽고 동의 체크를 해주세요!",
+        "nickname_modal_title": "닉네임 설정",
+        "nickname_modal_subtitle": "GILS SOUND에서 사용할 멋진 닉네임을 정해주세요!",
+        "nickname_placeholder": "예: 천재작곡가",
+        "btn_nickname_submit": "확인 및 시작하기",
+        "welcome_modal_title": "환영합니다!<br><span style='color: #fff; font-size: 22px;'>3코인이 무료로 지급되었습니다.</span>",
+        "welcome_modal_subtitle": "지금 바로 나만의 AI 음악을 만들어보세요!",
+        "welcome_easy_title": "✨ 심플 모드 (Easy)",
+        "welcome_easy_desc": "복잡한 과정 없이 몇 번의 버튼 클릭만으로 트렌디한 음악을 빠르게 완성합니다.",
+        "welcome_pro_title": "🎛️ 전문가 모드 (Pro)",
+        "welcome_pro_desc": "원하는 악기, 분위기, 장르 등을 직접 프롬프트로 세밀하게 작성하여 나만의 완벽한 사운드를 디자인합니다.",
+        "welcome_story_title": "📖 스토리 작사 모드 (Story)",
+        "welcome_story_desc": "오늘의 일상이나 사연만 적어주시면, AI가 이야기에 꼭 맞는 가사와 감성적인 노래를 알아서 창작해 줍니다.",
+        "btn_welcome_submit": "음악 만들기 시작!"
 },
     en: {
         "logo_title": "GILS SOUND",
@@ -348,7 +383,42 @@ const translations = {
         "mood_depressed": "🌧️ Depressed",
         "mood_romantic": "💕 Romantic",
         "mood_refreshing": "🌊 Refreshing",
-        "mood_dark": "🌑 Dark"
+        "mood_dark": "🌑 Dark",
+        "notice_modal_title": "⚖️ GILS SOUND Terms of Service",
+        "notice_modal_subtitle": "Please check your rights and responsibilities before using the service.",
+        "notice_term1_title": "1. Full Permission for Rights and Commercial Use 💸",
+        "notice_term1_desc": "Commercial use of all AI music (audio and lyrics) generated through GILS SOUND is <strong>100% permitted</strong>.<br>You can freely use them for profit-making purposes without any restrictions, such as YouTube BGM, TikTok, Instagram Reels, podcasts, personal/corporate advertisement videos, and store music. The primary ownership and usage rights of the generated songs belong to the <strong>'user themselves'</strong> who created the song.",
+        "notice_term2_title": "2. Respect for Others' Rights and Responsibility of Creation 💡",
+        "notice_term2_desc": "GILS SOUND is a creative support tool that turns your great ideas into music.<br>- For a healthy creative ecosystem, please refrain from intentionally imitating the unique voice of existing artists or using lyrics and copyrighted materials of others without permission.<br>- AI-generated music may coincidentally be similar to existing creations. If copyright-related issues arise externally due to this, the responsibility lies with the user who directly created and utilized the song.<br>- The platform always supports your original and pure creative activities and asks for warm consideration respecting each other's rights.",
+        "notice_term3_title": "3. Guide to External Music Platform Distribution 🎧",
+        "notice_term3_desc": "It is possible to officially release the completed song on external music streaming sites such as Melon, Spotify, and Apple Music. However, depending on the 'AI-generated music handling policy' of each music distributor (platform), it may be rejected or restricted during the review stage, and GILS SOUND does not compensate for any disadvantages caused by this.",
+        "notice_term4_title": "4. Payment, Refund, and Subscription Plan Policy 🔄",
+        "notice_term4_desc": "- Due to the nature of digital content (credits), <strong>a full refund is not possible if even 1 credit has been used after payment</strong>, so please make your payment carefully.<br>- <strong>[Monthly Plan (1 Month Pass)]</strong> A short-term 30-day pass that is not automatically renewed and billed monthly. A limited 100 credits are provided for 30 days, and unused credits do not roll over.<br>- <strong>[Yearly Plan (1 Year Pass)]</strong> A 1-year pass that is not automatically renewed and billed annually. 100 credits are refilled 12 times on the same date every month based on the payment date, and unused credits from the previous month do not roll over.",
+        "notice_term5_title": "5. Service Usage Restrictions and Maintenance 🛠️",
+        "notice_term5_desc": "For the best AI model condition, there may be regular maintenance every Tuesday. Also, if abnormal access such as system macros or abusing is detected, or if acts that seriously infringe on the rights of others are caught, the account may be permanently suspended without prior notice.",
+        "btn_notice_agree": "I agree and have verified the terms above",
+        "share_modal_title": "Share",
+        "share_modal_subtitle": "Show off the music you made to your friends!",
+        "btn_share_kakao": "Share via KakaoTalk",
+        "btn_share_ig": "📷 Share via Instagram DM",
+        "btn_share_twitter": "𝕏 Share via X(Twitter) DM",
+        "btn_share_sms": "💬 SMS Message",
+        "btn_share_link": "📋 Copy plain text link",
+        "terms_agree": "I have read and agree to the <a href='terms.html' target='_blank' style='color: var(--primary-gold); text-decoration: underline;'>Terms of Service</a> and <a href='privacy.html' target='_blank' style='color: var(--primary-gold); text-decoration: underline;'>Privacy Policy</a>. (Required)",
+        "alert_terms_agree": "Please read and agree to the Terms of Service and Privacy Policy to sign up!",
+        "nickname_modal_title": "Set Nickname",
+        "nickname_modal_subtitle": "Please choose a cool nickname to use in GILS SOUND!",
+        "nickname_placeholder": "Ex: Genius Composer",
+        "btn_nickname_submit": "Confirm and Start",
+        "welcome_modal_title": "Welcome!<br><span style='color: #fff; font-size: 22px;'>3 coins have been given for free.</span>",
+        "welcome_modal_subtitle": "Start creating your own AI music right now!",
+        "welcome_easy_title": "✨ Easy Mode",
+        "welcome_easy_desc": "Quickly create trendy music with just a few clicks without complicated processes.",
+        "welcome_pro_title": "🎛️ Pro Mode",
+        "welcome_pro_desc": "Design your perfect sound by writing detailed prompts for instruments, moods, genres, etc.",
+        "welcome_story_title": "📖 Story Mode",
+        "welcome_story_desc": "Just write your daily life or story, and AI will automatically create lyrics and an emotional song.",
+        "btn_welcome_submit": "Start Making Music!"
 },
     ja: {
         "logo_title": "GILS SOUND",
@@ -523,7 +593,42 @@ const translations = {
         "mood_depressed": "🌧️ Depressed",
         "mood_romantic": "💕 Romantic",
         "mood_refreshing": "🌊 Refreshing",
-        "mood_dark": "🌑 Dark"
+        "mood_dark": "🌑 Dark",
+        "notice_modal_title": "⚖️ GILS SOUND 利用規約",
+        "notice_modal_subtitle": "サービスを利用する前に、権利と責任に関する事項を必ずご確認ください。",
+        "notice_term1_title": "1. 創作物の権利および商業利用の全面許可 💸",
+        "notice_term1_desc": "GILS SOUNDを通じて生成されたすべてのAI音楽（音源および歌詞）の商業利用は<strong>100%許可</strong>されます。<br>YouTubeのBGM、TikTok、Instagramのリール、ポッドキャスト、個人/企業の広告映像、店内BGMなど、いかなる制限もなく収益創出の目的で自由に活用していただけます。生成された曲の一次的な所有権および使用権は、曲を直接生成した<strong>「ユーザー本人」</strong>に帰属します。",
+        "notice_term2_title": "2. 他者の権利の尊重および創作の責任 💡",
+        "notice_term2_desc": "GILS SOUNDは、皆様の素晴らしいアイデアを音楽として具現化する創作支援ツールです。<br> - 健全な創作エコシステムのために、既存のアーティストの固有の音色を意図的に模倣したり、他者の歌詞や著作物を無断で使用する行為はお控えください。<br> - AIが生成した音楽が偶然に既存の創作物と類似する可能性があり、これによって外部で著作権関連の問題が発生した場合、これに対する確認および責任は曲を直接創作して活用するユーザー本人にあります。<br> - プラットフォームは皆様の独創的で純粋な創作活動を常に応援しており、お互いの権利を尊重する温かい配慮をお願いいたします。",
+        "notice_term3_title": "3. 外部音源プラットフォームの流通に関するご案内 🎧",
+        "notice_term3_desc": "完成した曲をMelon、Spotify、Apple Musicなどの外部音源ストリーミングサイトで公式リリースすることは可能です。ただし、各音源流通会社（プラットフォーム）ごとの「AI生成音源の取り扱いポリシー」によって審査段階で却下されたり登録が制限される場合があり、GILS SOUNDはこれによる不利益を補償しません。",
+        "notice_term4_title": "4. 決済、払い戻しおよび定期プランのポリシー 🔄",
+        "notice_term4_desc": "- デジタルコンテンツ（クレジット）の特性上、決済後に<strong>たった1曲でもクレジットを消費した場合は全額払い戻しが不可能</strong>ですので、慎重な決済をお願いいたします。<br> - <strong>[月額プラン（1ヶ月利用券）]</strong> 毎月自動更新および自動決済されない30日間の短期利用券です。30日間限定の100クレジットが提供され、未使用のクレジットは繰り越されません。<br> - <strong>[年間プラン（1年利用券）]</strong> 毎年自動更新および自動決済されない1年間の利用券です。決済日を基準として毎月同じ日付に100クレジットずつ12回補充され、前月の未使用クレジットは繰り越されません。",
+        "notice_term5_title": "5. サービスの利用制限および点検 🛠️",
+        "notice_term5_desc": "最高のAIモデルのコンディションのために、毎週火曜日に定期点検がある場合があります。また、システムの悪用や不正などの異常なアクセスが検出されたり、他者の権利を深刻に侵害する行為が発覚した場合、事前の通知なしにアカウントが永久停止される措置が取られる可能性があります。",
+        "btn_notice_agree": "上記の規約に同意し、確認しました",
+        "share_modal_title": "共有する",
+        "share_modal_subtitle": "作成した音楽を友達に自慢しましょう！",
+        "btn_share_kakao": "カカオトークで共有",
+        "btn_share_ig": "📷 Instagram DMで共有",
+        "btn_share_twitter": "𝕏 X(Twitter) DMで共有",
+        "btn_share_sms": "💬 SMSメッセージ",
+        "btn_share_link": "📋 テキストリンクをコピー",
+        "terms_agree": "<a href='terms.html' target='_blank' style='color: var(--primary-gold); text-decoration: underline;'>利用規約</a>および<a href='privacy.html' target='_blank' style='color: var(--primary-gold); text-decoration: underline;'>プライバシーポリシー</a>を読み、同意します。（必須）",
+        "alert_terms_agree": "サービスに登録するには、利用規約とプライバシーポリシーに同意してください！",
+        "nickname_modal_title": "ニックネーム設定",
+        "nickname_modal_subtitle": "GILS SOUNDで使用する素敵なニックネームを決めてください！",
+        "nickname_placeholder": "例：天才作曲家",
+        "btn_nickname_submit": "確認して開始",
+        "welcome_modal_title": "ようこそ！<br><span style='color: #fff; font-size: 22px;'>3コインが無料で支給されました。</span>",
+        "welcome_modal_subtitle": "今すぐ自分だけのAI音楽を作り始めましょう！",
+        "welcome_easy_title": "✨ 簡単モード (Easy)",
+        "welcome_easy_desc": "複雑な過程なしに、数回のクリックでトレンディな音楽をすばやく完成させます。",
+        "welcome_pro_title": "🎛️ プロモード (Pro)",
+        "welcome_pro_desc": "希望の楽器、雰囲気、ジャンルなどを直接プロンプトで細かく作成し、完璧なサウンドをデザインします。",
+        "welcome_story_title": "📖 ストーリーモード (Story)",
+        "welcome_story_desc": "日常やストーリーを書くだけで、AIが自動的に歌詞と感情的な曲を作成します。",
+        "btn_welcome_submit": "音楽作りを開始！"
 },
     zh: {
         "logo_title": "GILS SOUND",
@@ -698,7 +803,42 @@ const translations = {
         "mood_depressed": "🌧️ Depressed",
         "mood_romantic": "💕 Romantic",
         "mood_refreshing": "🌊 Refreshing",
-        "mood_dark": "🌑 Dark"
+        "mood_dark": "🌑 Dark",
+        "notice_modal_title": "⚖️ GILS SOUND 服务条款",
+        "notice_modal_subtitle": "使用服务前，请务必确认您的权利和责任。",
+        "notice_term1_title": "1. 完全允许版权及商业使用 💸",
+        "notice_term1_desc": "通过 GILS SOUND 生成的所有 AI 音乐（音频和歌词）的商业使用是 <strong>100% 允许的</strong>。<br>您可以无限制地自由用于营利目的，例如 YouTube BGM、TikTok、Instagram Reels、播客、个人/企业广告视频以及商店音乐。生成歌曲的首要所有权和使用权归直接创建该歌曲的 <strong>“用户本人”</strong> 所有。",
+        "notice_term2_title": "2. 尊重他人权利和创作责任 💡",
+        "notice_term2_desc": "GILS SOUND 是将您的绝佳创意转化为音乐的创作支持工具。<br>- 为了健康的创作生态系统，请避免故意模仿现有艺术家的独特嗓音或未经许可使用他人的歌词及受版权保护的材料。<br>- AI 生成的音乐可能巧合地与现有创作相似。如果因此在外部引起版权相关问题，直接创作并使用该歌曲的用户本人须对此负责。<br>- 平台始终支持您独创和纯粹的创作活动，并要求大家互相尊重彼此的权利。",
+        "notice_term3_title": "3. 外部音乐平台发行指南 🎧",
+        "notice_term3_desc": "可以将完成的歌曲在 Melon、Spotify 和 Apple Music 等外部音乐流媒体网站上正式发行。但是，根据各音乐发行商（平台）的“AI 生成音乐处理政策”，它可能会在审核阶段被拒绝或限制，GILS SOUND 不对此造成的任何不利影响提供赔偿。",
+        "notice_term4_title": "4. 付款、退款和订阅计划政策 🔄",
+        "notice_term4_desc": "- 由于数字内容（积分）的性质，<strong>付款后即使只使用了 1 积分，也无法全额退款</strong>，因此请谨慎付款。<br>- <strong>[包月计划（1 个月通行证）]</strong> 不会自动续订和每月计费的 30 天短期通行证。30 天内提供有限的 100 积分，未使用的积分不会结转。<br>- <strong>[包年计划（1 年通行证）]</strong> 不会自动续订和每年计费的 1 年通行证。根据付款日期，每月同一日期补充 100 积分，共 12 次，上个月未使用的积分不会结转。",
+        "notice_term5_title": "5. 服务使用限制和维护 🛠️",
+        "notice_term5_desc": "为了保持 AI 模型处于最佳状态，可能会在每周二进行定期维护。此外，如果检测到系统宏或滥用等异常访问，或发现严重侵犯他人权利的行为，可能会在未事先通知的情况下永久暂停账户。",
+        "btn_notice_agree": "我同意并已确认上述条款",
+        "share_modal_title": "分享",
+        "share_modal_subtitle": "向朋友炫耀你制作的音乐！",
+        "btn_share_kakao": "通过 KakaoTalk 分享",
+        "btn_share_ig": "📷 通过 Instagram DM 分享",
+        "btn_share_twitter": "𝕏 通过 X(Twitter) DM 分享",
+        "btn_share_sms": "💬 短信 (SMS)",
+        "btn_share_link": "📋 复制纯文本链接",
+        "terms_agree": "我已阅读并同意<a href='terms.html' target='_blank' style='color: var(--primary-gold); text-decoration: underline;'>服务条款</a>和<a href='privacy.html' target='_blank' style='color: var(--primary-gold); text-decoration: underline;'>隐私政策</a>。（必填）",
+        "alert_terms_agree": "请阅读并同意服务条款和隐私政策以注册服务！",
+        "nickname_modal_title": "设置昵称",
+        "nickname_modal_subtitle": "请选择一个在 GILS SOUND 中使用的酷炫昵称！",
+        "nickname_placeholder": "例：天才作曲家",
+        "btn_nickname_submit": "确认并开始",
+        "welcome_modal_title": "欢迎！<br><span style='color: #fff; font-size: 22px;'>已免费发放3个硬币。</span>",
+        "welcome_modal_subtitle": "现在就开始制作您自己的 AI 音乐吧！",
+        "welcome_easy_title": "✨ 简单模式 (Easy)",
+        "welcome_easy_desc": "无需复杂过程，只需点击几下即可快速完成时尚音乐。",
+        "welcome_pro_title": "🎛️ 专业模式 (Pro)",
+        "welcome_pro_desc": "通过直接编写详细的乐器、氛围、流派等提示，设计您完美的音乐。",
+        "welcome_story_title": "📖 故事模式 (Story)",
+        "welcome_story_desc": "只需写下您的日常生活或故事，AI 会自动创建匹配的歌词和情感丰富的歌曲。",
+        "btn_welcome_submit": "开始制作音乐！"
 }
 };
 
@@ -761,13 +901,16 @@ function initLanguage() {
     applyLanguage(savedLang);
     
     // 언어 선택기 UI 업데이트 (존재하는 경우)
-    const langSelect = document.getElementById('lang-selector');
-    if (langSelect) {
-        langSelect.value = savedLang;
-        langSelect.addEventListener('change', (e) => {
-            applyLanguage(e.target.value);
+    const langSelects = document.querySelectorAll('.lang-selector');
+    langSelects.forEach(select => {
+        select.value = savedLang;
+        select.addEventListener('change', (e) => {
+            const selectedLang = e.target.value;
+            applyLanguage(selectedLang);
+            // 모든 select 값을 동일하게 맞춤
+            langSelects.forEach(s => s.value = selectedLang);
         });
-    }
+    });
 }
 
 // 스크립트가 로드되면 즉시 실행
