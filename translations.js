@@ -1,5 +1,5 @@
 const translations = {
-    ko: {
+    "ko": {
         "logo_title": "GILS SOUND",
         "lang_ko": "한국어",
         "lang_en": "English",
@@ -23,6 +23,7 @@ const translations = {
         "plan_pro_price": "₩19,900 <span style='font-size:14px; color:#9ca3af;'>/ 30일</span>",
         "plan_pro_desc1": "총 100곡 생성 크레딧 제공",
         "plan_pro_desc2": "결제일로부터 30일간 유효",
+        "plan_pro_desc3": "신규 베타 AI 보컬 모델 우선 권한",
         "plan_master_badge": "연플랜 (1년구독권)",
         "plan_master_title": "VVIP 마스터 플랜",
         "plan_master_price": "₩99,000 <span style='font-size:14px; color:#9ca3af;'>/ 365일</span>",
@@ -214,9 +215,13 @@ const translations = {
         "user_suffix": " 님",
         "mypage_join_date_prefix": "가입일: ",
         "plan_pro_mypage": "무제한 (Pro)",
-        "plan_premium": "프리미엄 요금제"
-},
-    en: {
+        "plan_premium": "프리미엄 요금제",
+        "plan_standard_title": "스탠다드 패키지",
+        "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30곡</span>",
+        "plan_standard_desc1": "총 30곡 생성 크레딧 충전",
+        "plan_standard_desc_sub": "가성비 추천 팩"
+    },
+    "en": {
         "logo_title": "GILS SOUND",
         "lang_ko": "Korean",
         "lang_en": "English",
@@ -240,6 +245,7 @@ const translations = {
         "plan_pro_price": "₩19,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 days</span>",
         "plan_pro_desc1": "Provides 100 credits/mo",
         "plan_pro_desc2": "Valid for 30 days from payment",
+        "plan_pro_desc3": "Priority access to new beta AI vocal models",
         "plan_master_badge": "Yearly Plan",
         "plan_master_title": "VVIP Master Plan",
         "plan_master_price": "₩99,000 <span style='font-size:14px; color:#9ca3af;'>/ 365 days</span>",
@@ -431,9 +437,13 @@ const translations = {
         "user_suffix": "",
         "mypage_join_date_prefix": "Joined: ",
         "plan_pro_mypage": "Unlimited (Pro)",
-        "plan_premium": "Premium Plan"
-},
-    ja: {
+        "plan_premium": "Premium Plan",
+        "plan_standard_title": "Standard Package",
+        "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 songs</span>",
+        "plan_standard_desc1": "Charge 30 generation credits",
+        "plan_standard_desc_sub": "Best Value Pack"
+    },
+    "ja": {
         "logo_title": "GILS SOUND",
         "lang_ko": "韓国語",
         "lang_en": "英語",
@@ -457,6 +467,7 @@ const translations = {
         "plan_pro_price": "₩19,900 <span style='font-size:14px; color:#9ca3af;'>/ 30日</span>",
         "plan_pro_desc1": "計100曲作成クレジット提供",
         "plan_pro_desc2": "決済日から30日間有効",
+        "plan_pro_desc3": "新規ベータAIボーカルモデル優先権",
         "plan_master_badge": "年間プラン (1年購読券)",
         "plan_master_title": "VVIPマスタープラン",
         "plan_master_price": "₩99,000 <span style='font-size:14px; color:#9ca3af;'>/ 365日</span>",
@@ -648,9 +659,13 @@ const translations = {
         "user_suffix": " 様",
         "mypage_join_date_prefix": "登録日: ",
         "plan_pro_mypage": "無制限 (Pro)",
-        "plan_premium": "プレミアムプラン"
-},
-    zh: {
+        "plan_premium": "プレミアムプラン",
+        "plan_standard_title": "スタンダードパッケージ",
+        "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30曲</span>",
+        "plan_standard_desc1": "計30曲作成クレジットチャージ",
+        "plan_standard_desc_sub": "高コスパおすすめパック"
+    },
+    "zh": {
         "logo_title": "GILS SOUND",
         "lang_ko": "韩语",
         "lang_en": "英语",
@@ -674,6 +689,7 @@ const translations = {
         "plan_pro_price": "₩19,900 <span style='font-size:14px; color:#9ca3af;'>/ 30天</span>",
         "plan_pro_desc1": "共提供100首歌曲生成积分",
         "plan_pro_desc2": "自付款之日起30天内有效",
+        "plan_pro_desc3": "全新测试版AI歌手优先使用权",
         "plan_master_badge": "包年计划",
         "plan_master_title": "VVIP 大师计划",
         "plan_master_price": "₩99,000 <span style='font-size:14px; color:#9ca3af;'>/ 365天</span>",
@@ -865,9 +881,13 @@ const translations = {
         "user_suffix": " 用户",
         "mypage_join_date_prefix": "注册日期: ",
         "plan_pro_mypage": "无限制 (Pro)",
-        "plan_premium": "高级套餐"
-},
-    es: {
+        "plan_premium": "高级套餐",
+        "plan_standard_title": "标准套餐",
+        "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30首</span>",
+        "plan_standard_desc1": "充值30首歌曲生成积分",
+        "plan_standard_desc_sub": "高性价比推荐"
+    },
+    "es": {
         "logo_title": "GILS SOUND",
         "lang_ko": "Coreano",
         "lang_en": "Inglés",
@@ -891,6 +911,7 @@ const translations = {
         "plan_pro_price": "₩19,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 días</span>",
         "plan_pro_desc1": "Proporciona 100 créditos/mes",
         "plan_pro_desc2": "Válido por 30 días",
+        "plan_pro_desc3": "Acceso prioritario a nuevos modelos vocales de IA en beta",
         "plan_master_badge": "Plan Anual",
         "plan_master_title": "Plan Maestro VVIP",
         "plan_master_price": "₩99,000 <span style='font-size:14px; color:#9ca3af;'>/ 365 días</span>",
@@ -1082,9 +1103,13 @@ const translations = {
         "user_suffix": "",
         "mypage_join_date_prefix": "Unido: ",
         "plan_pro_mypage": "Ilimitado (Pro)",
-        "plan_premium": "Plan Premium"
-},
-    fr: {
+        "plan_premium": "Plan Premium",
+        "plan_standard_title": "Paquete Estándar",
+        "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 canciones</span>",
+        "plan_standard_desc1": "Recarga 30 créditos de generación",
+        "plan_standard_desc_sub": "Mejor relación calidad-precio"
+    },
+    "fr": {
         "logo_title": "GILS SOUND",
         "lang_ko": "Coréen",
         "lang_en": "Anglais",
@@ -1108,6 +1133,7 @@ const translations = {
         "plan_pro_price": "₩19,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 jours</span>",
         "plan_pro_desc1": "Fournit 100 crédits/mois",
         "plan_pro_desc2": "Valide 30 jours",
+        "plan_pro_desc3": "Accès prioritaire aux nouveaux modèles vocaux IA en bêta",
         "plan_master_badge": "Annuel",
         "plan_master_title": "Plan Maître VVIP",
         "plan_master_price": "₩99,000 <span style='font-size:14px; color:#9ca3af;'>/ 365 jours</span>",
@@ -1299,9 +1325,13 @@ const translations = {
         "user_suffix": "",
         "mypage_join_date_prefix": "Rejoint : ",
         "plan_pro_mypage": "Illimité (Pro)",
-        "plan_premium": "Plan Premium"
-},
-    de: {
+        "plan_premium": "Plan Premium",
+        "plan_standard_title": "Forfait Standard",
+        "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 chansons</span>",
+        "plan_standard_desc1": "Recharge de 30 crédits de génération",
+        "plan_standard_desc_sub": "Meilleur rapport qualité-prix"
+    },
+    "de": {
         "logo_title": "GILS SOUND",
         "lang_ko": "Koreanisch",
         "lang_en": "Englisch",
@@ -1325,6 +1355,7 @@ const translations = {
         "plan_pro_price": "₩19,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 Tage</span>",
         "plan_pro_desc1": "100 Credits/Monat",
         "plan_pro_desc2": "30 Tage gültig",
+        "plan_pro_desc3": "Vorrangiger Zugriff auf neue Beta-KI-Vokalmodelle",
         "plan_master_badge": "Jährlich",
         "plan_master_title": "VVIP Master Plan",
         "plan_master_price": "₩99,000 <span style='font-size:14px; color:#9ca3af;'>/ 365 Tage</span>",
@@ -1516,9 +1547,13 @@ const translations = {
         "user_suffix": "",
         "mypage_join_date_prefix": "Dabei seit: ",
         "plan_pro_mypage": "Unbegrenzt (Pro)",
-        "plan_premium": "Premium Plan"
-},
-    pt: {
+        "plan_premium": "Premium Plan",
+        "plan_standard_title": "Standard-Paket",
+        "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 Lieder</span>",
+        "plan_standard_desc1": "30 Erstellungs-Credits aufladen",
+        "plan_standard_desc_sub": "Preis-Leistungs-Tipp"
+    },
+    "pt": {
         "logo_title": "GILS SOUND",
         "lang_ko": "Coreano",
         "lang_en": "Inglês",
@@ -1542,6 +1577,7 @@ const translations = {
         "plan_pro_price": "₩19,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 dias</span>",
         "plan_pro_desc1": "100 créditos/mês",
         "plan_pro_desc2": "Válido por 30 dias",
+        "plan_pro_desc3": "Acesso prioritário a novos modelos vocais de IA em beta",
         "plan_master_badge": "Anual",
         "plan_master_title": "Plano Mestre VVIP",
         "plan_master_price": "₩99,000 <span style='font-size:14px; color:#9ca3af;'>/ 365 dias</span>",
@@ -1733,9 +1769,13 @@ const translations = {
         "user_suffix": "",
         "mypage_join_date_prefix": "Entrou: ",
         "plan_pro_mypage": "Ilimitado (Pro)",
-        "plan_premium": "Plano Premium"
-},
-    vi: {
+        "plan_premium": "Plano Premium",
+        "plan_standard_title": "Pacote Padrão",
+        "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 músicas</span>",
+        "plan_standard_desc1": "Recarga de 30 créditos de geração",
+        "plan_standard_desc_sub": "Melhor Custo-Benefício"
+    },
+    "vi": {
         "logo_title": "GILS SOUND",
         "lang_ko": "Tiếng Hàn",
         "lang_en": "Tiếng Anh",
@@ -1759,6 +1799,7 @@ const translations = {
         "plan_pro_price": "₩19,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 ngày</span>",
         "plan_pro_desc1": "Cung cấp 100 tín dụng/tháng",
         "plan_pro_desc2": "Có giá trị 30 ngày",
+        "plan_pro_desc3": "Quyền ưu tiên truy cập các mô hình giọng hát AI beta mới",
         "plan_master_badge": "Hàng Năm",
         "plan_master_title": "Gói VVIP",
         "plan_master_price": "₩99,000 <span style='font-size:14px; color:#9ca3af;'>/ 365 ngày</span>",
@@ -1950,9 +1991,13 @@ const translations = {
         "user_suffix": "",
         "mypage_join_date_prefix": "Ngày tham gia: ",
         "plan_pro_mypage": "Không giới hạn (Pro)",
-        "plan_premium": "Gói Premium"
-},
-    id: {
+        "plan_premium": "Gói Premium",
+        "plan_standard_title": "Gói Tiêu Chuẩn",
+        "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 bài</span>",
+        "plan_standard_desc1": "Nạp 30 tín dụng tạo bài hát",
+        "plan_standard_desc_sub": "Gói khuyên dùng tiết kiệm"
+    },
+    "id": {
         "logo_title": "GILS SOUND",
         "lang_ko": "Korea",
         "lang_en": "Inggris",
@@ -1976,6 +2021,7 @@ const translations = {
         "plan_pro_price": "₩19,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 hari</span>",
         "plan_pro_desc1": "100 kredit/bulan",
         "plan_pro_desc2": "Berlaku 30 hari",
+        "plan_pro_desc3": "Akses prioritas ke model vokal AI beta baru",
         "plan_master_badge": "Tahunan",
         "plan_master_title": "Paket Master VVIP",
         "plan_master_price": "₩99,000 <span style='font-size:14px; color:#9ca3af;'>/ 365 hari</span>",
@@ -2167,106 +2213,10 @@ const translations = {
         "user_suffix": "",
         "mypage_join_date_prefix": "Bergabung: ",
         "plan_pro_mypage": "Tak Terbatas (Pro)",
-        "plan_premium": "Paket Premium"
-}
+        "plan_premium": "Paket Premium",
+        "plan_standard_title": "Paket Standar",
+        "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 lagu</span>",
+        "plan_standard_desc1": "Isi ulang 30 kredit pembuatan",
+        "plan_standard_desc_sub": "Paket Rekomendasi Terbaik"
+    }
 };
-
-
-
-// 언어 적용 함수
-function applyLanguage(lang) {
-    if (!translations[lang]) lang = 'ko'; // 기본값
-    
-    // 언어 설정 저장
-    localStorage.setItem('gils_lang', lang);
-    
-    // HTML 문서 언어 속성 변경
-    document.documentElement.lang = lang;
-    
-    // data-i18n 속성을 가진 모든 요소 찾아서 텍스트 변경
-    const elements = document.querySelectorAll('[data-i18n]');
-    elements.forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (translations[lang][key]) {
-            el.innerHTML = translations[lang][key];
-        }
-    });
-
-    // data-i18n-placeholder 속성을 가진 요소의 placeholder 텍스트 변경
-    const placeElements = document.querySelectorAll('[data-i18n-placeholder]');
-    placeElements.forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        if (translations[lang][key]) {
-            el.placeholder = translations[lang][key];
-        }
-    });
-
-    // 동적으로 설정되는 텍스트(예: 무제한) 업데이트 로직
-    const userCreditsEl = document.getElementById('user-credits');
-    const mypageCreditsEl = document.getElementById('mypage-credits');
-    const unlimitedText = translations[lang]['unlimited'] || '∞ 무제한';
-    
-    // 로컬 스토리지 또는 전역 변수에서 현재 크레딧을 읽어와서 무제한일 경우 텍스트 업데이트
-    const savedCredits = localStorage.getItem('gils_credits');
-    if (savedCredits) {
-        const parsedCredits = parseInt(savedCredits, 10);
-        if (parsedCredits === 9999) {
-            if (userCreditsEl) userCreditsEl.innerText = unlimitedText;
-            if (mypageCreditsEl) {
-                mypageCreditsEl.innerText = '∞';
-            }
-        }
-    }
-    
-    // 마이페이지 업데이트 함수가 존재하고 모달이 열려있다면 새로고침 (언어 변경 즉시 반영)
-    if(typeof openMyPage === 'function' && document.getElementById('mypage-modal') && document.getElementById('mypage-modal').style.display === 'flex') {
-        openMyPage();
-    }
-}
-
-// 브라우저 언어 감지 또는 저장된 언어 불러오기
-function initLanguage() {
-    let savedLang = localStorage.getItem('gils_lang');
-    if (!savedLang) {
-        // 브라우저 기본 언어 감지
-        const browserLang = navigator.language.slice(0, 2);
-        if (['ko', 'en', 'ja', 'zh'].includes(browserLang)) {
-            savedLang = browserLang;
-        } else {
-            savedLang = 'en'; // 글로벌 기본
-        }
-    }
-    applyLanguage(savedLang);
-    
-    // 언어 선택기 UI 업데이트 (존재하는 경우)
-    const langSelects = document.querySelectorAll('.lang-selector');
-    langSelects.forEach(select => {
-        select.value = savedLang;
-        select.addEventListener('change', (e) => {
-            const selectedLang = e.target.value;
-            applyLanguage(selectedLang);
-            // 모든 select 값을 동일하게 맞춤
-            langSelects.forEach(s => s.value = selectedLang);
-        });
-    });
-}
-
-// 스크립트가 로드되면 즉시 실행
-document.addEventListener('DOMContentLoaded', initLanguage);
-
-// 동적 조합 텍스트(장르, 분위기)를 번역하는 함수
-function translateDynamicText(text, lang) {
-    if (!text || lang === 'ko' || !translations[lang]) return text;
-    
-    let translated = text;
-    const koDict = translations['ko'];
-    const targetDict = translations[lang];
-    
-    // koDict의 키들을 순회하며 포함된 한글을 매칭해서 대상 언어로 변경
-    for (const key in koDict) {
-        if (koDict[key] && translated.includes(koDict[key])) {
-            translated = translated.replace(koDict[key], targetDict[key]);
-        }
-    }
-    return translated;
-}
