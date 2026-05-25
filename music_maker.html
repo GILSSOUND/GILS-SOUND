@@ -2321,6 +2321,8 @@
             sectionLyrics.style.display = 'block';
             if (sectionMood) sectionMood.style.display = 'none';
             if (sectionGender) sectionGender.style.display = 'none';
+            const pPanel = document.getElementById('business-preview-panel');
+            if (pPanel) pPanel.style.display = 'none';
 
             const stepGenderLabel = document.getElementById('step-number-gender');
 
@@ -2371,17 +2373,17 @@
                 }
                 
                 const previewPanel = document.getElementById('business-preview-panel');
-                if (previewPanel) previewPanel.style.order = 6.5; // Insert right before buttons
+                if (previewPanel) previewPanel.style.order = 7; // Insert right before buttons
                 
                 const businessBtn = document.getElementById('btn-submit-business');
                 if (businessBtn) {
-                    businessBtn.parentElement.style.order = 7;
+                    businessBtn.parentElement.style.order = 8;
                     const noticeText = businessBtn.parentElement.nextElementSibling;
                     if (noticeText && noticeText.tagName === 'DIV') {
-                        noticeText.style.order = 8;
+                        noticeText.style.order = 9;
                     }
                 }
-                if (resultArea) resultArea.style.order = 9;
+                if (resultArea) resultArea.style.order = 10;
                 
                 const stepGridSpan = sectionGrid.querySelector('.step-number');
                 if (stepGridSpan) stepGridSpan.innerText = 'Step 03';
@@ -3148,4 +3150,5 @@
     </script>
 </body>
 </html>
+
 
