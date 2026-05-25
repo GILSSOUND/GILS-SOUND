@@ -325,6 +325,7 @@ app.post('/api/business', async (req, res) => {
         generationConfig: {
             temperature: 0.7,
             maxOutputTokens: 1024,
+            responseMimeType: "application/json"
         }
     };
 

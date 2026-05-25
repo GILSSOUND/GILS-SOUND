@@ -1219,9 +1219,14 @@
                     <span style="font-size: 12px; color: var(--primary-gold); font-weight: bold;">[AI 생성 광고 가사 초안]</span>
                     <span id="business-preview-genre" style="float: right; font-size: 12px; color: #9ca3af; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 12px;">로딩 중...</span>
                 </div>
-                <textarea id="business-preview-lyrics" class="lyric-input" style="min-height: 200px; line-height: 1.6;" placeholder="AI가 작성한 광고 가사가 여기에 표시됩니다..." readonly></textarea>
+                <textarea id="business-preview-lyrics" class="lyric-input" style="min-height: 200px; line-height: 1.6; resize: vertical;" placeholder="AI가 작성한 광고 가사가 여기에 표시됩니다..."></textarea>
+                <div style="display: flex; gap: 8px; margin-top: 12px;">
+                    <button class="btn-checkout" style="flex: 1; padding: 8px; font-size: 12px; border-color: #6B7280; color: #D1D5DB; background: transparent;" onclick="generateBusinessLyrics()" data-i18n="btn_remake_lyrics">
+                        🔄 가사 다시 만들기
+                    </button>
+                </div>
                 <div style="margin-top: 15px; font-size: 12px; color: #9ca3af; text-align: right;">
-                    가사가 마음에 든다면 아래의 <strong style="color: var(--primary-gold);">생성 버튼</strong>을 눌러주세요!
+                    가사를 자유롭게 <strong>수정</strong>하신 후 아래의 <strong style="color: var(--primary-gold);">생성 버튼</strong>을 눌러주세요!
                 </div>
             </div>
             
@@ -2479,9 +2484,9 @@
                     genreLabel: genre
                 };
 
-                btn.innerText = '🎵 작성된 가사로 광고 노래 생성하기';
+                btn.innerText = '💡 AI 가사 초안 생성 및 확인 (Next)';
                 btn.disabled = false;
-                btn.setAttribute('data-i18n', 'btn_create');
+                btn.setAttribute('data-i18n', 'btn_create_next');
                 
             } catch (err) {
                 console.error(err);
@@ -2508,14 +2513,20 @@
             const lang = localStorage.getItem('gils_lang') || 'ko';
             btn.innerText = (lang === 'ko') ? '⏳ 음악 생성 중 (최대 1~2분 소요)...' : '⏳ Generating Music (1-2 mins)...';
 
+            // 사용자가 수정한 텍스트 적용
+            pendingBusinessData.lyrics = document.getElementById('business-preview-lyrics').value;
+
             try {
                 const response = await fetch('/api/music', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
-                        prompt: pendingBusinessData.lyrics, 
-                        tags: pendingBusinessData.tags, 
-                        title: pendingBusinessData.title 
+                        userId: currentUserId,
+                        lyrics: pendingBusinessData.lyrics, 
+                        style: pendingBusinessData.tags, 
+                        title: pendingBusinessData.title,
+                        imageUrl: document.getElementById('selected-image').value || '2.한국인/여자/indie_kr_woman_1_1778646998075.png',
+                        genreLabel: pendingBusinessData.genreLabel
                     })
                 });
 
