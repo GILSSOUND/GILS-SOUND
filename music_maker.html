@@ -2565,15 +2565,40 @@
                     document.getElementById('user-credits').innerText = currentCredits;
                 }
 
+                const bizCoverImage = data.imageUrl || document.getElementById('selected-image').value || '2.한글/배경/indie_kr_woman_1_1778646998075.png';
+                
+                document.getElementById('result-title').innerText = pendingBusinessData.title;
+                document.getElementById('result-genre').innerText = pendingBusinessData.genreLabel;
+                document.getElementById('result-cover').style.backgroundImage = "url('" + bizCoverImage + "')";
+                
+                resultLyricsDiv.innerText = pendingBusinessData.lyrics;
+                resultLyricsDiv.style.display = 'block';
+
+                const audioElement = document.getElementById('result-audio');
+                audioElement.src = data.audioUrl;
+                
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: pendingBusinessData.title,
+                        artist: 'GILS SOUND AI',
+                        artwork: [{ src: bizCoverImage, sizes: '512x512', type: 'image/png' }]
+                    });
+                }
+                
                 resultArea.style.display = 'block';
                 
                 myLibrarySongs.unshift({
-                    title: finalTitle,
-                    genre: finalData.genreLabel,
+                    title: pendingBusinessData.title,
+                    genre: pendingBusinessData.genreLabel,
                     audio: data.audioUrl,
-                    image: coverImage,
-                    lyrics: finalData.lyrics
+                    image: bizCoverImage,
+                    lyrics: pendingBusinessData.lyrics
                 });
+                
+                document.getElementById('library-count-badge').innerText = myLibrarySongs.length;
+                renderLibrary();
+                
+                audioElement.play().catch(e => console.log('Auto-play prevented:', e));
 
 
                 btn.innerText = '✨ 성공! (아래 결과를 확인하세요)';
@@ -3144,6 +3169,7 @@
     </script>
 </body>
 </html>
+
 
 
 
