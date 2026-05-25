@@ -2565,25 +2565,14 @@
                     document.getElementById('user-credits').innerText = currentCredits;
                 }
 
-                                document.getElementById('result-title').innerText = pendingBusinessData.title;
-                document.getElementById('result-genre').innerText = pendingBusinessData.genreLabel;
-                
-                const coverImage = data.imageUrl || '2.한글/배경/indie_kr_woman_1_1778646998075.png';
-                document.getElementById('result-cover').style.backgroundImage = "url('" + coverImage + "')";
-                
-                resultLyricsDiv.innerText = pendingBusinessData.lyrics;
-                resultLyricsDiv.style.display = 'block';
-
-                const audioElement = document.getElementById('result-audio');
-                audioElement.src = data.audioUrl;
                 resultArea.style.display = 'block';
                 
                 myLibrarySongs.unshift({
-                    title: pendingBusinessData.title,
-                    genre: pendingBusinessData.genreLabel,
+                    title: finalTitle,
+                    genre: finalData.genreLabel,
                     audio: data.audioUrl,
                     image: coverImage,
-                    lyrics: pendingBusinessData.lyrics
+                    lyrics: finalData.lyrics
                 });
 
 
@@ -2811,25 +2800,14 @@
 
                 const audioElement = document.getElementById('result-audio');
                 audioElement.src = data.audioUrl;
-                                document.getElementById('result-title').innerText = pendingBusinessData.title;
-                document.getElementById('result-genre').innerText = pendingBusinessData.genreLabel;
-                
-                const coverImage = data.imageUrl || '2.한글/배경/indie_kr_woman_1_1778646998075.png';
-                document.getElementById('result-cover').style.backgroundImage = "url('" + coverImage + "')";
-                
-                resultLyricsDiv.innerText = pendingBusinessData.lyrics;
-                resultLyricsDiv.style.display = 'block';
-
-                const audioElement = document.getElementById('result-audio');
-                audioElement.src = data.audioUrl;
                 resultArea.style.display = 'block';
                 
                 myLibrarySongs.unshift({
-                    title: pendingBusinessData.title,
-                    genre: pendingBusinessData.genreLabel,
+                    title: titleInput,
+                    genre: generatedGenreLabel,
                     audio: data.audioUrl,
                     image: coverImage,
-                    lyrics: pendingBusinessData.lyrics
+                    lyrics: lyricsInput
                 });
 
                 document.getElementById('library-count-badge').innerText = myLibrarySongs.length;
@@ -2974,25 +2952,14 @@
 
                 const audioElement = document.getElementById('result-audio');
                 audioElement.src = data.audioUrl;
-                                document.getElementById('result-title').innerText = pendingBusinessData.title;
-                document.getElementById('result-genre').innerText = pendingBusinessData.genreLabel;
-                
-                const coverImage = data.imageUrl || '2.한글/배경/indie_kr_woman_1_1778646998075.png';
-                document.getElementById('result-cover').style.backgroundImage = "url('" + coverImage + "')";
-                
-                resultLyricsDiv.innerText = pendingBusinessData.lyrics;
-                resultLyricsDiv.style.display = 'block';
-
-                const audioElement = document.getElementById('result-audio');
-                audioElement.src = data.audioUrl;
                 resultArea.style.display = 'block';
                 
                 myLibrarySongs.unshift({
-                    title: pendingBusinessData.title,
-                    genre: pendingBusinessData.genreLabel,
+                    title: titleInput,
+                    genre: generatedGenreLabel,
                     audio: data.audioUrl,
                     image: coverImage,
-                    lyrics: pendingBusinessData.lyrics
+                    lyrics: lyricsInput
                 });
 
                 document.getElementById('library-count-badge').innerText = myLibrarySongs.length;
@@ -3177,6 +3144,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
