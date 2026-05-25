@@ -2372,8 +2372,15 @@
                     if (stepGenderLabel) stepGenderLabel.innerText = 'Step 06';
                 }
                 
-                btnSubmitBusiness.parentElement.style.order = 7;
-                if (resultArea) resultArea.style.order = 8;
+                const businessBtn = document.getElementById('btn-submit-business');
+                if (businessBtn) {
+                    businessBtn.parentElement.style.order = 7;
+                    const noticeText = businessBtn.parentElement.nextElementSibling;
+                    if (noticeText && noticeText.tagName === 'DIV') {
+                        noticeText.style.order = 8;
+                    }
+                }
+                if (resultArea) resultArea.style.order = 9;
                 
                 const stepGridSpan = sectionGrid.querySelector('.step-number');
                 if (stepGridSpan) stepGridSpan.innerText = 'Step 03';
