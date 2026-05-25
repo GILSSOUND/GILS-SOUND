@@ -288,13 +288,13 @@ app.post('/api/business', async (req, res) => {
                 parts: [
                     {
                         text: `
-너는 천재적인 CM송, 광고 음악, 로고송 전문 작사가야.
+당신은 천재적인 CM송, 광고 음악, 로고송 전문 작사가입니다.
 반드시 [가장 중요한 규칙]을 최우선으로 지켜서 가사를 작성해 줘.
 
 [가장 중요한 규칙]: 구글 검색(Google Search Tool)을 활용하여 '${name}'에 대한 실제 매장/회사/브랜드 정보를 최대한 수집해라. 
 그리고 그 수집된 팩트 정보(메뉴, 서비스, 특징 등)와 사용자가 특별히 강조하고 싶어 하는 다음 소개 내용 '${description}'을 가사에 핵심적으로 반영하라.
 가짜 정보를 지어내지 말고 검색된 사실을 바탕으로 작성해야 한다.
-**경고: 정보를 검색하는 데서 그치지 마라! 반드시 아래 가이드에 따라 [Verse 1]부터 [Outro]까지 꽉 찬 '가사(LYRICS)'를 직접 작성해야 한다.**
+**중요: 정보를 검색한 후, 반드시 그 정보를 바탕으로 [Verse 1]부터 [Outro]까지 전체 가사를 작성해야 합니다.**
 
 [입력 정보]
 - 상호명/브랜드명: ${name}
@@ -304,26 +304,18 @@ app.post('/api/business', async (req, res) => {
 
 [가사 작성 가이드]
 1. 제목은 ${name}이 들어간 창의적이고 짧은 노래 제목으로 정해라.
-2. 장르(${reqGenre})와 분위기(${reqMood})에 맞춰 가사 톤과 단어 선택을 조절하라. (예: 트로트면 구수하게, 힙합이면 힙하게)
+2. 장르(${reqGenre})와 분위기(${reqMood})에 맞춰 가사 톤과 단어 선택을 조절하라.
 3. ${name}이라는 브랜드명이 대중의 뇌리에 박히도록 훅(Hook/후렴구)에 여러 번 반복해서 넣어라.
 4. 가사는 1절, 후렴(Chorus), 2절, 아웃트로(Outro) 구조로 1분 30초 내외 분량이 되게 하라.
-5. 반드시 아래 템플릿 구조를 그대로 사용하여 응답하라. (JSON이나 마크다운 사용 금지)
-**반드시 LYRICS: 태그를 적고 그 아래에 가사 본문을 써야 한다!**
 
-TITLE: 노래 제목
-PROMPT: ${reqMood} mood, ${reqGenre} style music, catchy, commercial song, promo jingle
-LYRICS:
-[Verse 1]
-가사...
+응답은 절대로 다른 설명 없이 오직 순수한 JSON 문자열로만 반환하세요.
 
-[Chorus]
-후렴...
-
-[Verse 2]
-가사...
-
-[Outro]
-아웃트로...
+JSON 구조:
+{
+  "title": "노래 제목",
+  "prompt": "${reqMood} mood, ${reqGenre} style music, catchy, commercial song, promo jingle",
+  "lyrics": "[Verse 1]\\n가사...\\n\\n[Chorus]\\n후렴...\\n\\n[Verse 2]\\n가사...\\n\\n[Outro]\\n아웃트로..."
+}
 `
                     }
                 ]
@@ -369,25 +361,34 @@ LYRICS:
             if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0]) {
                 const textOutput = data.candidates[0].content.parts[0].text;
                 
-                const titleMatch = textOutput.match(/TITLE:\s*([^\n]+)/);
-                const promptMatch = textOutput.match(/PROMPT:\s*([^\n]+)/);
-                const lyricsMatch = textOutput.match(/LYRICS:\s*([\s\S]+)/);
-
-                let extractedLyrics = textOutput;
-                if (lyricsMatch) {
-                    extractedLyrics = lyricsMatch[1].trim();
-                } else {
-                    extractedLyrics = extractedLyrics.replace(/TITLE:\s*[^\n]+\n?/g, '')
-                                                     .replace(/PROMPT:\s*[^\n]+\n?/g, '')
-                                                     .replace(/```/g, "")
-                                                     .trim();
+                // 정규식으로 순수 JSON 객체만 추출 (스토리 모드와 동일한 방식 적용)
+                const jsonMatch = textOutput.match(/(\{[\s\S]*\})/);
+                let cleanedText = "";
+                let resultObj = null;
+                
+                if (jsonMatch) {
+                    cleanedText = jsonMatch[1].trim();
+                    try {
+                        resultObj = JSON.parse(cleanedText);
+                    } catch (e) {
+                        // JSON 파싱 실패 시 fallback
+                    }
                 }
 
-                let resultObj = {
-                    title: titleMatch ? titleMatch[1].trim() : req.body.name + " CM Song",
-                    prompt: promptMatch ? promptMatch[1].trim() : req.body.reqMood + " mood, " + req.body.reqGenre + " style music",
-                    lyrics: extractedLyrics
-                };
+                if (!resultObj) {
+                    // Fallback: If JSON is completely broken, try rudimentary regex
+                    const titleMatch = textOutput.match(/"title"\s*:\s*"([^"]+)"/i) || textOutput.match(/TITLE:\s*([^\n]+)/i);
+                    const promptMatch = textOutput.match(/"prompt"\s*:\s*"([^"]+)"/i) || textOutput.match(/PROMPT:\s*([^\n]+)/i);
+                    const lyricsMatch = textOutput.match(/"lyrics"\s*:\s*"([\s\S]+?)"\s*\}/i) || textOutput.match(/LYRICS:\s*([\s\S]+)/i);
+                    
+                    let lyricsText = lyricsMatch ? lyricsMatch[1].replace(/\\n/g, '\n') : "가사를 생성하지 못했습니다. 다시 시도해주세요.";
+                    
+                    resultObj = {
+                        title: titleMatch ? titleMatch[1].trim() : req.body.name + " CM Song",
+                        prompt: promptMatch ? promptMatch[1].trim() : req.body.reqMood + " mood, " + req.body.reqGenre + " style music",
+                        lyrics: lyricsText
+                    };
+                }
 
                 // AI가 실제 검색한 질의어(Search Query)가 있으면 출처로 추가
                 const groundingMetadata = data.candidates[0].groundingMetadata;
