@@ -2332,6 +2332,13 @@
             document.getElementById('btn-submit-business').style.display = 'none';
             document.getElementById('btn-submit-pro').style.display = 'none';
 
+            // 레이아웃 순서 초기화 (기본값)
+            const mainCard = document.querySelector('.main-card');
+            if (mainCard) {
+                mainCard.style.display = '';
+                mainCard.style.flexDirection = '';
+            }
+
             if (mode === 'pro') {
                 tabPro.classList.add('active');
                 sectionCustom.style.display = 'block';
@@ -2348,15 +2355,31 @@
                 if (sectionMood) sectionMood.style.display = 'block';
                 sectionLyrics.style.display = 'none'; 
                 
+                // Set flex ordering to properly position elements
+                mainCard.style.display = 'flex';
+                mainCard.style.flexDirection = 'column';
+                document.querySelector('.mode-tabs').style.order = 1;
+                sectionBusiness.style.order = 2; // Step 1, 2
+                sectionGrid.style.order = 3; // Step 3
+                if (sectionMood) sectionMood.style.order = 4; // Step 4
+                
+                const titleContainer = document.getElementById('input-title').closest('.step-container');
+                if (titleContainer) titleContainer.style.order = 5; // Step 5
+                
+                if (sectionGender) {
+                    sectionGender.style.display = 'block';
+                    sectionGender.style.order = 6; // Step 6
+                    if (stepGenderLabel) stepGenderLabel.innerText = 'Step 06';
+                }
+                
+                btnSubmitBusiness.parentElement.style.order = 7;
+                if (resultArea) resultArea.style.order = 8;
+                
                 const stepGridSpan = sectionGrid.querySelector('.step-number');
                 if (stepGridSpan) stepGridSpan.innerText = 'Step 03';
                 const stepMoodSpan = sectionMood ? sectionMood.querySelector('.step-number') : null;
                 if (stepMoodSpan) stepMoodSpan.innerText = 'Step 04';
                 
-                if (sectionGender) {
-                    sectionGender.style.display = 'block';
-                    if (stepGenderLabel) stepGenderLabel.innerText = 'Step 06';
-                }
                 const btn = document.getElementById('btn-submit-business');
                 btn.style.display = 'block';
                 btn.disabled = false;
