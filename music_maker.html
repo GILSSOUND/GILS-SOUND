@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -2565,21 +2565,27 @@
                     document.getElementById('user-credits').innerText = currentCredits;
                 }
 
-                resultArea.style.display = 'block';
-                resultLyricsDiv.innerText = pendingBusinessData.lyrics;
-                const resultItemsDiv = document.getElementById('result-items');
-                resultItemsDiv.innerHTML = '';
+                                document.getElementById('result-title').innerText = pendingBusinessData.title;
+                document.getElementById('result-genre').innerText = pendingBusinessData.genreLabel;
                 
-                document.getElementById('input-title').value = pendingBusinessData.title;
+                const coverImage = data.imageUrl || '2.한글/배경/indie_kr_woman_1_1778646998075.png';
+                document.getElementById('result-cover').style.backgroundImage = "url('" + coverImage + "')";
+                
+                resultLyricsDiv.innerText = pendingBusinessData.lyrics;
+                resultLyricsDiv.style.display = 'block';
 
-                data.audioList.forEach((audio, idx) => {
-                    resultItemsDiv.appendChild(createResultItem(
-                        audio.url, 
-                        audio.imageUrl, 
-                        pendingBusinessData.title + " (Track " + (idx+1) + ")", 
-                        pendingBusinessData.genreLabel
-                    ));
+                const audioElement = document.getElementById('result-audio');
+                audioElement.src = data.audioUrl;
+                resultArea.style.display = 'block';
+                
+                myLibrarySongs.unshift({
+                    title: pendingBusinessData.title,
+                    genre: pendingBusinessData.genreLabel,
+                    audio: data.audioUrl,
+                    image: coverImage,
+                    lyrics: pendingBusinessData.lyrics
                 });
+
 
                 btn.innerText = '✨ 성공! (아래 결과를 확인하세요)';
                 setTimeout(() => {
@@ -2805,17 +2811,27 @@
 
                 const audioElement = document.getElementById('result-audio');
                 audioElement.src = data.audioUrl;
+                                document.getElementById('result-title').innerText = pendingBusinessData.title;
+                document.getElementById('result-genre').innerText = pendingBusinessData.genreLabel;
+                
+                const coverImage = data.imageUrl || '2.한글/배경/indie_kr_woman_1_1778646998075.png';
+                document.getElementById('result-cover').style.backgroundImage = "url('" + coverImage + "')";
+                
+                resultLyricsDiv.innerText = pendingBusinessData.lyrics;
+                resultLyricsDiv.style.display = 'block';
+
+                const audioElement = document.getElementById('result-audio');
+                audioElement.src = data.audioUrl;
                 resultArea.style.display = 'block';
                 
                 myLibrarySongs.unshift({
-                    id: data.trackId,
-                    title: finalTitle,
-                    genre: finalData.genreLabel,
-                    cover: coverImage,
-                    audioUrl: data.audioUrl,
-                    prompt: finalData.stylePrompt,
-                    lyrics: finalData.lyrics
+                    title: pendingBusinessData.title,
+                    genre: pendingBusinessData.genreLabel,
+                    audio: data.audioUrl,
+                    image: coverImage,
+                    lyrics: pendingBusinessData.lyrics
                 });
+
                 document.getElementById('library-count-badge').innerText = myLibrarySongs.length;
                 renderLibrary(); // 노래 만들자마자 실시간 리스트 갱신
 
@@ -2958,18 +2974,27 @@
 
                 const audioElement = document.getElementById('result-audio');
                 audioElement.src = data.audioUrl;
+                                document.getElementById('result-title').innerText = pendingBusinessData.title;
+                document.getElementById('result-genre').innerText = pendingBusinessData.genreLabel;
+                
+                const coverImage = data.imageUrl || '2.한글/배경/indie_kr_woman_1_1778646998075.png';
+                document.getElementById('result-cover').style.backgroundImage = "url('" + coverImage + "')";
+                
+                resultLyricsDiv.innerText = pendingBusinessData.lyrics;
+                resultLyricsDiv.style.display = 'block';
+
+                const audioElement = document.getElementById('result-audio');
+                audioElement.src = data.audioUrl;
                 resultArea.style.display = 'block';
                 
-                // 내 보관함(Library) 배열에 새로 창작된 곡 추가 및 뱃지 업데이트
                 myLibrarySongs.unshift({
-                    id: data.trackId,
-                    title: titleInput || '아름다운 선율',
-                    genre: generatedGenreLabel,
-                    cover: coverImage,
-                    audioUrl: data.audioUrl,
-                    prompt: styleTags,
-                    lyrics: lyricsInput
+                    title: pendingBusinessData.title,
+                    genre: pendingBusinessData.genreLabel,
+                    audio: data.audioUrl,
+                    image: coverImage,
+                    lyrics: pendingBusinessData.lyrics
                 });
+
                 document.getElementById('library-count-badge').innerText = myLibrarySongs.length;
                 renderLibrary(); // 노래 만들자마자 실시간 리스트 갱신
 
@@ -3152,6 +3177,7 @@
     </script>
 </body>
 </html>
+
 
 
 
