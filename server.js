@@ -271,6 +271,132 @@ app.post('/api/auto-lyrics', async (req, res) => {
 });
 
 // Suno v5.0 API 연동 (EvoLink 비공식 API)
+
+// Gemini API 연동 (사업가 모드 - 구글 검색 Grounding 탑재)
+app.post('/api/business', async (req, res) => {
+    const { name, location, strength, reqGenre, reqMood } = req.body;
+    
+    if (!name || !location) {
+        return res.status(400).json({ error: "상호명과 지역은 필수 입력 사항입니다." });
+    }
+
+    // Google Search Grounding 도구 포함
+    const payload = {
+        contents: [
+            {
+                role: "user",
+                parts: [
+                    {
+                        text: `
+너는 천재적인 CM송, 광고 음악, 로고송 전문 작사가야.
+반드시 [가장 중요한 규칙]을 최우선으로 지켜서 가사를 작성해 줘.
+
+[가장 중요한 규칙]: 구글 검색(Google Search Tool)을 활용하여 '${location}에 위치한 ${name}'에 대한 실제 매장/회사/브랜드 정보를 최대한 수집해라. 
+그리고 그 수집된 팩트 정보(메뉴, 서비스, 특징 등)와 사용자가 특별히 강조하고 싶어 하는 '${strength}'를 가사에 핵심적으로 반영하라.
+가짜 정보를 지어내지 말고 검색된 사실을 바탕으로 작성해야 한다.
+
+[입력 정보]
+- 지역: ${location}
+- 상호명/브랜드명: ${name}
+- 꼭 넣고 싶은 장점: ${strength}
+- 희망 장르: ${reqGenre}
+- 희망 분위기: ${reqMood}
+
+[가사 작성 가이드]
+1. 제목은 ${name}이 들어간 창의적이고 짧은 노래 제목으로 정해라.
+2. 장르(${reqGenre})와 분위기(${reqMood})에 맞춰 가사 톤과 단어 선택을 조절하라. (예: 트로트면 구수하게, 힙합이면 힙하게)
+3. ${name}이라는 브랜드명이 대중의 뇌리에 박히도록 훅(Hook/후렴구)에 여러 번 반복해서 넣어라.
+4. 가사는 1절, 후렴(Chorus), 2절, 아웃트로(Outro) 구조로 1분 30초 내외 분량이 되게 하라.
+5. 반드시 아래 JSON 형식으로만 응답하라. (마크다운 백틱 문법이나 다른 설명은 절대 제외하고 순수 JSON만 출력하라)
+
+{
+  "title": "노래 제목",
+  "prompt": "${reqMood} mood, ${reqGenre} style music, catchy, commercial song, promo jingle",
+  "lyrics": "[Verse 1]\n가사...\n\n[Chorus]\n후렴...\n\n[Verse 2]\n가사...\n\n[Outro]\n아웃트로..."
+}
+`
+                    }
+                ]
+            }
+        ],
+        tools: [
+            { googleSearch: {} }
+        ],
+        generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 1024,
+        }
+    };
+
+    let attempt = 0;
+    const maxAttempts = 3;
+
+    while (attempt < maxAttempts) {
+        try {
+            attempt++;
+            const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_TOKEN}`;
+            
+            const fetchResponse = await fetch(geminiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!fetchResponse.ok) {
+                if (fetchResponse.status === 503 || fetchResponse.status === 429) {
+                    if (attempt < maxAttempts) {
+                        console.log(`[Business API] ${fetchResponse.status} 에러 발생. 1.5초 후 재시도... (${attempt}/${maxAttempts})`);
+                        await new Promise(resolve => setTimeout(resolve, 1500));
+                        continue;
+                    }
+                }
+                const errorText = await fetchResponse.text();
+                throw new Error(`Gemini API Error (${fetchResponse.status}): ${errorText}`);
+            }
+
+            const data = await fetchResponse.json();
+            
+            if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0]) {
+                const textOutput = data.candidates[0].content.parts[0].text;
+                let cleanJson = textOutput.replace(/\n/g, "\n");
+                cleanJson = cleanJson.replace(/^[\s\S]*?\{/, "{");
+                cleanJson = cleanJson.replace(/\}[\s\S]*$/, "}");
+                
+                let resultObj;
+                try {
+                    resultObj = JSON.parse(cleanJson);
+                } catch(e) {
+                    resultObj = {
+                        title: req.body.name + " CM Song",
+                        prompt: req.body.reqMood + " mood, " + req.body.reqGenre + " style music, commercial song",
+                        lyrics: textOutput
+                    };
+                }
+
+                // AI가 실제 검색한 질의어(Search Query)가 있으면 출처로 추가
+                const groundingMetadata = data.candidates[0].groundingMetadata;
+                if (groundingMetadata && groundingMetadata.webSearchQueries) {
+                    resultObj.lyrics += "\n\n--- \n🔍 [AI 정보 출처 구글 검색어]\n- " + groundingMetadata.webSearchQueries.join("\n- ");
+                }
+
+                return res.json({
+                    title: resultObj.title,
+                    prompt: resultObj.prompt,
+                    lyrics: resultObj.lyrics
+                });
+            } else {
+                throw new Error("Gemini API의 응답 형식이 올바르지 않습니다.");
+            }
+        } catch (error) {
+            console.error('[Business API] Error:', error);
+            if (attempt >= maxAttempts) {
+                return res.status(500).json({ error: "AI 작사 생성 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요." });
+            }
+            await new Promise(resolve => setTimeout(resolve, 1500));
+        }
+    }
+});
+
 app.post('/api/music', async (req, res) => {
     try {
         const { userId, lyrics, style, title, imageUrl, genreLabel } = req.body;

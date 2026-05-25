@@ -1051,6 +1051,7 @@
             <div class="mode-tab active" id="tab-story" onclick="switchMode('story')" data-i18n="tab_story">📖 사연 스토리 작사 (Story)</div>
             <div class="mode-tab" id="tab-easy" onclick="switchMode('easy')" data-i18n="tab_easy">✨ 간편 생성 (Easy)</div>
             <div class="mode-tab" id="tab-pro" onclick="switchMode('pro')" data-i18n="tab_pro">🎛️ 전문가 (Pro)</div>
+            <div class="mode-tab" id="tab-business" onclick="switchMode('business')" data-i18n="tab_business">💼 사업가 모드 (Business)</div>
         </div>
 
         <!-- Step 1 (Easy Mode): Genre Grid -->
@@ -1159,7 +1160,73 @@
         </div>
 
         <!-- Step 1 (Story Mode): Story Input Area -->
-        <div class="step-container story-mode-container" id="section-story-mode">
+        
+        <!-- Step 1 (Business Mode): Business Info Input Area -->
+        <div class="step-container business-mode-container" id="section-business-mode" style="display: none;">
+            <div class="step-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span class="step-number">Step 01 (Business)</span>
+                    <span data-i18n="step1_business">가게/회사 정보를 입력해주세요</span>
+                </div>
+                <button class="btn-ai-lyrics" onclick="generateBusinessLyrics()">
+                    <span class="icon">✨</span>
+                    <span data-i18n="btn_ai_lyrics">AI 맞춤 자동 작사</span>
+                </button>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+                <div>
+                    <label style="display:block; margin-bottom: 5px; color: #fff; font-weight: bold;" data-i18n="business_name_label">상호명 / 브랜드명</label>
+                    <input type="text" id="business-name" class="lyric-input" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; font-size: 15px;" placeholder="예) 길스사운드 카페" data-i18n="[placeholder]business_name_placeholder">
+                </div>
+                <div>
+                    <label style="display:block; margin-bottom: 5px; color: #fff; font-weight: bold;" data-i18n="business_location_label">지역 / 위치</label>
+                    <input type="text" id="business-location" class="lyric-input" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; font-size: 15px;" placeholder="예) 제주도 서귀포시" data-i18n="[placeholder]business_location_placeholder">
+                </div>
+                <div>
+                    <label style="display:block; margin-bottom: 5px; color: #fff; font-weight: bold;" data-i18n="business_strength_label">꼭 넣고 싶은 장점 / 슬로건</label>
+                    <input type="text" id="business-strength" class="lyric-input" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; font-size: 15px;" placeholder="예) 매일 직접 굽는 빵, 탁 트인 오션뷰" data-i18n="[placeholder]business_strength_placeholder">
+                </div>
+                <div>
+                    <label style="display:block; margin-bottom: 5px; color: #fff; font-weight: bold;" data-i18n="business_genre_label">곡 장르 선택</label>
+                    <select id="business-genre" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; font-size: 15px;">
+                        <option value="pop">팝 (Pop)</option>
+                        <option value="kpop">K-Pop 스타일</option>
+                        <option value="hiphop">힙합 (Hip-hop)</option>
+                        <option value="trot">신나는 트로트</option>
+                        <option value="acoustic">어쿠스틱 (Acoustic)</option>
+                        <option value="jazz">재즈 (Jazz)</option>
+                        <option value="rock">모던 록 (Rock)</option>
+                        <option value="electronic">일렉트로닉 (EDM)</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display:block; margin-bottom: 5px; color: #fff; font-weight: bold;" data-i18n="business_mood_label">곡 분위기 선택</label>
+                    <select id="business-mood" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; font-size: 15px;">
+                        <option value="bright">밝고 경쾌한</option>
+                        <option value="energetic">신나는/파워풀한</option>
+                        <option value="trendy">트렌디/세련된</option>
+                        <option value="trustworthy">신뢰감 있는/웅장한</option>
+                        <option value="emotional">감성적인/따뜻한</option>
+                        <option value="funny">코믹하고 재미있는</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Business Preview Panel -->
+            <div id="business-preview-panel" style="display: none; margin-top: 20px; padding: 20px; background: rgba(212,175,55,0.05); border: 1px solid rgba(212,175,55,0.2); border-radius: 12px;">
+                <div style="margin-bottom: 15px;">
+                    <span style="font-size: 12px; color: var(--primary-gold); font-weight: bold;">[AI 생성 광고 가사 초안]</span>
+                    <span id="business-preview-genre" style="float: right; font-size: 12px; color: #9ca3af; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 12px;">로딩 중...</span>
+                </div>
+                <textarea id="business-preview-lyrics" class="lyric-input" style="min-height: 200px; line-height: 1.6;" placeholder="AI가 작성한 광고 가사가 여기에 표시됩니다..." readonly></textarea>
+                <div style="margin-top: 15px; font-size: 12px; color: #9ca3af; text-align: right;">
+                    가사가 마음에 든다면 아래의 <strong style="color: var(--primary-gold);">생성 버튼</strong>을 눌러주세요!
+                </div>
+            </div>
+            
+        </div>
+<div class="step-container story-mode-container" id="section-story-mode">
             <div class="step-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <div style="display: flex; align-items: center; gap: 12px;">
                     <span class="step-number">Step 01 (Story)</span>
@@ -1261,6 +1328,9 @@
                 작품 완성하기 (Create)
             </button>
             <button type="button" class="btn-submit" id="btn-submit-story" onclick="generateMusic()" style="flex: 1; display: none;" data-i18n="btn_create_next">
+            <button type="button" class="btn-submit" id="btn-submit-business" onclick="generateMusic()" style="flex: 1; display: none;" data-i18n="btn_create_next">
+                AI 자동 작사 후 다음 단계로 ➡️
+            </button>
                 ✍️ AI 가사 초안 생성 및 확인 (Next)
             </button>
             <button type="button" class="btn-submit" id="btn-submit-pro" onclick="generateMusic()" style="flex: 1; display: none;" data-i18n="btn_create">
@@ -2226,8 +2296,8 @@
         }
 
         let currentMode = 'story'; // 'easy', 'pro', 'story'
-        let modeTitles = { easy: '', pro: '', story: '' };
-        let modeLyrics = { easy: '', pro: '' }; // 간편생성과 프로가사 분리 보관
+        let modeTitles = { easy: '', pro: '', story: '', business: '' };
+        let modeLyrics = { easy: '', pro: '', business: '' }; // 간편생성과 프로가사 분리 보관
 
         function switchMode(mode) {
             const titleInputEl = document.getElementById('input-title');
@@ -2246,9 +2316,11 @@
             const tabEasy = document.getElementById('tab-easy');
             const tabPro = document.getElementById('tab-pro');
             const tabStory = document.getElementById('tab-story');
+            const tabBusiness = document.getElementById('tab-business');
             const sectionGrid = document.getElementById('section-genre-grid');
             const sectionCustom = document.getElementById('section-custom-prompt');
             const sectionStory = document.getElementById('section-story-mode');
+            const sectionBusiness = document.getElementById('section-business-mode');
             const sectionLyrics = document.getElementById('section-lyrics-input');
             const sectionMood = document.getElementById('section-mood-selection');
             const sectionGender = document.getElementById('section-vocal-gender');
@@ -2258,6 +2330,7 @@
             tabEasy.classList.remove('active');
             tabPro.classList.remove('active');
             tabStory.classList.remove('active');
+            tabBusiness.classList.remove('active');
 
             // 결과창 초기화 (다른 모드로 전환 시 이전 결과 숨김)
             const resultArea = document.getElementById('result-area');
@@ -2267,6 +2340,7 @@
             sectionGrid.style.display = 'none';
             sectionCustom.style.display = 'none';
             sectionStory.style.display = 'none';
+            sectionBusiness.style.display = 'none';
             sectionLyrics.style.display = 'block';
             if (sectionMood) sectionMood.style.display = 'none';
             if (sectionGender) sectionGender.style.display = 'none';
@@ -2276,6 +2350,7 @@
             // 모든 버튼 숨기기
             document.getElementById('btn-submit-easy').style.display = 'none';
             document.getElementById('btn-submit-story').style.display = 'none';
+            document.getElementById('btn-submit-business').style.display = 'none';
             document.getElementById('btn-submit-pro').style.display = 'none';
 
             if (mode === 'pro') {
@@ -2286,6 +2361,23 @@
                 btn.disabled = false;
                 btn.setAttribute('data-i18n', 'btn_create');
                 if (stepTitleLabel) stepTitleLabel.innerText = 'Step 02 (Pro)';
+            } else if (mode === 'business') {
+                tabBusiness.classList.add('active');
+                sectionBusiness.style.display = 'block';
+                sectionLyrics.style.display = 'none'; 
+                if (sectionGender) {
+                    sectionGender.style.display = 'block';
+                    if (stepGenderLabel) stepGenderLabel.innerText = 'Step 03 (Business)';
+                }
+                const btn = document.getElementById('btn-submit-business');
+                btn.style.display = 'block';
+                btn.disabled = false;
+                if (pendingBusinessData) {
+                    btn.setAttribute('data-i18n', 'btn_create');
+                } else {
+                    btn.setAttribute('data-i18n', 'btn_create_next');
+                }
+                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 02 (Business)';
             } else if (mode === 'story') {
                 tabStory.classList.add('active');
                 sectionStory.style.display = 'block';
@@ -2318,6 +2410,156 @@
                 if (stepTitleLabel) stepTitleLabel.innerText = 'Step 04';
             }
             if (typeof applyLanguage === 'function') applyLanguage(localStorage.getItem('gils_lang') || 'ko');
+        }
+
+        
+        let pendingBusinessData = null;
+
+        async function generateBusinessLyrics() {
+            pendingBusinessData = null;
+            const bName = document.getElementById('business-name').value || '';
+            const bLoc = document.getElementById('business-location').value || '';
+            const bStr = document.getElementById('business-strength').value || '';
+            const bGen = document.getElementById('business-genre').value || '';
+            const bMood = document.getElementById('business-mood').value || '';
+            
+            if (!bName.trim() || !bLoc.trim()) {
+                alert('🚨 상호명과 지역을 반드시 입력해 주세요!');
+                return;
+            }
+
+            const btn = document.getElementById('btn-submit-business');
+            const previewPanel = document.getElementById('business-preview-panel');
+            const previewLyrics = document.getElementById('business-preview-lyrics');
+            const previewGenre = document.getElementById('business-preview-genre');
+
+            btn.disabled = true;
+            btn.innerText = '✍️ 구글 검색 기반 맞춤 작사 중...';
+            previewPanel.style.display = 'block';
+            previewLyrics.value = "로딩 중... 구글에서 회사 정보를 수집하고 가사를 짓고 있습니다 ⏳";
+            previewGenre.innerText = "분석 중";
+
+            let autoLyrics = "";
+            let prompt = "";
+            let genre = "";
+            let titleInput = document.getElementById('input-title').value;
+
+            try {
+                const response = await fetch('/api/business', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        name: bName, 
+                        location: bLoc, 
+                        strength: bStr,
+                        reqGenre: bGen,
+                        reqMood: bMood
+                    })
+                });
+
+                const data = await response.json();
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                autoLyrics = data.lyrics;
+                prompt = data.prompt;
+                genre = data.genre || (bMood + " " + bGen);
+                if (!titleInput) titleInput = data.title || (bName + " CM Song");
+
+                document.getElementById('input-title').value = titleInput;
+                document.getElementById('input-lyrics').value = autoLyrics;
+                
+                previewLyrics.value = autoLyrics;
+                previewGenre.innerText = genre;
+
+                pendingBusinessData = {
+                    title: titleInput,
+                    lyrics: autoLyrics,
+                    tags: prompt,
+                    genreLabel: genre
+                };
+
+                btn.innerText = '🎵 작성된 가사로 광고 노래 생성하기';
+                btn.disabled = false;
+                btn.setAttribute('data-i18n', 'btn_create');
+                
+            } catch (err) {
+                console.error(err);
+                previewLyrics.value = "❌ 작사 중 오류가 발생했습니다. 구글 검색 서버가 혼잡할 수 있으니 1분 뒤 다시 시도해 주세요.\n\n(" + err.message + ")";
+                btn.innerText = 'AI 맞춤 자동 작사 재시도';
+                btn.disabled = false;
+            }
+        }
+        
+        async function confirmBusinessMusic() {
+            if (!pendingBusinessData) return;
+            
+            if (currentCredits <= 0) {
+                alert('🚨 잔여 생성 크레딧이 부족합니다.\n\n우측 상단의 [👑 GILS 스토어] 버튼을 눌러 원하시는 패키지를 충전해 주세요!');
+                openStore();
+                return;
+            }
+
+            const btn = document.getElementById('btn-submit-business');
+            const resultArea = document.getElementById('result-area');
+            const resultLyricsDiv = document.getElementById('result-lyrics');
+            
+            btn.disabled = true;
+            const lang = localStorage.getItem('gils_lang') || 'ko';
+            btn.innerText = (lang === 'ko') ? '⏳ 음악 생성 중 (최대 1~2분 소요)...' : '⏳ Generating Music (1-2 mins)...';
+
+            try {
+                const response = await fetch('/api/music', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        prompt: pendingBusinessData.lyrics, 
+                        tags: pendingBusinessData.tags, 
+                        title: pendingBusinessData.title 
+                    })
+                });
+
+                const data = await response.json();
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                currentCredits = data.remainingCredits;
+                updateCreditDisplay();
+
+                resultArea.style.display = 'block';
+                resultLyricsDiv.innerText = pendingBusinessData.lyrics;
+                const resultItemsDiv = document.getElementById('result-items');
+                resultItemsDiv.innerHTML = '';
+                
+                document.getElementById('input-title').value = pendingBusinessData.title;
+
+                data.audioList.forEach((audio, idx) => {
+                    resultItemsDiv.appendChild(createResultItem(
+                        audio.url, 
+                        audio.imageUrl, 
+                        pendingBusinessData.title + " (Track " + (idx+1) + ")", 
+                        pendingBusinessData.genreLabel
+                    ));
+                });
+
+                btn.innerText = '✨ 성공! (아래 결과를 확인하세요)';
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.setAttribute('data-i18n', 'btn_create');
+                    if (typeof applyLanguage === 'function') applyLanguage(localStorage.getItem('gils_lang') || 'ko');
+                }, 3000);
+            } catch (err) {
+                console.error(err);
+                if (err.message.includes('429')) {
+                    alert('🚨 현재 인공지능 서버 접속자가 많아 지연되고 있습니다. 1~2분 뒤 다시 시도해 주세요!');
+                } else {
+                    alert('❌ 노래 생성 중 오류가 발생했습니다: ' + err.message);
+                }
+                btn.disabled = false;
+                btn.setAttribute('data-i18n', 'btn_create');
+                if (typeof applyLanguage === 'function') applyLanguage(localStorage.getItem('gils_lang') || 'ko');
+            }
         }
 
         let pendingStoryData = null;
@@ -2556,6 +2798,14 @@
 
         async function generateMusic() {
             // 스토리 모드일 경우: 
+            if (currentMode === 'business') {
+                if (pendingBusinessData) {
+                    await confirmBusinessMusic();
+                } else {
+                    await generateBusinessLyrics();
+                }
+                return;
+            }
             if (currentMode === 'story') {
                 if (pendingStoryData) {
                     // 가사가 이미 생성되어 있다면 최종 노래 생성 단계로 진입

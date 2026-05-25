@@ -219,7 +219,16 @@ const translations = {
         "plan_standard_title": "스탠다드 패키지",
         "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30곡</span>",
         "plan_standard_desc1": "총 30곡 생성 크레딧 충전",
-        "plan_standard_desc_sub": "가성비 추천 팩"
+        "plan_standard_desc_sub": "가성비 추천 팩",
+        "tab_business": "💼 사업가 모드 (Business)",
+        "business_name_label": "상호명 / 브랜드명",
+        "business_name_placeholder": "예) 길스사운드 카페",
+        "business_location_label": "지역 / 위치",
+        "business_location_placeholder": "예) 제주도 서귀포시",
+        "business_strength_label": "꼭 넣고 싶은 장점 / 슬로건",
+        "business_strength_placeholder": "예) 매일 직접 굽는 빵, 탁 트인 오션뷰",
+        "business_genre_label": "곡 장르 선택",
+        "business_mood_label": "곡 분위기 선택"
     },
     "en": {
         "logo_title": "GILS SOUND",
@@ -441,7 +450,16 @@ const translations = {
         "plan_standard_title": "Standard Package",
         "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 songs</span>",
         "plan_standard_desc1": "Charge 30 generation credits",
-        "plan_standard_desc_sub": "Best Value Pack"
+        "plan_standard_desc_sub": "Best Value Pack",
+        "tab_business": "💼 Business Mode",
+        "business_name_label": "Business Name",
+        "business_name_placeholder": "e.g., Gils Sound Cafe",
+        "business_location_label": "Location / Region",
+        "business_location_placeholder": "e.g., Gangnam, Seoul",
+        "business_strength_label": "Key Strengths / Slogan",
+        "business_strength_placeholder": "e.g., Freshly baked bread every day",
+        "business_genre_label": "Select Genre",
+        "business_mood_label": "Select Mood"
     },
     "ja": {
         "logo_title": "GILS SOUND",
@@ -663,7 +681,16 @@ const translations = {
         "plan_standard_title": "スタンダードパッケージ",
         "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30曲</span>",
         "plan_standard_desc1": "計30曲作成クレジットチャージ",
-        "plan_standard_desc_sub": "高コスパおすすめパック"
+        "plan_standard_desc_sub": "高コスパおすすめパック",
+        "tab_business": "💼 ビジネスモード",
+        "business_name_label": "会社名 / ブランド名",
+        "business_name_placeholder": "例) ギルスサウンドカフェ",
+        "business_location_label": "地域 / 場所",
+        "business_location_placeholder": "例) 済州島 西帰浦市",
+        "business_strength_label": "アピールポイント / スローガン",
+        "business_strength_placeholder": "例) 毎日焼き立てのパンとオーシャンビュー",
+        "business_genre_label": "ジャンル選択",
+        "business_mood_label": "雰囲気選択"
     },
     "zh": {
         "logo_title": "GILS SOUND",
@@ -885,7 +912,16 @@ const translations = {
         "plan_standard_title": "标准套餐",
         "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30首</span>",
         "plan_standard_desc1": "充值30首歌曲生成积分",
-        "plan_standard_desc_sub": "高性价比推荐"
+        "plan_standard_desc_sub": "高性价比推荐",
+        "tab_business": "💼 商业模式",
+        "business_name_label": "商家/品牌名称",
+        "business_name_placeholder": "例如) Gils Sound 咖啡馆",
+        "business_location_label": "地区/位置",
+        "business_location_placeholder": "例如) 首尔 江南区",
+        "business_strength_label": "核心优势/口号",
+        "business_strength_placeholder": "例如) 每天现烤面包，美丽海景",
+        "business_genre_label": "选择流派",
+        "business_mood_label": "选择氛围"
     },
     "es": {
         "logo_title": "GILS SOUND",
@@ -1107,7 +1143,16 @@ const translations = {
         "plan_standard_title": "Paquete Estándar",
         "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 canciones</span>",
         "plan_standard_desc1": "Recarga 30 créditos de generación",
-        "plan_standard_desc_sub": "Mejor relación calidad-precio"
+        "plan_standard_desc_sub": "Mejor relación calidad-precio",
+        "tab_business": "💼 Modo Negocios",
+        "business_name_label": "Nombre del Negocio",
+        "business_name_placeholder": "ej) Gils Sound Cafe",
+        "business_location_label": "Ubicación / Región",
+        "business_location_placeholder": "ej) Madrid, España",
+        "business_strength_label": "Puntos Fuertes / Eslogan",
+        "business_strength_placeholder": "ej) Pan recién horneado todos los días",
+        "business_genre_label": "Seleccionar Género",
+        "business_mood_label": "Seleccionar Estado de Ánimo"
     },
     "fr": {
         "logo_title": "GILS SOUND",
@@ -1329,7 +1374,16 @@ const translations = {
         "plan_standard_title": "Forfait Standard",
         "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 chansons</span>",
         "plan_standard_desc1": "Recharge de 30 crédits de génération",
-        "plan_standard_desc_sub": "Meilleur rapport qualité-prix"
+        "plan_standard_desc_sub": "Meilleur rapport qualité-prix",
+        "tab_business": "💼 Mode Entreprise",
+        "business_name_label": "Nom de l'entreprise",
+        "business_name_placeholder": "ex) Gils Sound Café",
+        "business_location_label": "Lieu / Région",
+        "business_location_placeholder": "ex) Paris, France",
+        "business_strength_label": "Points Forts / Slogan",
+        "business_strength_placeholder": "ex) Pain frais tous les jours",
+        "business_genre_label": "Sélectionner le genre",
+        "business_mood_label": "Sélectionner l'ambiance"
     },
     "de": {
         "logo_title": "GILS SOUND",
@@ -1551,7 +1605,16 @@ const translations = {
         "plan_standard_title": "Standard-Paket",
         "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 Lieder</span>",
         "plan_standard_desc1": "30 Erstellungs-Credits aufladen",
-        "plan_standard_desc_sub": "Preis-Leistungs-Tipp"
+        "plan_standard_desc_sub": "Preis-Leistungs-Tipp",
+        "tab_business": "💼 Business-Modus",
+        "business_name_label": "Firmenname",
+        "business_name_placeholder": "z.B. Gils Sound Café",
+        "business_location_label": "Standort / Region",
+        "business_location_placeholder": "z.B. Berlin, Deutschland",
+        "business_strength_label": "Stärken / Slogan",
+        "business_strength_placeholder": "z.B. Täglich frisch gebackenes Brot",
+        "business_genre_label": "Genre auswählen",
+        "business_mood_label": "Stimmung auswählen"
     },
     "pt": {
         "logo_title": "GILS SOUND",
@@ -1773,7 +1836,16 @@ const translations = {
         "plan_standard_title": "Pacote Padrão",
         "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 músicas</span>",
         "plan_standard_desc1": "Recarga de 30 créditos de geração",
-        "plan_standard_desc_sub": "Melhor Custo-Benefício"
+        "plan_standard_desc_sub": "Melhor Custo-Benefício",
+        "tab_business": "💼 Modo Negócios",
+        "business_name_label": "Nome do Negócio",
+        "business_name_placeholder": "ex) Gils Sound Cafe",
+        "business_location_label": "Localização / Região",
+        "business_location_placeholder": "ex) São Paulo, Brasil",
+        "business_strength_label": "Pontos Fortes / Slogan",
+        "business_strength_placeholder": "ex) Pão fresco todos os dias",
+        "business_genre_label": "Selecionar Gênero",
+        "business_mood_label": "Selecionar Clima"
     },
     "vi": {
         "logo_title": "GILS SOUND",
@@ -1995,7 +2067,16 @@ const translations = {
         "plan_standard_title": "Gói Tiêu Chuẩn",
         "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 bài</span>",
         "plan_standard_desc1": "Nạp 30 tín dụng tạo bài hát",
-        "plan_standard_desc_sub": "Gói khuyên dùng tiết kiệm"
+        "plan_standard_desc_sub": "Gói khuyên dùng tiết kiệm",
+        "tab_business": "💼 Chế độ Kinh doanh",
+        "business_name_label": "Tên Doanh nghiệp",
+        "business_name_placeholder": "VD) Gils Sound Cafe",
+        "business_location_label": "Vị trí / Khu vực",
+        "business_location_placeholder": "VD) Hà Nội, Việt Nam",
+        "business_strength_label": "Điểm mạnh / Slogan",
+        "business_strength_placeholder": "VD) Bánh mì nướng mới mỗi ngày",
+        "business_genre_label": "Chọn thể loại",
+        "business_mood_label": "Chọn cảm xúc"
     },
     "id": {
         "logo_title": "GILS SOUND",
@@ -2217,6 +2298,15 @@ const translations = {
         "plan_standard_title": "Paket Standar",
         "plan_standard_price": "₩11,900 <span style='font-size:14px; color:#9ca3af;'>/ 30 lagu</span>",
         "plan_standard_desc1": "Isi ulang 30 kredit pembuatan",
-        "plan_standard_desc_sub": "Paket Rekomendasi Terbaik"
+        "plan_standard_desc_sub": "Paket Rekomendasi Terbaik",
+        "tab_business": "💼 Mode Bisnis",
+        "business_name_label": "Nama Bisnis / Merek",
+        "business_name_placeholder": "Contoh: Kafe Gils Sound",
+        "business_location_label": "Lokasi / Wilayah",
+        "business_location_placeholder": "Contoh: Jakarta, Indonesia",
+        "business_strength_label": "Keunggulan Utama / Slogan",
+        "business_strength_placeholder": "Contoh: Roti segar setiap hari",
+        "business_genre_label": "Pilih Genre",
+        "business_mood_label": "Pilih Suasana"
     }
 };
