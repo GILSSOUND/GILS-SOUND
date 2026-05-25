@@ -358,18 +358,30 @@ app.post('/api/business', async (req, res) => {
             
             if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0]) {
                 const textOutput = data.candidates[0].content.parts[0].text;
-                let cleanJson = textOutput.replace(/\n/g, "\n");
-                cleanJson = cleanJson.replace(/^[\s\S]*?\{/, "{");
-                cleanJson = cleanJson.replace(/\}[\s\S]*$/, "}");
-                
                 let resultObj;
                 try {
-                    resultObj = JSON.parse(cleanJson);
+                    // Remove markdown code blocks if present
+                    let cleanStr = textOutput.replace(/```json\n?/g, "").replace(/```/g, "").trim();
+                    // Attempt to parse
+                    resultObj = JSON.parse(cleanStr);
                 } catch(e) {
+                    // Fallback: Regex extraction if JSON.parse fails due to unescaped newlines
+                    const titleMatch = textOutput.match(/"title"\s*:\s*"([^"]+)"/);
+                    const promptMatch = textOutput.match(/"prompt"\s*:\s*"([^"]+)"/);
+                    let lyricsMatch = textOutput.match(/"lyrics"\s*:\s*"([\s\S]+?)"\s*\n?\s*}/);
+                    
+                    let extractedLyrics = textOutput;
+                    if (lyricsMatch) {
+                        extractedLyrics = lyricsMatch[1].replace(/\\n/g, "\n");
+                    } else {
+                        // If all else fails, just strip JSON brackets and backticks
+                        extractedLyrics = textOutput.replace(/```json\n?/g, "").replace(/```/g, "").trim();
+                    }
+
                     resultObj = {
-                        title: req.body.name + " CM Song",
-                        prompt: req.body.reqMood + " mood, " + req.body.reqGenre + " style music, commercial song",
-                        lyrics: textOutput
+                        title: titleMatch ? titleMatch[1] : req.body.name + " CM Song",
+                        prompt: promptMatch ? promptMatch[1] : req.body.reqMood + " mood, " + req.body.reqGenre + " style music",
+                        lyrics: extractedLyrics
                     };
                 }
 
