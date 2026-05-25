@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -2559,8 +2559,11 @@
                     throw new Error(data.error);
                 }
 
-                currentCredits = data.remainingCredits;
-                updateCreditDisplay();
+                if (data.remaining_credits !== undefined && data.remaining_credits !== null) {
+                    currentCredits = data.remaining_credits;
+                    localStorage.setItem('gils_credits', currentCredits);
+                    document.getElementById('user-credits').innerText = currentCredits;
+                }
 
                 resultArea.style.display = 'block';
                 resultLyricsDiv.innerText = pendingBusinessData.lyrics;
