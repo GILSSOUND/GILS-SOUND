@@ -311,6 +311,12 @@ ${reqMood} mood, ${reqGenre} style music, catchy, commercial song, promo jingle
 [Verse 2]
 (가사 계속...)
 
+[Chorus]
+(후렴구 반복...)
+
+[Bridge]
+(브릿지 가사...)
+
 [Outro]
 (마무리...)
 `
@@ -323,7 +329,7 @@ ${reqMood} mood, ${reqGenre} style music, catchy, commercial song, promo jingle
         ],
         generationConfig: {
             temperature: 0.7,
-            maxOutputTokens: 1024
+            maxOutputTokens: 2048
         }
     };
 
@@ -376,12 +382,6 @@ ${reqMood} mood, ${reqGenre} style music, catchy, commercial song, promo jingle
                     prompt: promptMatch ? promptMatch[1].trim() : req.body.reqMood + " mood, " + req.body.reqGenre + " style music",
                     lyrics: lyricsText
                 };
-
-                // AI가 실제 검색한 질의어(Search Query)가 있으면 출처로 추가
-                const groundingMetadata = data.candidates[0].groundingMetadata;
-                if (groundingMetadata && groundingMetadata.webSearchQueries) {
-                    resultObj.lyrics += "\n\n--- \n🔍 [AI 정보 출처 구글 검색어]\n- " + groundingMetadata.webSearchQueries.join("\n- ");
-                }
 
                 return res.json({
                     title: resultObj.title,

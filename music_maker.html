@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -1189,21 +1189,6 @@
                 </div>
             </div>
             
-            <!-- Business Preview Panel -->
-            <div id="business-preview-panel" style="display: none; margin-top: 20px; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--primary-gold); border-radius: 12px; padding: 16px; animation: fadeIn 0.4s ease-out;">
-                <div style="font-size: 13px; font-weight: 700; color: var(--primary-gold); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-                    <span data-i18n="draft_title">📜 AI 작사 초안 확인</span>
-                    <span id="business-preview-genre" style="font-size: 11px; color: #fff; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 10px;" data-i18n="analyzing">분석 중</span>
-                </div>
-                <textarea id="business-preview-lyrics" style="font-size: 13px; color: #E5E7EB; width: 100%; min-height: 150px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; line-height: 1.6; margin-bottom: 12px; border: 1px solid var(--border-glass); resize: vertical;"></textarea>
-                <div style="display: flex; gap: 8px;">
-                    <button class="btn-checkout" style="flex: 1; padding: 8px; font-size: 12px; border-color: #6B7280; color: #D1D5DB; background: transparent;" onclick="generateBusinessLyrics()" data-i18n="btn_remake_lyrics">
-                        🔄 가사 다시 만들기
-                    </button>
-                </div>
-            </div>
-            
-            <div style="font-size: 12px; color: var(--primary-gold); margin-top: 8px;" data-i18n="tip_story">💡 서버 과부하 시 오류가 날 수도 있어요. 잠시 후 다시 시도해 주시면 정상적으로 작동합니다.</div>
         </div>
 <div class="step-container story-mode-container" id="section-story-mode">
             <div class="step-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
@@ -1298,6 +1283,19 @@
             <input type="hidden" id="selected-gender" value="female vocal">
         </div>
 
+        <!-- Business Preview Panel -->
+        <div id="business-preview-panel" style="display: none; margin-top: 20px; margin-bottom: 20px; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--primary-gold); border-radius: 12px; padding: 16px; animation: fadeIn 0.4s ease-out;">
+            <div style="font-size: 13px; font-weight: 700; color: var(--primary-gold); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+                <span data-i18n="draft_title">✍️ AI 가사 초안 확인</span>
+                <span id="business-preview-genre" style="font-size: 11px; color: #fff; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 10px;" data-i18n="analyzing">분석 중</span>
+            </div>
+            <textarea id="business-preview-lyrics" style="font-size: 13px; color: #E5E7EB; width: 100%; min-height: 150px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; line-height: 1.6; margin-bottom: 12px; border: 1px solid var(--border-glass); resize: vertical;"></textarea>
+            <div style="display: flex; gap: 8px;">
+                <button class="btn-checkout" style="flex: 1; padding: 8px; font-size: 12px; border-color: #6B7280; color: #D1D5DB; background: transparent;" onclick="generateBusinessLyrics()" data-i18n="btn_remake_lyrics">
+                    🔄 가사 다시 쓰기
+                </button>
+            </div>
+        </div>
         <!-- Submit Button -->
         <div style="display: flex; gap: 10px; align-items: center;">
             <button type="button" onclick="clearInputs()" style="background: rgba(255,50,50,0.1); border: 1px solid rgba(255,50,50,0.3); border-radius: 12px; width: 60px; height: 60px; font-size: 24px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.3s;" title="모든 입력내용 지우기" onmouseover="this.style.background='rgba(255,50,50,0.2)'" onmouseout="this.style.background='rgba(255,50,50,0.1)'">
@@ -2372,6 +2370,9 @@
                     if (stepGenderLabel) stepGenderLabel.innerText = 'Step 06';
                 }
                 
+                const previewPanel = document.getElementById('business-preview-panel');
+                if (previewPanel) previewPanel.style.order = 6.5; // Insert right before buttons
+                
                 const businessBtn = document.getElementById('btn-submit-business');
                 if (businessBtn) {
                     businessBtn.parentElement.style.order = 7;
@@ -3147,3 +3148,4 @@
     </script>
 </body>
 </html>
+
