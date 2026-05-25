@@ -2465,13 +2465,12 @@
             const previewGenre = document.getElementById('business-preview-genre');
 
             btn.disabled = true;
-            btn.innerText = '✍️ 구글 검색 기반 맞춤 작사 중...';
+            btn.innerText = '회사를 위한 감동적인 노래창작중입니다...';
             previewPanel.style.display = 'block';
             previewLyrics.value = "로딩 중... 구글에서 회사 정보를 수집하고 가사를 짓고 있습니다 ⏳";
             previewGenre.innerText = "분석 중";
 
-            let autoLyrics = "";
-            let prompt = "";
+            let autoLyrics = "";            let prompt = "";
             let genre = "";
             let titleInput = document.getElementById('input-title').value;
 
@@ -2509,9 +2508,9 @@
                     genreLabel: genre
                 };
 
-                btn.innerText = '💡 AI 가사 초안 생성 및 확인 (Next)';
+                btn.innerText = '노래 완성하기 (Create)';
                 btn.disabled = false;
-                btn.setAttribute('data-i18n', 'btn_create_next');
+                btn.setAttribute('data-i18n', 'btn_create');
                 
             } catch (err) {
                 console.error(err);
@@ -2647,7 +2646,7 @@
                 
                 previewPanel.style.display = 'none';
                 btn.disabled = false;
-                btn.innerText = '✍️ AI 가사 초안 생성 및 확인 (Next)';
+                btn.innerText = '노래 완성하기 (Create)';
                 return;
             }
 
@@ -2790,7 +2789,7 @@
                 }
 
                 btn.disabled = false;
-                btn.innerText = '✍️ AI 가사 초안 생성 및 확인 (Next)';
+                btn.innerText = '노래 완성하기 (Create)';
 
                 document.getElementById('result-title').innerText = finalTitle;
                 document.getElementById('result-genre').innerText = finalData.genreLabel;
@@ -2822,7 +2821,7 @@
             } catch (error) {
                 clearInterval(loadingInterval);
                 btn.disabled = false;
-                btn.innerText = '✍️ AI 가사 초안 생성 및 확인 (Next)';
+                btn.innerText = '노래 완성하기 (Create)';
                 
                 if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
                     alert('🚨 메인 서버와 연결할 수 없습니다.\n\n일시적인 네트워크 오류이거나 서버 재부팅 중일 수 있습니다. 잠시 후 다시 시도해 주세요!');
@@ -3150,5 +3149,10 @@
     </script>
 </body>
 </html>
+
+
+
+
+
 
 
