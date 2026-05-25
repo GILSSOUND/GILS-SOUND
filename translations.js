@@ -2310,3 +2310,94 @@ const translations = {
         "business_mood_label": "Pilih Suasana"
     }
 };
+
+// 언어 적용 함수
+function applyLanguage(lang) {
+    if (!translations[lang]) lang = 'ko'; // 기본값
+    
+    // 언어 설정 저장
+    localStorage.setItem('gils_lang', lang);
+    
+    // HTML 문서 언어 속성 변경
+    document.documentElement.lang = lang;
+    
+    // data-i18n 속성을 가진 모든 요소 찾아서 텍스트 변경
+    const elements = document.querySelectorAll('[data-i18n]');
+    elements.forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+            el.innerHTML = translations[lang][key];
+        }
+    });
+
+    // data-i18n-placeholder 속성을 가진 요소의 placeholder 텍스트 변경
+    const placeElements = document.querySelectorAll('[data-i18n-placeholder]');
+    placeElements.forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (translations[lang][key]) {
+            el.placeholder = translations[lang][key];
+        }
+    });
+
+    // 동적으로 설정되는 텍스트(예: 무제한) 업데이트 로직
+    const userCreditsEl = document.getElementById('user-credits');
+    const mypageCreditsEl = document.getElementById('mypage-credits');
+    const unlimitedText = translations[lang]['unlimited'] || '∞ 무제한';
+    
+    // 로컬 스토리지 또는 전역 변수에서 현재 크레딧을 읽어와서 무제한일 경우 텍스트 업데이트
+    const savedCredits = localStorage.getItem('gils_credits');
+    if (savedCredits) {
+        const parsedCredits = parseInt(savedCredits, 10);
+        if (parsedCredits === 9999) {
+            if (userCreditsEl) userCreditsEl.innerText = unlimitedText;
+            if (mypageCreditsEl) mypageCreditsEl.innerText = unlimitedText;
+        }
+    }
+}
+
+// 브라우저 언어 감지 또는 저장된 언어 불러오기
+function initLanguage() {
+    let savedLang = localStorage.getItem('gils_lang');
+    if (!savedLang) {
+        // 브라우저 기본 언어 감지
+        const browserLang = navigator.language.slice(0, 2);
+        if (['ko', 'en', 'ja', 'zh', 'vi', 'id', 'es', 'fr', 'de', 'pt'].includes(browserLang)) {
+            savedLang = browserLang;
+        } else {
+            savedLang = 'en'; // 글로벌 기본
+        }
+    }
+    applyLanguage(savedLang);
+    
+    // 언어 선택기 UI 업데이트 (존재하는 경우)
+    const langSelects = document.querySelectorAll('.lang-selector');
+    langSelects.forEach(select => {
+        select.value = savedLang;
+        select.addEventListener('change', (e) => {
+            const selectedLang = e.target.value;
+            applyLanguage(selectedLang);
+            // 모든 select 값을 동일하게 맞춤
+            langSelects.forEach(s => s.value = selectedLang);
+        });
+    });
+}
+
+// 스크립트가 로드되면 즉시 실행
+document.addEventListener('DOMContentLoaded', initLanguage);
+
+// 동적 조합 텍스트(장르, 분위기)를 번역하는 함수
+function translateDynamicText(text, lang) {
+    if (!text || lang === 'ko' || !translations[lang]) return text;
+    
+    let translated = text;
+    const koDict = translations['ko'];
+    const targetDict = translations[lang];
+    
+    // koDict의 키들을 순회하며 포함된 한글을 매칭해서 대상 언어로 변경
+    for (const key in koDict) {
+        if (koDict[key] && translated.includes(koDict[key])) {
+            translated = translated.replace(koDict[key], targetDict[key]);
+        }
+    }
+    return translated;
+}
