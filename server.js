@@ -1,4 +1,4 @@
-require('dotenv').config();
+﻿require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -329,7 +329,7 @@ ${reqMood} mood, ${reqGenre} style music, catchy, commercial song, promo jingle
         ],
         generationConfig: {
             temperature: 0.7,
-            maxOutputTokens: 2048
+            maxOutputTokens: 4096
         }
     };
 
@@ -363,18 +363,19 @@ ${reqMood} mood, ${reqGenre} style music, catchy, commercial song, promo jingle
             
             if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0]) {
                 const textOutput = data.candidates[0].content.parts[0].text;
+                const textCleaned = textOutput.replace(/\[cite:\s*\d+(?:,\s*\d+)*\]/g, '');
                 
-                // 마크다운 헤더를 기준으로 파싱
-                const titleMatch = textOutput.match(/#\s*노래\s*제목\s*\n([^\n]+)/);
-                const promptMatch = textOutput.match(/#\s*작곡\s*프롬프트\s*\n([^\n]+)/);
-                const lyricsMatch = textOutput.match(/#\s*가사\s*\n([\s\S]+)/);
+                // 마크다운 섹션 파싱
+                const titleMatch = textCleaned.match(/#\s*노래\s*제목\s*\n([^\n]+)/);
+                const promptMatch = textCleaned.match(/#\s*작곡\s*프롬프트\s*\n([^\n]+)/);
+                const lyricsMatch = textCleaned.match(/#\s*가사\s*\n([\s\S]+)/);
                 
                 let lyricsText = "";
                 if (lyricsMatch) {
                     lyricsText = lyricsMatch[1].trim();
                 } else {
                     // 양식을 지키지 않았다면 전체 텍스트를 그대로 출력해서 뭐가 문제인지 볼 수 있게 함
-                    lyricsText = textOutput.replace(/```[a-z]*\n?/g, "").replace(/```/g, "").trim();
+                    lyricsText = textCleaned.replace(/```[a-z]*\n?/g, "").replace(/```/g, "").trim();
                 }
 
                 let resultObj = {
@@ -776,3 +777,6 @@ app.listen(PORT, () => {
     console.log(`👉 http://localhost:${PORT}`);
     console.log(`=========================================`);
 });
+
+
+
