@@ -1165,13 +1165,14 @@
         <div class="step-container business-mode-container" id="section-business-mode" style="display: none;">
             <div class="step-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <div style="display: flex; align-items: center; gap: 12px;">
-                    <span class="step-number">Step 01 (Business)</span>
+                    <span class="step-number">Step 01</span>
                     <span data-i18n="step1_business">가게/회사 정보를 입력해주세요</span>
                 </div>
-                <button class="btn-ai-lyrics" onclick="generateBusinessLyrics()">
-                    <span class="icon">✨</span>
-                    <span data-i18n="btn_ai_lyrics">AI 맞춤 자동 작사</span>
-                </button>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="background: rgba(212, 175, 55, 0.2); border: 1px solid var(--primary-gold); color: var(--primary-gold); padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700;" data-i18n="gemini_active">
+                        ✨ 통합 백엔드 AI (Gemini 연동 가동 중)
+                    </span>
+                </div>
             </div>
             
             <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
@@ -1179,57 +1180,30 @@
                     <label style="display:block; margin-bottom: 5px; color: #fff; font-weight: bold;" data-i18n="business_name_label">상호명 / 브랜드명</label>
                     <input type="text" id="business-name" class="lyric-input" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; font-size: 15px;" placeholder="예) 길스사운드 카페" data-i18n="[placeholder]business_name_placeholder">
                 </div>
-                <div>
-                    <label style="display:block; margin-bottom: 5px; color: #fff; font-weight: bold;" data-i18n="business_location_label">지역 / 위치</label>
-                    <input type="text" id="business-location" class="lyric-input" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; font-size: 15px;" placeholder="예) 제주도 서귀포시" data-i18n="[placeholder]business_location_placeholder">
-                </div>
-                <div>
-                    <label style="display:block; margin-bottom: 5px; color: #fff; font-weight: bold;" data-i18n="business_strength_label">꼭 넣고 싶은 장점 / 슬로건</label>
-                    <input type="text" id="business-strength" class="lyric-input" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; font-size: 15px;" placeholder="예) 매일 직접 굽는 빵, 탁 트인 오션뷰" data-i18n="[placeholder]business_strength_placeholder">
-                </div>
-                <div>
-                    <label style="display:block; margin-bottom: 5px; color: #fff; font-weight: bold;" data-i18n="business_genre_label">곡 장르 선택</label>
-                    <select id="business-genre" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; font-size: 15px;">
-                        <option value="pop">팝 (Pop)</option>
-                        <option value="kpop">K-Pop 스타일</option>
-                        <option value="hiphop">힙합 (Hip-hop)</option>
-                        <option value="trot">신나는 트로트</option>
-                        <option value="acoustic">어쿠스틱 (Acoustic)</option>
-                        <option value="jazz">재즈 (Jazz)</option>
-                        <option value="rock">모던 록 (Rock)</option>
-                        <option value="electronic">일렉트로닉 (EDM)</option>
-                    </select>
-                </div>
-                <div>
-                    <label style="display:block; margin-bottom: 5px; color: #fff; font-weight: bold;" data-i18n="business_mood_label">곡 분위기 선택</label>
-                    <select id="business-mood" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; font-size: 15px;">
-                        <option value="bright">밝고 경쾌한</option>
-                        <option value="energetic">신나는/파워풀한</option>
-                        <option value="trendy">트렌디/세련된</option>
-                        <option value="trustworthy">신뢰감 있는/웅장한</option>
-                        <option value="emotional">감성적인/따뜻한</option>
-                        <option value="funny">코믹하고 재미있는</option>
-                    </select>
+                <div style="margin-top: 20px;">
+                    <div class="step-title" style="margin-bottom: 10px; border-bottom: none; padding-bottom: 0;">
+                        <span class="step-number">Step 02</span>
+                        <span data-i18n="business_desc_label">회사를 소개해주세요</span>
+                    </div>
+                    <textarea id="business-description" class="lyric-input" style="width: 100%; height: 120px; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; font-size: 15px; resize: vertical;" placeholder="위치, 메뉴, 장점, 슬로건 등 어필하고 싶은 내용을 자유롭게 적어주세요!" data-i18n="[placeholder]business_desc_placeholder"></textarea>
                 </div>
             </div>
             
             <!-- Business Preview Panel -->
-            <div id="business-preview-panel" style="display: none; margin-top: 20px; padding: 20px; background: rgba(212,175,55,0.05); border: 1px solid rgba(212,175,55,0.2); border-radius: 12px;">
-                <div style="margin-bottom: 15px;">
-                    <span style="font-size: 12px; color: var(--primary-gold); font-weight: bold;">[AI 생성 광고 가사 초안]</span>
-                    <span id="business-preview-genre" style="float: right; font-size: 12px; color: #9ca3af; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 12px;">로딩 중...</span>
+            <div id="business-preview-panel" style="display: none; margin-top: 20px; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--primary-gold); border-radius: 12px; padding: 16px; animation: fadeIn 0.4s ease-out;">
+                <div style="font-size: 13px; font-weight: 700; color: var(--primary-gold); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+                    <span data-i18n="draft_title">📜 AI 작사 초안 확인</span>
+                    <span id="business-preview-genre" style="font-size: 11px; color: #fff; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 10px;" data-i18n="analyzing">분석 중</span>
                 </div>
-                <textarea id="business-preview-lyrics" class="lyric-input" style="min-height: 200px; line-height: 1.6; resize: vertical;" placeholder="AI가 작성한 광고 가사가 여기에 표시됩니다..."></textarea>
-                <div style="display: flex; gap: 8px; margin-top: 12px;">
+                <textarea id="business-preview-lyrics" style="font-size: 13px; color: #E5E7EB; width: 100%; min-height: 150px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; line-height: 1.6; margin-bottom: 12px; border: 1px solid var(--border-glass); resize: vertical;"></textarea>
+                <div style="display: flex; gap: 8px;">
                     <button class="btn-checkout" style="flex: 1; padding: 8px; font-size: 12px; border-color: #6B7280; color: #D1D5DB; background: transparent;" onclick="generateBusinessLyrics()" data-i18n="btn_remake_lyrics">
                         🔄 가사 다시 만들기
                     </button>
                 </div>
-                <div style="margin-top: 15px; font-size: 12px; color: #9ca3af; text-align: right;">
-                    가사를 자유롭게 <strong>수정</strong>하신 후 아래의 <strong style="color: var(--primary-gold);">생성 버튼</strong>을 눌러주세요!
-                </div>
             </div>
             
+            <div style="font-size: 12px; color: var(--primary-gold); margin-top: 8px;" data-i18n="tip_story">💡 서버 과부하 시 오류가 날 수도 있어요. 잠시 후 다시 시도해 주시면 정상적으로 작동합니다.</div>
         </div>
 <div class="step-container story-mode-container" id="section-story-mode">
             <div class="step-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
@@ -2366,44 +2340,63 @@
                 btn.disabled = false;
                 btn.setAttribute('data-i18n', 'btn_create');
                 if (stepTitleLabel) stepTitleLabel.innerText = 'Step 02 (Pro)';
+                if (sectionGender && document.getElementById('step-number-gender')) document.getElementById('step-number-gender').innerText = 'Step 03';
             } else if (mode === 'business') {
                 tabBusiness.classList.add('active');
                 sectionBusiness.style.display = 'block';
+                sectionGrid.style.display = 'block'; 
+                if (sectionMood) sectionMood.style.display = 'block';
                 sectionLyrics.style.display = 'none'; 
+                
+                const stepGridSpan = sectionGrid.querySelector('.step-number');
+                if (stepGridSpan) stepGridSpan.innerText = 'Step 03';
+                const stepMoodSpan = sectionMood ? sectionMood.querySelector('.step-number') : null;
+                if (stepMoodSpan) stepMoodSpan.innerText = 'Step 04';
+                
                 if (sectionGender) {
                     sectionGender.style.display = 'block';
-                    if (stepGenderLabel) stepGenderLabel.innerText = 'Step 03 (Business)';
+                    if (stepGenderLabel) stepGenderLabel.innerText = 'Step 06';
                 }
                 const btn = document.getElementById('btn-submit-business');
                 btn.style.display = 'block';
                 btn.disabled = false;
                 if (pendingBusinessData) {
                     btn.setAttribute('data-i18n', 'btn_create');
+                    btn.innerText = '작품 완성하기 (Create)';
                 } else {
                     btn.setAttribute('data-i18n', 'btn_create_next');
+                    btn.innerText = '✍️ AI 가사 초안 생성 및 확인 (Next)';
                 }
-                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 02 (Business)';
+                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 05';
             } else if (mode === 'story') {
                 tabStory.classList.add('active');
                 sectionStory.style.display = 'block';
                 sectionLyrics.style.display = 'none'; // 스토리 모드는 가사가 자동 생성되므로 직접 입력칸 숨김
                 if (sectionGender) {
                     sectionGender.style.display = 'block';
-                    if (stepGenderLabel) stepGenderLabel.innerText = 'Step 03 (Story)';
+                    if (stepGenderLabel) stepGenderLabel.innerText = 'Step 03';
                 }
                 const btn = document.getElementById('btn-submit-story');
                 btn.style.display = 'block';
                 btn.disabled = false;
                 if (pendingStoryData) {
                     btn.setAttribute('data-i18n', 'btn_create');
+                    btn.innerText = '작품 완성하기 (Create)';
                 } else {
                     btn.setAttribute('data-i18n', 'btn_create_next');
+                    btn.innerText = '✍️ AI 가사 초안 생성 및 확인 (Next)';
                 }
-                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 02 (Story)';
+                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 02';
             } else {
                 tabEasy.classList.add('active');
                 sectionGrid.style.display = 'block';
                 if (sectionMood) sectionMood.style.display = 'block';
+                
+                const stepGridSpan = sectionGrid.querySelector('.step-number');
+                if (stepGridSpan) stepGridSpan.innerText = 'Step 01';
+                const stepMoodSpan = sectionMood ? sectionMood.querySelector('.step-number') : null;
+                if (stepMoodSpan) stepMoodSpan.innerText = 'Step 03';
+                
                 if (sectionGender) {
                     sectionGender.style.display = 'block';
                     if (stepGenderLabel) stepGenderLabel.innerText = 'Step 05';
@@ -2412,6 +2405,7 @@
                 btn.style.display = 'block';
                 btn.disabled = false;
                 btn.setAttribute('data-i18n', 'btn_create');
+                btn.innerText = '작품 완성하기 (Create)';
                 if (stepTitleLabel) stepTitleLabel.innerText = 'Step 04';
             }
             if (typeof applyLanguage === 'function') applyLanguage(localStorage.getItem('gils_lang') || 'ko');
@@ -2423,13 +2417,12 @@
         async function generateBusinessLyrics() {
             pendingBusinessData = null;
             const bName = document.getElementById('business-name').value || '';
-            const bLoc = document.getElementById('business-location').value || '';
-            const bStr = document.getElementById('business-strength').value || '';
-            const bGen = document.getElementById('business-genre').value || '';
-            const bMood = document.getElementById('business-mood').value || '';
+            const bDesc = document.getElementById('business-description').value || '';
+            const bGen = document.getElementById('selected-genre').value || '팝 (Pop)';
+            const bMood = document.getElementById('selected-mood').value || '밝고 경쾌한';
             
-            if (!bName.trim() || !bLoc.trim()) {
-                alert('🚨 상호명과 지역을 반드시 입력해 주세요!');
+            if (!bName.trim() || !bDesc.trim()) {
+                alert('🚨 상호명과 회사 소개를 반드시 입력해 주세요!');
                 return;
             }
 
@@ -2455,8 +2448,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
                         name: bName, 
-                        location: bLoc, 
-                        strength: bStr,
+                        description: bDesc, 
                         reqGenre: bGen,
                         reqMood: bMood
                     })
