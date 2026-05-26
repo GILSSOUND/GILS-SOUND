@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -2786,17 +2786,6 @@
             const loadingInterval = setInterval(() => {
                 dotCount = (dotCount + 1) % 4;
                 const dots = '.'.repeat(dotCount);
-                const dotsMsg = (typeof translations !== 'undefined' && translations[lang] && translations[lang]['msg_generating_dots']) ? translations[lang]['msg_generating_dots'] : '고품질 음원이 생성중입니다 조금만 기다려주세요!!';
-                btn.innerText = `${dotsMsg}${dots}`;
-            }, 800);
-
-            const finalData = { ...pendingStoryData };
-            pendingStoryData = null;
-
-            try {
-                const response = await fetch('/api/music', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
                         userId: currentUserId,
                         lyrics: finalData.lyrics,
@@ -2835,11 +2824,12 @@
                 resultArea.style.display = 'block';
                 
                 myLibrarySongs.unshift({
-                    title: titleInput,
-                    genre: generatedGenreLabel,
+                    id: data.songId,
+                    title: finalTitle,
+                    genre: finalData.genreLabel,
                     audio: data.audioUrl,
                     image: coverImage,
-                    lyrics: lyricsInput
+                    lyrics: finalData.lyrics
                 });
 
                 document.getElementById('library-count-badge').innerText = myLibrarySongs.length;
