@@ -1833,19 +1833,45 @@
         }
 
         function clearInputs() {
-            if(confirm('작성 중인 가사, 사연, 제목 등 모든 내용을 지우시겠습니까?')) {
+            if(confirm('작성 중인 가사, 사연, 회사 정보, 제목 등 모든 내용을 지우시겠습니까?')) {
                 document.getElementById('input-lyrics').value = '';
                 document.getElementById('input-title').value = '';
                 document.getElementById('input-custom-prompt').value = '';
                 document.getElementById('input-story').value = '';
                 
-                // 사연 모드 자동생성 가사 및 패널 초기화
+                // 사연 모드 초기화
                 pendingStoryData = null;
                 const previewLyrics = document.getElementById('story-preview-lyrics');
                 const previewPanel = document.getElementById('story-preview-panel');
                 if(previewLyrics) previewLyrics.value = '';
                 if(previewPanel) previewPanel.style.display = 'none';
+
+                // 사업가 모드 초기화
+                const bName = document.getElementById('input-business-name');
+                const bDesc = document.getElementById('input-business-desc');
+                if (bName) bName.value = '';
+                if (bDesc) bDesc.value = '';
+                pendingBusinessData = null;
+                const bizPreviewLyrics = document.getElementById('business-preview-lyrics');
+                const bizPreviewPanel = document.getElementById('business-preview-panel');
+                if(bizPreviewLyrics) bizPreviewLyrics.value = '';
+                if(bizPreviewPanel) bizPreviewPanel.style.display = 'none';
+
+                // 버튼 초기화
+                const btnBusiness = document.getElementById('btn-submit-business');
+                if (btnBusiness) {
+                    btnBusiness.innerText = '🤖 AI 자동 작사 및 노래 창작 🚀';
+                    btnBusiness.setAttribute('data-i18n', 'btn_create_next');
+                }
+                const btnStory = document.getElementById('btn-submit-story');
+                if (btnStory) {
+                    btnStory.innerText = '✍️ AI 가사 초안 생성 및 확인 (Next)';
+                    btnStory.setAttribute('data-i18n', 'btn_create_next');
+                }
+                
+                if (typeof applyLanguage === 'function') applyLanguage(localStorage.getItem('gils_lang') || 'ko');
             }
+        }
         }
 
         function toggleMenu(index) {
@@ -2512,12 +2538,14 @@
                     genreLabel: genre
                 };
 
+                clearInterval(parseInt(btn.getAttribute('data-loading-interval')));
                 btn.innerText = '노래 완성하기 (Create)';
                 btn.disabled = false;
                 btn.setAttribute('data-i18n', 'btn_create');
                 
             } catch (err) {
                 console.error(err);
+                clearInterval(parseInt(btn.getAttribute('data-loading-interval')));
                 previewLyrics.value = "❌ 작사 중 오류가 발생했습니다. 구글 검색 서버가 혼잡할 수 있으니 1분 뒤 다시 시도해 주세요.\n\n(" + err.message + ")";
                 btn.innerText = 'AI 맞춤 자동 작사 재시도';
                 btn.disabled = false;

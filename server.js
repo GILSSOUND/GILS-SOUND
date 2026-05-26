@@ -463,7 +463,7 @@ app.post('/api/music', async (req, res) => {
         // 앨범 아트(이미지) 비동기 생성 요청 (z-image-turbo)
         // ============================================
         let finalImageUrl = imageUrl || '2.한국인/여자/woman_influencer_2.png';
-        const imagePrompt = `A wordless portrait or landscape photography matching the atmosphere of a song titled \"${title || 'Music'}\" and genre \"${genreLabel || style || 'Pop'}\". Masterpiece, high quality, 4k. CRUCIAL INSTRUCTION: The image must be 100% purely visual without any text. Do not draw any typography, letters, titles, lyrics, words, or watermarks. No text at all.`;
+        const imagePrompt = `A beautiful portrait or landscape photography capturing the visual aesthetic of ${genreLabel || style || 'Pop'}. Purely visual, cinematic, masterpiece, highly detailed. CRUCIAL INSTRUCTION: DO NOT generate any text, words, titles, typography, letters, or watermarks. ABSOLUTELY NO TEXT.`;
         
         const imageGenerationPromise = fetch("https://api.evolink.ai/v1/images/generations", {
             method: 'POST',
