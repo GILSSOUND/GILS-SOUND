@@ -1847,8 +1847,8 @@
                 if(previewPanel) previewPanel.style.display = 'none';
 
                 // 사업가 모드 초기화
-                const bName = document.getElementById('input-business-name');
-                const bDesc = document.getElementById('input-business-desc');
+                const bName = document.getElementById('business-name');
+                const bDesc = document.getElementById('business-description');
                 if (bName) bName.value = '';
                 if (bDesc) bDesc.value = '';
                 pendingBusinessData = null;
@@ -1856,6 +1856,16 @@
                 const bizPreviewPanel = document.getElementById('business-preview-panel');
                 if(bizPreviewLyrics) bizPreviewLyrics.value = '';
                 if(bizPreviewPanel) bizPreviewPanel.style.display = 'none';
+
+                // 결과 영역 (음악 생성 완료 화면) 초기화
+                const resultArea = document.getElementById('result-area');
+                if (resultArea) resultArea.style.display = 'none';
+                
+                const audioElement = document.getElementById('result-audio');
+                if (audioElement) {
+                    audioElement.pause();
+                    audioElement.src = '';
+                }
 
                 // 버튼 초기화
                 const btnBusiness = document.getElementById('btn-submit-business');
