@@ -143,6 +143,8 @@ app.post('/api/story', async (req, res) => {
         else langInstruction = "반드시 한국어로 가사를 작성해라.";
 
         const systemPromptText = `당신은 대중가요 및 K-Pop 최고의 작사가입니다.
+
+[중요 규칙]: 작사할 때 아라비아 숫자(1, 2, 3 등)는 절대 사용하지 마세요! 숫자가 들어가면 AI 가수가 발음을 건너뛰는 오류가 발생합니다. 모든 숫자는 반드시 문맥에 맞는 한글 발음(예: 일, 이, 백, 천, 하나, 둘 등)으로 변환해서 적어주세요.
 [가장 중요한 규칙]: 반드시 사용자가 입력한 '사연 내용'을 바탕으로, 사연에 등장하는 특정 단어, 핵심 상황, 감정을 가사 속에 직접적으로 100% 반영하여 작사해야 합니다! 사용자의 사연과 무관한 엉뚱한 이야기(예: 사연에 없는 이별 등)를 절대 지어내지 마세요.
 [언어 설정]: 사용자가 선택한 언어가 '${language}'이므로, ${langInstruction}
 
@@ -235,6 +237,8 @@ app.post('/api/auto-lyrics', async (req, res) => {
 
         const systemPromptText = `당신은 대중가요 및 K-Pop 최고의 작사가입니다.
 사용자가 입력한 다음 '음악 정보(장르, 분위기 또는 작곡 프롬프트)'의 내용을 100% 반영하여, 그 주제와 분위기에 맞게 ${langInstruction}
+
+[중요 규칙]: 작사할 때 아라비아 숫자(1, 2, 3 등)는 절대 사용하지 마세요! 숫자가 들어가면 AI 가수가 발음을 건너뛰는 오류가 발생합니다. 모든 숫자는 반드시 문맥에 맞는 한글 발음(예: 일, 이, 백, 천, 하나, 둘 등)으로 변환해서 적어주세요.
 특히 사용자가 특정 키워드, 스토리, 또는 곡의 의도를 제공했다면 그 내용이 가사 스토리에 자연스럽게 녹아들도록 랜덤 생성해 주셔야 합니다.
 대중음악 구조에 맞게 [Verse 1] -> [Chorus] -> [Verse 2] -> [Chorus] -> [Bridge] -> [Outro] 형식으로 세련되게 작성하세요.
 응답은 다른 설명 일절 없이 오직 "순수한 텍스트 가사 내용"만 출력하세요.
@@ -293,6 +297,8 @@ app.post('/api/business', async (req, res) => {
 그리고 네가 찾은 팩트 정보와, 내가 강조하고 싶은 내용인 '${description}'을 잘 섞어서 광고 음악 가사를 만들어줘.
 
 반드시 검색만 하고 끝내면 안 되고, 끝까지 가사를 완성해서 보여줘야 해!
+[중요 규칙]: 작사할 때 아라비아 숫자(1, 2, 3 등)는 절대 사용하지 마세요! 숫자가 들어가면 AI 가수가 발음을 건너뛰는 오류가 발생합니다. 모든 숫자는 반드시 문맥에 맞는 한글 발음(예: 일, 이, 백, 천, 하나, 둘 등)으로 변환해서 적어주세요.
+
 응답은 꼭 아래의 양식에 맞춰서 한글로 작성해 줘. (마크다운 # 기호를 꼭 써줘)
 
 # 노래 제목
@@ -457,7 +463,7 @@ app.post('/api/music', async (req, res) => {
         // 앨범 아트(이미지) 비동기 생성 요청 (z-image-turbo)
         // ============================================
         let finalImageUrl = imageUrl || '2.한국인/여자/woman_influencer_2.png';
-        const imagePrompt = `A portrait or landscape photo matching the lyrics and title. Purely visual photography, masterpiece, high quality, 4k. (CRUCIAL: ABSOLUTELY NO TEXT, NO FONTS, NO LETTERS, NO WATERMARKS, NO WORDS, 글씨 절대 x). Theme: ${title || 'Music'}. Lyrics: ${(lyrics || '').substring(0, 100)}.`;
+        const imagePrompt = `A wordless portrait or landscape photography matching the atmosphere of a song titled \"${title || 'Music'}\" and genre \"${genreLabel || style || 'Pop'}\". Masterpiece, high quality, 4k. CRUCIAL INSTRUCTION: The image must be 100% purely visual without any text. Do not draw any typography, letters, titles, lyrics, words, or watermarks. No text at all.`;
         
         const imageGenerationPromise = fetch("https://api.evolink.ai/v1/images/generations", {
             method: 'POST',
