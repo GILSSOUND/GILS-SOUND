@@ -2770,7 +2770,7 @@
                 saveCredits();
             }
 
-            previewPanel.style.display = 'none';
+            // previewPanel.style.display = 'none';
             btn.disabled = true;
             const lang = localStorage.getItem('gils_lang') || 'ko';
             btn.innerText = (typeof translations !== 'undefined' && translations[lang] && translations[lang]['msg_generating']) ? translations[lang]['msg_generating'] : '고품질 음원이 생성중입니다. 조금만 기다려주세요!!';
@@ -3170,6 +3170,7 @@
     </script>
 </body>
 </html>
+
 
 
 
