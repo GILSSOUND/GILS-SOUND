@@ -2526,10 +2526,13 @@
             let dotCount1 = 0;
             btn.setAttribute('data-loading-interval', setInterval(() => {
                 dotCount1 = (dotCount1 + 1) % 4;
-                btn.innerText = '회사를 위한 감동적인 노래창작중입니다' + '.'.repeat(dotCount1);
+                const lang = localStorage.getItem('gils_lang') || 'ko';
+                const baseMsg = (typeof translations !== 'undefined' && translations[lang] && translations[lang]['btn_business_analyzing']) ? translations[lang]['btn_business_analyzing'] : '회사를 위한 감동적인 노래 창작 중';
+                btn.innerText = baseMsg + '.'.repeat(dotCount1);
             }, 500));
             previewPanel.style.display = 'block';
-            previewLyrics.value = "로딩 중... 구글에서 회사 정보를 수집하고 가사를 짓고 있습니다 ⏳";
+            const lang = localStorage.getItem('gils_lang') || 'ko';
+            previewLyrics.value = (typeof translations !== 'undefined' && translations[lang] && translations[lang]['business_preview_loading']) ? translations[lang]['business_preview_loading'] : "로딩 중... 구글에서 회사 정보를 수집하고 가사를 짓고 있습니다 ⏳";
             previewGenre.innerText = "분석 중";
 
             let autoLyrics = "";            let prompt = "";
@@ -2574,8 +2577,8 @@
                 btn.innerText = '노래 완성하기 (Create)';
                 btn.disabled = false;
                 btn.setAttribute('data-i18n', 'btn_create');
-                
-            } catch (err) {
+            if (typeof applyLanguage === 'function') applyLanguage(localStorage.getItem('gils_lang') || 'ko');
+        } catch (err) {
                 console.error(err);
                 clearInterval(parseInt(btn.getAttribute('data-loading-interval')));
                 previewLyrics.value = "❌ 작사 중 오류가 발생했습니다. 구글 검색 서버가 혼잡할 수 있으니 1분 뒤 다시 시도해 주세요.\n\n(" + err.message + ")";
@@ -2705,7 +2708,8 @@
             btn.disabled = true;
             btn.innerText = '✍️ 통합 AI 서버(Gemini)가 사연 정밀 분석 및 작사 중...';
             previewPanel.style.display = 'block';
-            previewLyrics.value = "로딩 중... 사연의 감정과 문맥을 읽어내고 있습니다 ⏳";
+            const lang = localStorage.getItem('gils_lang') || 'ko';
+            previewLyrics.value = (typeof translations !== 'undefined' && translations[lang] && translations[lang]['story_preview_loading']) ? translations[lang]['story_preview_loading'] : "로딩 중... 사연의 감정과 문맥을 읽어내고 있습니다 ⏳";
             previewGenre.innerText = "분석 중";
 
             let autoLyrics = "";
@@ -2737,6 +2741,8 @@
                 previewPanel.style.display = 'none';
                 btn.disabled = false;
                 btn.innerText = '노래 완성하기 (Create)';
+                btn.setAttribute('data-i18n', 'btn_create');
+                if (typeof applyLanguage === 'function') applyLanguage(localStorage.getItem('gils_lang') || 'ko');
                 return;
             }
 
