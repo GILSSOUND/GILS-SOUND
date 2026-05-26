@@ -2689,11 +2689,11 @@
             };
 
             previewLyrics.value = autoLyrics;
-            // 직관적인 상태 표시 (실시간 연동 성공 여부 확인용)
             previewGenre.innerHTML = `${genre} <span style="font-size: 10px; color: #10B981; background: rgba(0,0,0,0.4); padding: 2px 5px; border-radius: 4px;">✨ Gemini 연동 성공</span>`;
             
             btn.disabled = false;
             btn.innerText = '✨ 노래 만들기 (Create)';
+            btn.setAttribute('data-i18n', 'btn_create');
         }
 
         async function autoGenerateLyrics() {
