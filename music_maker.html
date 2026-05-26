@@ -2465,7 +2465,11 @@
             const previewGenre = document.getElementById('business-preview-genre');
 
             btn.disabled = true;
-            btn.innerText = '회사를 위한 감동적인 노래창작중입니다...';
+            let dotCount1 = 0;
+            btn.setAttribute('data-loading-interval', setInterval(() => {
+                dotCount1 = (dotCount1 + 1) % 4;
+                btn.innerText = '회사를 위한 감동적인 노래창작중입니다' + '.'.repeat(dotCount1);
+            }, 500));
             previewPanel.style.display = 'block';
             previewLyrics.value = "로딩 중... 구글에서 회사 정보를 수집하고 가사를 짓고 있습니다 ⏳";
             previewGenre.innerText = "분석 중";
@@ -2613,6 +2617,7 @@
                 if (err.message.includes('429')) {
                     alert('🚨 현재 인공지능 서버 접속자가 많아 지연되고 있습니다. 1~2분 뒤 다시 시도해 주세요!');
                 } else {
+                    clearInterval(parseInt(btn.getAttribute('data-loading-interval')));
                     alert('❌ 노래 생성 중 오류가 발생했습니다: ' + err.message);
                 }
                 btn.disabled = false;
@@ -3170,6 +3175,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
