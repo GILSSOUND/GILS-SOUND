@@ -2592,11 +2592,11 @@
                 resultArea.style.display = 'block';
                 
                 myLibrarySongs.unshift({
-                    id: data.songId,
+                    id: data.trackId,
                     title: pendingBusinessData.title,
                     genre: pendingBusinessData.genreLabel,
-                    audio: data.audioUrl,
-                    image: bizCoverImage,
+                    audioUrl: data.audioUrl,
+                    cover: bizCoverImage,
                     lyrics: pendingBusinessData.lyrics
                 });
                 
@@ -2834,11 +2834,11 @@
                 resultArea.style.display = 'block';
                 
                 myLibrarySongs.unshift({
-                    id: data.songId,
+                    id: data.trackId,
                     title: finalTitle,
                     genre: finalData.genreLabel,
-                    audio: data.audioUrl,
-                    image: coverImage,
+                    audioUrl: data.audioUrl,
+                    cover: coverImage,
                     lyrics: finalData.lyrics
                 });
 
@@ -2989,8 +2989,8 @@
                 myLibrarySongs.unshift({
                     title: titleInput,
                     genre: generatedGenreLabel,
-                    audio: data.audioUrl,
-                    image: coverImage,
+                    audioUrl: data.audioUrl,
+                    cover: coverImage,
                     lyrics: lyricsInput
                 });
 
