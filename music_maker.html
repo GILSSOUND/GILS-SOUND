@@ -2618,6 +2618,7 @@
                     alert('🚨 현재 인공지능 서버 접속자가 많아 지연되고 있습니다. 1~2분 뒤 다시 시도해 주세요!');
                 } else {
                     clearInterval(parseInt(btn.getAttribute('data-loading-interval')));
+                    clearInterval(parseInt(btn.getAttribute('data-loading-interval')));
                     alert('❌ 노래 생성 중 오류가 발생했습니다: ' + err.message);
                 }
                 btn.disabled = false;
