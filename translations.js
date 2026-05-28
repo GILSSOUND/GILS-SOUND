@@ -31,7 +31,7 @@ const translations = {
         "plan_master_desc2": "VVIP 초고음질 음원 제공",
         "plan_master_desc3": "최우선 생성 대기열 배정",
         "plan_master_desc4": "무제한 고음질 다운로드",
-        "footer_company_info": "상호명: 길스컴퍼니 | 대표자: 손길동 | 사업자등록번호: 293-45-01112<br>통신판매업신고번호: 제2025-아산-0059호<br>사업장소재지: 충남 아산시 연화로 99 101동 2805호<br>연락처: 010-9929-4199 | 이메일: gilssound00@gmail.com",
+        "footer_company_info": "상호명: 길스컴퍼니 | 대표자: 손길동 | 사업자등록번호: 293-45-01112<br>통신판매업신고번호: 제2025-부산북구-0059호<br>사업장소재지: 충남 아산시 연화로 99 101동 2805호<br>연락처: 010-9929-4199 | 이메일: gilssound00@gmail.com",
         "footer_terms": "이용약관 (환불정책 포함)",
         "footer_privacy": "개인정보처리방침",
         "footer_notice1": "* GILS SOUND에서 생성된 저작물 및 판매하는 모든 상품은 GILS SOUND에서 책임지고 있습니다.",
