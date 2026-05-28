@@ -3187,8 +3187,8 @@
                 merchant_uid: merchant_uid,
                 name: currentPayPlan,
                 amount: currentPayPrice,
-                buyer_email: localStorage.getItem('gils_user') || 'user@gilssound.com',
-                buyer_name: localStorage.getItem('gils_user') || currentUserId,
+                buyer_email: 'user@gilssound.com',
+                buyer_name: localStorage.getItem('gils_user') || '회원',
             };
 
             // 정기 구독의 경우 customer_uid를 포함하여 빌링키 발급 요청
