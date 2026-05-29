@@ -671,7 +671,7 @@ app.post('/api/payment/verify', async (req, res) => {
         const accessToken = tokenData.response.access_token;
 
         // 2. 발급받은 토큰으로 imp_uid를 이용해 실제 결제 정보 조회
-        const paymentResponse = await fetch(`https://api.iamport.kr/payments/${imp_uid}`, {
+        const paymentResponse = await fetch(`https://api.iamport.kr/payments/find/${encodeURIComponent(merchant_uid)}`, {
             method: 'GET',
             headers: { 'Authorization': accessToken }
         });
