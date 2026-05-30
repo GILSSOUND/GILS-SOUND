@@ -464,8 +464,8 @@ app.post('/api/music', async (req, res) => {
         // 앨범 아트(이미지) 비동기 생성 요청 (z-image-turbo)
         // ============================================
         let finalImageUrl = imageUrl || '2.한국인/여자/woman_influencer_2.png';
-        const shortLyrics = (lyrics || '').substring(0, 100).replace(/\n/g, ' ');
-        const imagePrompt = `An evocative and artistic image (it can be a person, a beautiful background landscape, or a symbolic object) that perfectly matches the mood of this theme: ${genreLabel || style || 'Pop'} and these lyrics: "${shortLyrics}". Purely visual, cinematic, masterpiece, highly detailed. CRUCIAL INSTRUCTION: DO NOT generate any text, words, titles, typography, letters, or watermarks. ABSOLUTELY NO TEXT. DO NOT generate an album cover or music player UI.`;
+        const cleanLyrics = (lyrics || '').replace(/\[.*?\]/g, ' ').replace(/\s+/g, ' ').substring(0, 100);
+        const imagePrompt = `A high-quality, professional photography or digital painting (e.g. a beautiful landscape, person, or artistic concept) capturing the mood of: ${genreLabel || style || 'Pop'}. Mood keywords based on this phrase: "${cleanLyrics}". IMPORTANT: This must be PURELY VISUAL. ABSOLUTELY NO TEXT, NO LETTERS, NO TYPOGRAPHY, NO WORDS, NO ALBUM COVERS, NO UI. JUST A CLEAN PICTURE.`;
         
         const imageGenerationPromise = fetch("https://api.evolink.ai/v1/images/generations", {
             method: 'POST',
