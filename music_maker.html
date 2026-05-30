@@ -2764,6 +2764,12 @@
             
             btn.disabled = false;
             btn.innerText = '✨ 노래 만들기 (Create)';
+            if (window.innerWidth <= 768) {
+                setTimeout(() => {
+                    const panel = document.getElementById('story-preview-panel');
+                    if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+            }
             btn.setAttribute('data-i18n', 'btn_create');
         }
 
