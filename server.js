@@ -1,4 +1,4 @@
-﻿require('dotenv').config();
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -8,8 +8,8 @@ const fs = require('fs');
 
 // Mongoose Connection
 mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('✅ MongoDB Connected'))
-  .catch(err => console.error('❌ MongoDB Connection Error:', err));
+  .then(() => console.log('? MongoDB Connected'))
+  .catch(err => console.error('? MongoDB Connection Error:', err));
 
 // Mongoose Schemas
 const userSchema = new mongoose.Schema({
@@ -134,11 +134,11 @@ app.post('/api/story', async (req, res) => {
         if (language === 'en') langInstruction = "MUST write the lyrics entirely in English.";
         else if (language === 'ja') langInstruction = "MUST write the lyrics entirely in Japanese (日本語).";
         else if (language === 'zh') langInstruction = "MUST write the lyrics entirely in Chinese (中文).";
-        else if (language === 'es') langInstruction = "MUST write the lyrics entirely in Spanish (Español).";
-        else if (language === 'fr') langInstruction = "MUST write the lyrics entirely in French (Français).";
+        else if (language === 'es') langInstruction = "MUST write the lyrics entirely in Spanish (Espanol).";
+        else if (language === 'fr') langInstruction = "MUST write the lyrics entirely in French (Francais).";
         else if (language === 'de') langInstruction = "MUST write the lyrics entirely in German (Deutsch).";
-        else if (language === 'pt') langInstruction = "MUST write the lyrics entirely in Portuguese (Português).";
-        else if (language === 'vi') langInstruction = "MUST write the lyrics entirely in Vietnamese (Tiếng Việt).";
+        else if (language === 'pt') langInstruction = "MUST write the lyrics entirely in Portuguese (Portugues).";
+        else if (language === 'vi') langInstruction = "MUST write the lyrics entirely in Vietnamese (Ti?ng Vi?t).";
         else if (language === 'id') langInstruction = "MUST write the lyrics entirely in Indonesian (Bahasa Indonesia).";
         else langInstruction = "반드시 한국어로 가사를 작성해라.";
 
@@ -227,11 +227,11 @@ app.post('/api/auto-lyrics', async (req, res) => {
         if (language === 'en') langInstruction = "write the lyrics entirely in English.";
         else if (language === 'ja') langInstruction = "write the lyrics entirely in Japanese (日本語).";
         else if (language === 'zh') langInstruction = "write the lyrics entirely in Chinese (中文).";
-        else if (language === 'es') langInstruction = "write the lyrics entirely in Spanish (Español).";
-        else if (language === 'fr') langInstruction = "write the lyrics entirely in French (Français).";
+        else if (language === 'es') langInstruction = "write the lyrics entirely in Spanish (Espanol).";
+        else if (language === 'fr') langInstruction = "write the lyrics entirely in French (Francais).";
         else if (language === 'de') langInstruction = "write the lyrics entirely in German (Deutsch).";
-        else if (language === 'pt') langInstruction = "write the lyrics entirely in Portuguese (Português).";
-        else if (language === 'vi') langInstruction = "write the lyrics entirely in Vietnamese (Tiếng Việt).";
+        else if (language === 'pt') langInstruction = "write the lyrics entirely in Portuguese (Portugues).";
+        else if (language === 'vi') langInstruction = "write the lyrics entirely in Vietnamese (Ti?ng Vi?t).";
         else if (language === 'id') langInstruction = "write the lyrics entirely in Indonesian (Bahasa Indonesia).";
         else langInstruction = "완벽하게 어울리는 한국어 가사를 창작해 주세요.";
 
@@ -463,7 +463,8 @@ app.post('/api/music', async (req, res) => {
         // 앨범 아트(이미지) 비동기 생성 요청 (z-image-turbo)
         // ============================================
         let finalImageUrl = imageUrl || '2.한국인/여자/woman_influencer_2.png';
-        const imagePrompt = `A beautiful portrait or landscape photography capturing the visual aesthetic of ${genreLabel || style || 'Pop'}. Purely visual, cinematic, masterpiece, highly detailed. CRUCIAL INSTRUCTION: DO NOT generate any text, words, titles, typography, letters, or watermarks. ABSOLUTELY NO TEXT.`;
+        const shortLyrics = (lyrics || '').substring(0, 100).replace(/\n/g, ' ');
+        const imagePrompt = `An evocative and artistic image (it can be a person, a beautiful background landscape, or a symbolic object) that perfectly matches the mood of this theme: ${genreLabel || style || 'Pop'} and these lyrics: "${shortLyrics}". Purely visual, cinematic, masterpiece, highly detailed. CRUCIAL INSTRUCTION: DO NOT generate any text, words, titles, typography, letters, or watermarks. ABSOLUTELY NO TEXT. DO NOT generate an album cover or music player UI.`;
         
         const imageGenerationPromise = fetch("https://api.evolink.ai/v1/images/generations", {
             method: 'POST',
@@ -603,7 +604,7 @@ app.post('/api/music', async (req, res) => {
 
 
 // ==========================================
-// 💰 포트원(PortOne) 결제 검증 및 크레딧 충전 API
+// ?? 포트원(PortOne) 결제 검증 및 크레딧 충전 API
 // ==========================================
 // 구글 인앱 결제 (IAP) 성공 처리 API
 // ==========================================
@@ -779,8 +780,8 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`=========================================`);
-    console.log(`🚀 GILS SOUND Node.js Server is running!`);
-    console.log(`👉 http://localhost:${PORT}`);
+    console.log(`?? GILS SOUND Node.js Server is running!`);
+    console.log(`?? http://localhost:${PORT}`);
     console.log(`=========================================`);
 });
 
