@@ -411,7 +411,8 @@
                     // 구글이 아니면 네이버 콜백으로 간주
                     globalNaverLogin.getLoginStatus(function (status) {
                         if (status) {
-                            const email = globalNaverLogin.user.getEmail() || "";
+                            const naverId = globalNaverLogin.user.getId();
+                            const email = globalNaverLogin.user.getEmail() || `naver_${naverId}@naver.com`;
                             const nickname = globalNaverLogin.user.getNickName() || "네이버 유저";
                             handleLoginSuccess("네이버", email, nickname);
                         } else {
