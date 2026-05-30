@@ -454,7 +454,7 @@ app.post('/api/music', async (req, res) => {
 
         const initData = await initResponse.json();
         if (!initResponse.ok || !initData.id) {
-            throw new Error(initData.error?.message || "Suno API 생성 요청 실패");
+            throw new Error("현재 AI 서버에 접속자가 많아 지연되고 있습니다. 5분 정도 뒤에 다시 시도해 주세요! 🙏");
         }
 
         const taskId = initData.id;
@@ -479,7 +479,7 @@ app.post('/api/music', async (req, res) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: "z-image-turbo",
+                model: "gpt-image-1.5",
                 prompt: imagePrompt,
                 n: 1,
                 size: "1024x1024"
@@ -598,7 +598,7 @@ app.post('/api/music', async (req, res) => {
             });
         } else {
             console.log(" -> [ERROR] Generation failed on Suno AI server.");
-            throw new Error("Suno AI 서버에서 음악 생성에 실패했습니다.");
+            throw new Error("현재 AI 서버에 접속자가 많아 작업이 취소되었습니다. 5분 정도 뒤에 다시 시도해 주세요! 🙏");
         }
 
     } catch (error) {
