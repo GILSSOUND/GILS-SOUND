@@ -227,7 +227,15 @@
             if (platform === "카카오") {
                 displayUser = `[카카오] ${nickname || "카카오 회원"}`;
             } else {
-                displayUser = `[${platform}] ${email || nickname || "회원"}`;
+                let finalName = nickname;
+                if (!finalName || finalName === "네이버 유저") {
+                    if (email && email.startsWith("naver_") && email.length > 20) {
+                        finalName = "네이버 유저 (" + email.substring(6, 10) + ")";
+                    } else {
+                        finalName = email || "회원";
+                    }
+                }
+                displayUser = `[${platform}] ${finalName}`;
             }
 
             try {
@@ -413,7 +421,7 @@
                         if (status) {
                             const naverId = globalNaverLogin.user.getId();
                             const email = globalNaverLogin.user.getEmail() || `naver_${naverId}@naver.com`;
-                            const nickname = globalNaverLogin.user.getNickName() || "네이버 유저";
+                            const nickname = (globalNaverLogin.user.getNickname ? globalNaverLogin.user.getNickname() : null) || (globalNaverLogin.user.getName ? globalNaverLogin.user.getName() : null) || "네이버 유저";
                             handleLoginSuccess("네이버", email, nickname);
                         } else {
                             alert("네이버 로그인 인증은 완료되었으나 프로필 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
