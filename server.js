@@ -464,7 +464,13 @@ app.post('/api/music', async (req, res) => {
         // 앨범 아트(이미지) 비동기 생성 요청 (z-image-turbo)
         // ============================================
         let finalImageUrl = imageUrl || '2.한국인/여자/woman_influencer_2.png';
-        const imagePrompt = `Create a beautiful, highly aesthetic portrait photography or digital art of a singer singing the musical genre of: ${genreLabel || style || 'Pop Music'}. The singer should match the gender and mood implied by the genre description. VERY IMPORTANT: PURELY VISUAL. ABSOLUTELY NO TEXT, NO LETTERS, NO TYPOGRAPHY. Just draw a beautiful portrait of a singer without any words.`;
+        const isMale = (style || '').includes('남자') || (style || '').includes('남성') || (lyrics || '').includes('남자') || (lyrics || '').includes('남성');
+        const isFemale = (style || '').includes('여자') || (style || '').includes('여성') || (lyrics || '').includes('여자') || (lyrics || '').includes('여성');
+        let genderStr = "가수";
+        if (isMale && !isFemale) genderStr = "남자 가수";
+        if (isFemale && !isMale) genderStr = "여자 가수";
+
+        const imagePrompt = `${genreLabel || style || '팝'} 음악을 부르는 ${genderStr} 사진. 고퀄리티 화보 느낌으로 글씨 없이 깔끔하게 그려주세요.`;
         
         const imageGenerationPromise = fetch("https://api.evolink.ai/v1/images/generations", {
             method: 'POST',
