@@ -89,7 +89,7 @@ app.post('/api/user/sync', async (req, res) => {
         let user = await User.findOne({ userId });
         if (!user) {
             // 첫 가입 3크레딧 지급
-            user = new User({ userId, platform, nickname, credits: 3 });
+            user = new User({ userId, platform, nickname, credits: 3, planType: "none" });
             await user.save();
             console.log(`[DB] New User Created: ${userId} (${platform})`);
         } else {
