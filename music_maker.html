@@ -1781,7 +1781,7 @@
                 fetch('/api/user/sync', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ userId: currentUserId, platform: platform, nickname: displayUser })
+                    body: JSON.stringify({ userId: currentUserId, platform: platform, nickname: displayUser, forceUpdateNickname: true })
                 }).catch(e => console.log('Nickname sync error', e));
             }
             

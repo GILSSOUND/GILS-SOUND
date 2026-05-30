@@ -94,7 +94,8 @@ app.post('/api/user/sync', async (req, res) => {
             console.log(`[DB] New User Created: ${userId} (${platform})`);
         } else {
             // 기존 유저 닉네임 업데이트 및 플랜 평가
-            if (nickname && user.nickname !== nickname) {
+            // 로그인 시마다 닉네임이 구글/네이버 기본 이름으로 덮어씌워지는 것을 방지
+            if (req.body.forceUpdateNickname && nickname && user.nickname !== nickname) {
                 user.nickname = nickname;
                 await user.save();
             }
