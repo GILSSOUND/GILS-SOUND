@@ -156,7 +156,7 @@ JSON 구조:
 {
   "title": "사연에 어울리는 감성적이고 짧은 노래 제목 (예: 밤하늘의 별처럼)",
   "lyrics": "(Verse 1)\\n...\\n\\n(Chorus 1)\\n...\\n\\n(Verse 2)\\n...\\n\\n(Chorus 2)\\n...\\n\\n(Bridge)\\n...\\n\\n(Outro)\\n...",
-  "prompt": "사연에 어울리는 영문 작곡 프롬프트 (예: emotional indie pop, delicate piano, clear vocal)",
+  "prompt": "사연에 어울리는 영문 작곡 프롬프트 (예: emotional indie pop, delicate piano). *주의: 사용자가 성별을 별도로 지정하므로 male, female, boy, girl 등 성별 관련 단어는 절대 포함하지 마세요!",
   "genreLabel": "어울리는 한국어 장르명 (예: 감성 인디 팝)"
 }
 
@@ -465,17 +465,21 @@ app.post('/api/music', async (req, res) => {
         // ============================================
         let finalImageUrl = imageUrl || '2.한국인/여자/woman_influencer_2.png';
         const sLower = (style || '').toLowerCase();
-const isFemale = sLower.includes('female') || sLower.includes('여자') || sLower.includes('여성');
-const isMale = (!sLower.includes('female') && sLower.includes('male')) || sLower.includes('남자') || sLower.includes('남성');
-const isDuet = sLower.includes('duet') || sLower.includes('혼성') || sLower.includes('남녀');
-
 let genderStr = "가수";
-if (isDuet) {
+
+if (sLower.includes('duet') || sLower.includes('혼성')) {
     genderStr = "남녀 혼성 듀엣 가수";
-} else if (isFemale) {
-    genderStr = "여자 가수";
-} else if (isMale) {
+} else if (sLower.includes('male vocal') && !sLower.includes('female vocal')) {
     genderStr = "남자 가수";
+} else if (sLower.includes('female vocal') && !sLower.includes('male vocal')) {
+    genderStr = "여자 가수";
+} else if (sLower.includes('male vocal') && sLower.includes('female vocal')) {
+    // Both exist? Pick the one that appears first (since frontend prepends the correct one)
+    genderStr = sLower.indexOf('male vocal') < sLower.indexOf('female vocal') ? "남자 가수" : "여자 가수";
+} else if (sLower.includes('남자') || sLower.includes('남성')) {
+    genderStr = "남자 가수";
+} else if (sLower.includes('여자') || sLower.includes('여성')) {
+    genderStr = "여자 가수";
 }
 
         const imagePrompt = `${genreLabel || style || '팝'} 음악을 부르는 ${genderStr} 사진. 고퀄리티 화보 느낌으로 글씨 없이 깔끔하게 그려주세요.`;
