@@ -994,16 +994,38 @@
 
     <div class="overlay"></div>
 
-    <!-- Left Notice Navigation -->
-    <button class="top-notice-btn" onclick="document.getElementById('notice-modal').style.display='flex'">
-        <span data-i18n="top_notice">📢 상업적 이용 및 공지사항</span>
-    </button>
-
-    
-    <!-- Top Guide Button -->
-    <button class="top-guide-btn" onclick="document.getElementById('guide-modal').style.display='flex'" style="position: absolute; top: 70px; left: 30px; z-index: 10; background: rgba(0, 0, 0, 0.6); border: 1px solid var(--primary-gold); color: #fff; padding: 10px 18px; border-radius: 30px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;">
-        <span data-i18n="guide_btn">📖 모드별 사용방법 안내</span>
-    </button>
+    <!-- Top-Left Buttons Container -->
+    <div class="top-left-buttons-wrapper">
+        <button class="top-notice-btn" onclick="document.getElementById('notice-modal').style.display='flex'">
+            <span data-i18n="top_notice">상업적 이용 및 공지사항</span>
+        </button>
+        <button class="top-guide-btn" onclick="document.getElementById('guide-modal').style.display='flex'" style="background: rgba(0, 0, 0, 0.6); border: 1px solid var(--primary-gold); color: var(--primary-gold); padding: 10px 18px; border-radius: 30px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;">
+            <span data-i18n="guide_btn">💡 200% 활용 가이드 (필독!)</span>
+        </button>
+    </div>
+    <style>
+        .top-left-buttons-wrapper {
+            position: absolute;
+            top: 25px;
+            left: 30px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+        .top-left-buttons-wrapper .top-notice-btn {
+            position: static !important;
+            margin: 0 !important;
+        }
+        @media (max-width: 768px) {
+            .top-left-buttons-wrapper {
+                position: static;
+                justify-content: center;
+                margin-bottom: 20px;
+                flex-wrap: wrap;
+                margin-top: 15px;
+            }
+        }
+    </style>
     <style>
         .top-guide-btn:hover { background: rgba(255, 255, 255, 0.1); color: var(--primary-gold); transform: translateY(-2px); }
         @media (max-width: 768px) {
@@ -1545,17 +1567,29 @@
             </div>
             <div style="background: rgba(0,0,0,0.3); padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); font-size: 14px; line-height: 1.7; color: #E5E7EB; max-height: 60vh; overflow-y: auto; text-align: left;">
                 
-                <h4 style="color: var(--primary-gold); margin-bottom: 5px; font-size: 16px;">📖 사연 스토리 작사 (Story)</h4>
-                <p style="margin-bottom: 20px;">본인의 이야기나 전하고 싶은 사연을 편하게 적어주시면, 통합 백엔드 AI(Gemini)가 사연을 분석하여 감동적이고 트렌디한 가사로 바꿔줍니다. 가사 초안을 확인하고 곡을 완성해 보세요!</p>
+                <h4 style="color: var(--primary-gold); margin-bottom: 8px; font-size: 16px;">📖 사연 스토리 작사 모드 (Story)</h4>
+                <div style="margin-bottom: 20px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                    <p style="margin-bottom: 5px;"><strong>"머릿속에 맴도는 이야기나 소중한 추억이 있으신가요?"</strong></p>
+                    <p>대표님의 이야기나 전하고 싶은 사연을 일기 쓰듯 편하게 적어주세요. 저희 똑똑한 AI(Gemini)가 찰떡같이 알아듣고, 감동적이고 트렌디한 가사로 예쁘게 다듬어 드립니다! 가사가 마음에 드신다면 바로 멋진 곡으로 완성해 보세요! ✨</p>
+                </div>
                 
-                <h4 style="color: var(--primary-gold); margin-bottom: 5px; font-size: 16px;">✨ 간편 생성 (Easy)</h4>
-                <p style="margin-bottom: 20px;">가장 쉽고 빠르게 음악을 만드는 모드입니다. 원하는 장르와 감성을 선택하고 가사를 입력(또는 자동 생성)하면 멋진 곡이 뚝딱 완성됩니다!</p>
+                <h4 style="color: var(--primary-gold); margin-bottom: 8px; font-size: 16px;">✨ 간편 생성 모드 (Easy)</h4>
+                <div style="margin-bottom: 20px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                    <p style="margin-bottom: 5px;"><strong>"복잡한 건 싫다! 클릭 몇 번으로 빠르게 노래를 만들고 싶을 때!"</strong></p>
+                    <p>가장 쉽고 빠르게 고품질 음악을 만들 수 있는 마법 같은 모드입니다. 원하시는 장르와 분위기를 콕콕 찍고, 가사를 입력(또는 자동 작사 버튼 클릭!) 하시면 몇 분 안에 나만의 멋진 곡이 뚝딱 탄생합니다! 🎧</p>
+                </div>
 
-                <h4 style="color: var(--primary-gold); margin-bottom: 5px; font-size: 16px;">🎛️ 전문가 (Pro)</h4>
-                <p style="margin-bottom: 20px;">음악 장르, 악기 구성, 분위기 등을 직접 영어 또는 한글로 상세하게 적어주시면 그에 맞는 맞춤형 사운드가 생성됩니다. 쉼표(,)로 악기와 분위기를 나열할수록 더 풍성해집니다.</p>
+                <h4 style="color: var(--primary-gold); margin-bottom: 8px; font-size: 16px;">🎛️ 전문가 모드 (Pro)</h4>
+                <div style="margin-bottom: 20px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                    <p style="margin-bottom: 5px;"><strong>"내가 원하는 디테일한 악기와 사운드가 확고할 때!"</strong></p>
+                    <p>원하는 음악 장르, 특정 악기 구성, 미세한 분위기 등을 영어 또는 한글로 자유롭고 상세하게 적어주시면, 입력하신 그대로 맞춤형 사운드가 생성됩니다. 팁을 드리자면 쉼표(,)로 악기와 분위기를 여러 개 나열할수록 더욱 풍성하고 입체적인 음악이 나옵니다! 🎸🎹</p>
+                </div>
 
-                <h4 style="color: var(--primary-gold); margin-bottom: 5px; font-size: 16px;">💼 사업가 모드 (Business)</h4>
-                <p style="margin-bottom: 10px;">가게 상호명과 소개글을 입력하시면, AI가 구글 검색을 통해 매장 정보를 수집하고 그에 딱 맞는 로고송/CM송 가사를 작성해 줍니다. 홍보용 음악이 필요하신 사장님들께 강력 추천합니다!</p>
+                <h4 style="color: var(--primary-gold); margin-bottom: 8px; font-size: 16px;">💼 사업가 모드 (Business)</h4>
+                <div style="margin-bottom: 10px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+                    <p style="margin-bottom: 5px;"><strong>"우리 매장만의 중독성 있는 로고송, CM송이 필요하신 사장님들 주목!"</strong></p>
+                    <p>가게 상호명과 간단한 소개글만 슥- 적어주시면, AI가 스스로 구글 검색을 통해 매장 정보를 똑똑하게 수집합니다. 그리고 손님들의 귀를 사로잡을 찰떡같은 홍보용 가사를 뚝딱 써내려갑니다. 매출을 올려줄 나만의 로고송을 만들어 보세요! 💸📈</p>
+                </div>
             </div>
         </div>
     </div>
@@ -2445,31 +2479,6 @@
                 btn.style.display = 'block';
                 btn.disabled = false;
                 btn.setAttribute('data-i18n', 'btn_create');
-                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 02 (Pro)';
-                if (sectionGender && document.getElementById('step-number-gender')) document.getElementById('step-number-gender').innerText = 'Step 03';
-            } else if (mode === 'business') {
-                tabBusiness.classList.add('active');
-                sectionBusiness.style.display = 'block';
-                sectionGrid.style.display = 'block'; 
-                if (sectionMood) sectionMood.style.display = 'block';
-                sectionLyrics.style.display = 'none'; 
-                
-                // Set flex ordering to properly position elements
-                mainCard.style.display = 'flex';
-                mainCard.style.flexDirection = 'column';
-                document.querySelector('.mode-tabs').style.order = 1;
-                sectionBusiness.style.order = 2; // Step 1, 2
-                sectionGrid.style.order = 3; // Step 3
-                if (sectionMood) sectionMood.style.order = 4; // Step 4
-                
-                const titleContainer = document.getElementById('input-title').closest('.step-container');
-                if (titleContainer) titleContainer.style.order = 5; // Step 5
-                
-                if (sectionGender) {
-                    sectionGender.style.display = 'block';
-                    sectionGender.style.order = 6; // Step 6
-                    if (stepGenderLabel) stepGenderLabel.innerText = 'Step 06';
-                }
                 
                 const previewPanel = document.getElementById('business-preview-panel');
                 if (previewPanel) previewPanel.style.order = 7; // Insert right before buttons
@@ -2647,6 +2656,12 @@
 
             // 사용자가 수정한 텍스트 적용
             pendingBusinessData.lyrics = document.getElementById('business-preview-lyrics').value;
+
+            // 보컬 성별을 작곡 프롬프트(tags) 앞쪽에 강력하게 추가
+            const genderInput = document.getElementById('selected-gender') ? document.getElementById('selected-gender').value : '';
+            if (genderInput) {
+                pendingBusinessData.tags = genderInput + ', ' + pendingBusinessData.tags;
+            }
 
             try {
                 const response = await fetch('/api/music', {
