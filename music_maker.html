@@ -3275,45 +3275,41 @@
     </script>
 
     <!-- Guide Modal -->
-    <div class="store-modal-overlay" id="guide-modal" style="display:none; z-index: 4000;" onclick="if(event.target === this) this.style.display='none'">
-        <div class="store-modal" style="max-width: 500px; padding: 30px; text-align: left; max-height: 80vh; overflow-y: auto;">
-            <div class="store-close" onclick="document.getElementById('guide-modal').style.display='none'">✕</div>
+    
+    <!-- Guide Modal -->
+    <div class="store-modal-overlay" id="guide-modal" style="display:none; z-index: 4000; backdrop-filter: blur(8px);" onclick="if(event.target === this) this.style.display='none'">
+        <div class="store-modal" style="max-width: 600px; padding: 40px; text-align: left; max-height: 85vh; overflow-y: auto; background: linear-gradient(145deg, #1f1f2e, #13131f); border: 1px solid rgba(255,215,0,0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.6);">
+            <div class="store-close" onclick="document.getElementById('guide-modal').style.display='none'" style="top: 25px; right: 25px; background: rgba(255,255,255,0.1); border-radius: 50%; padding: 5px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; transition: all 0.3s;">✕</div>
             
-            <div style="text-align: center; margin-bottom: 25px;">
-                <div style="font-size: 30px; margin-bottom: 10px;">📖</div>
-                <h3 style="color: var(--primary-gold); font-size: 22px; margin-bottom: 5px;">GILS SOUND 사용 가이드</h3>
-                <p style="color: #D1D5DB; font-size: 14px;">어떤 모드가 필요하신가요? GILS SOUND가 원하시는 음악을 마법처럼 만들어 드립니다!</p>
+            <div style="text-align: center; margin-bottom: 35px;">
+                <div style="font-size: 38px; margin-bottom: 15px; text-shadow: 0 0 15px rgba(255,215,0,0.5);">📖</div>
+                <h3 data-i18n="guide_title" style="color: var(--primary-gold); font-size: 26px; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.5px;">GILS SOUND 사용 가이드</h3>
+                <p data-i18n="guide_subtitle" style="color: #D1D5DB; font-size: 15px; font-weight: 400;">어떤 모드가 필요하신가요? GILS SOUND가 원하시는 음악을 마법처럼 만들어 드립니다!</p>
             </div>
 
-            <div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 20px; margin-bottom: 15px; border-left: 4px solid #3B82F6;">
-                <h4 style="color: #fff; font-size: 16px; margin-bottom: 8px;">✨ 간편 생성 모드</h4>
-                <p style="color: #9CA3AF; font-size: 13px; line-height: 1.6;">
-                    음악을 몰라도 괜찮아요! 원하시는 장르와 분위기만 선택해 주시면, <strong>GILS SOUND</strong>가 딱 맞는 감성의 가사를 뚝딱 써내고 멋진 한 곡의 음악으로 완성해 드립니다.
-                </p>
+            <div style="display: flex; flex-direction: column; gap: 18px;">
+                <div style="background: rgba(255, 255, 255, 0.03); border-radius: 16px; padding: 22px; border: 1px solid rgba(59, 130, 246, 0.2); border-left: 5px solid #3B82F6; transition: transform 0.3s ease, background 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.background='rgba(59, 130, 246, 0.08)';" onmouseout="this.style.transform='translateX(0)'; this.style.background='rgba(255, 255, 255, 0.03)';">
+                    <h4 data-i18n="guide_easy_title" style="color: #fff; font-size: 18px; margin-bottom: 10px; font-weight: 700; display: flex; align-items: center; gap: 8px;">✨ 간편 생성 모드</h4>
+                    <p data-i18n="guide_easy_desc" style="color: #9CA3AF; font-size: 14px; line-height: 1.7; word-break: keep-all;">음악을 몰라도 괜찮아요! 원하시는 장르와 분위기만 선택해 주시면, <strong>GILS SOUND</strong>가 딱 맞는 감성의 가사를 뚝딱 써내고 멋진 한 곡의 음악으로 완성해 드립니다.</p>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.03); border-radius: 16px; padding: 22px; border: 1px solid rgba(139, 92, 246, 0.2); border-left: 5px solid #8B5CF6; transition: transform 0.3s ease, background 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.background='rgba(139, 92, 246, 0.08)';" onmouseout="this.style.transform='translateX(0)'; this.style.background='rgba(255, 255, 255, 0.03)';">
+                    <h4 data-i18n="guide_pro_title" style="color: #fff; font-size: 18px; margin-bottom: 10px; font-weight: 700; display: flex; align-items: center; gap: 8px;">🎹 전문가 모드</h4>
+                    <p data-i18n="guide_pro_desc" style="color: #9CA3AF; font-size: 14px; line-height: 1.7; word-break: keep-all;">직접 쓴 가사가 있으신가요? 나만의 특별한 가사나 세밀한 프롬프트를 입력해 보세요. <strong>GILS SOUND</strong>가 고객님의 섬세한 기획을 100% 반영하여 최고 수준의 음악으로 탄생시킵니다.</p>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.03); border-radius: 16px; padding: 22px; border: 1px solid rgba(236, 72, 153, 0.2); border-left: 5px solid #EC4899; transition: transform 0.3s ease, background 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.background='rgba(236, 72, 153, 0.08)';" onmouseout="this.style.transform='translateX(0)'; this.style.background='rgba(255, 255, 255, 0.03)';">
+                    <h4 data-i18n="guide_story_title" style="color: #fff; font-size: 18px; margin-bottom: 10px; font-weight: 700; display: flex; align-items: center; gap: 8px;">💌 사연 스토리 모드</h4>
+                    <p data-i18n="guide_story_desc" style="color: #9CA3AF; font-size: 14px; line-height: 1.7; word-break: keep-all;">오늘 있었던 일이나 전하고 싶은 마음을 편하게 일기 쓰듯 적어주세요. <strong>GILS SOUND</strong>가 그 감정과 문맥을 섬세하게 읽어내어 감동적인 가사로 번역하고, 아름다운 노래로 만들어 드립니다.</p>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.03); border-radius: 16px; padding: 22px; border: 1px solid rgba(255, 215, 0, 0.2); border-left: 5px solid var(--primary-gold); transition: transform 0.3s ease, background 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.background='rgba(255, 215, 0, 0.08)';" onmouseout="this.style.transform='translateX(0)'; this.style.background='rgba(255, 255, 255, 0.03)';">
+                    <h4 data-i18n="guide_business_title" style="color: #fff; font-size: 18px; margin-bottom: 10px; font-weight: 700; display: flex; align-items: center; gap: 8px;">💼 사업가 모드 (로고송)</h4>
+                    <p data-i18n="guide_business_desc" style="color: #9CA3AF; font-size: 14px; line-height: 1.7; word-break: keep-all;">사장님의 매장을 돋보이게 할 홍보용 음악이 필요하신가요? 상호명과 매장의 특징, 어필하고 싶은 장점만 적어주시면, <strong>GILS SOUND</strong>가 트렌디하고 입에 착 감기는 CM송(로고송)을 완벽하게 제작해 드립니다!</p>
+                </div>
             </div>
 
-            <div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 20px; margin-bottom: 15px; border-left: 4px solid #8B5CF6;">
-                <h4 style="color: #fff; font-size: 16px; margin-bottom: 8px;">🎹 전문가 모드</h4>
-                <p style="color: #9CA3AF; font-size: 13px; line-height: 1.6;">
-                    직접 쓴 가사가 있으신가요? 나만의 특별한 가사나 세밀한 프롬프트를 입력해 보세요. <strong>GILS SOUND</strong>가 고객님의 섬세한 기획을 100% 반영하여 최고 수준의 음악으로 탄생시킵니다.
-                </p>
-            </div>
-
-            <div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 20px; margin-bottom: 15px; border-left: 4px solid #EC4899;">
-                <h4 style="color: #fff; font-size: 16px; margin-bottom: 8px;">💌 사연 스토리 모드</h4>
-                <p style="color: #9CA3AF; font-size: 13px; line-height: 1.6;">
-                    오늘 있었던 일이나 누군가에게 전하고 싶은 마음을 편하게 일기 쓰듯 적어주세요. <strong>GILS SOUND</strong>가 그 감정과 문맥을 섬세하게 읽어내어 감동적인 가사로 번역하고, 아름다운 노래로 만들어 드립니다.
-                </p>
-            </div>
-
-            <div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 20px; margin-bottom: 15px; border-left: 4px solid var(--primary-gold);">
-                <h4 style="color: #fff; font-size: 16px; margin-bottom: 8px;">💼 사업가 모드 (로고송)</h4>
-                <p style="color: #9CA3AF; font-size: 13px; line-height: 1.6;">
-                    사장님의 매장을 돋보이게 할 홍보용 음악이 필요하신가요? 상호명과 매장의 특징, 어필하고 싶은 장점만 적어주시면, <strong>GILS SOUND</strong>가 트렌디하고 입에 착 감기는 CM송(로고송)을 완벽하게 제작해 드립니다!
-                </p>
-            </div>
-
-            <button class="btn-submit" onclick="document.getElementById('guide-modal').style.display='none'" style="margin-top: 20px;">가이드 닫기</button>
+            <button data-i18n="guide_close" class="btn-submit" onclick="document.getElementById('guide-modal').style.display='none'" style="margin-top: 30px; font-weight: bold; height: 50px; font-size: 16px;">가이드 닫기</button>
         </div>
     </div>
 
