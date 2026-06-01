@@ -2457,16 +2457,27 @@
                 mainCard.style.flexDirection = '';
             }
 
-            if (mode === 'pro') {
+                        if (mode === 'pro') {
                 tabPro.classList.add('active');
                 sectionCustom.style.display = 'block';
                 const btn = document.getElementById('btn-submit-pro');
                 btn.style.display = 'block';
                 btn.disabled = false;
                 btn.setAttribute('data-i18n', 'btn_create');
+                if (stepTitleLabel) stepTitleLabel.innerText = 'Step 03';
+            } else if (mode === 'business') {
+                tabBusiness.classList.add('active');
+                sectionBusiness.style.display = 'block';
+                sectionGrid.style.display = 'block';
+                if (sectionMood) sectionMood.style.display = 'block';
+                if (sectionGender) {
+                    sectionGender.style.display = 'block';
+                    const stepGenderLabel = document.getElementById('step-number-gender');
+                    if (stepGenderLabel) stepGenderLabel.innerText = 'Step 02';
+                }
                 
                 const previewPanel = document.getElementById('business-preview-panel');
-                if (previewPanel) previewPanel.style.order = 7; // Insert right before buttons
+                if (previewPanel) previewPanel.style.order = 7;
                 
                 const businessBtn = document.getElementById('btn-submit-business');
                 if (businessBtn) {
@@ -2476,6 +2487,7 @@
                         noticeText.style.order = 9;
                     }
                 }
+                const resultArea = document.getElementById('result-area');
                 if (resultArea) resultArea.style.order = 10;
                 
                 const stepGridSpan = sectionGrid.querySelector('.step-number');
@@ -2488,10 +2500,10 @@
                 btn.disabled = false;
                 if (pendingBusinessData) {
                     btn.setAttribute('data-i18n', 'btn_create');
-                    btn.innerText = '작품 완성하기 (Create)';
+                    btn.innerText = '음원 생성하기 (Create)';
                 } else {
                     btn.setAttribute('data-i18n', 'btn_create_next');
-                    btn.innerText = '✍️ AI 가사 초안 생성 및 확인 (Next)';
+                    btn.innerText = '➡️ AI 가사 초안 생성 & 확인 (Next)';
                 }
                 if (stepTitleLabel) stepTitleLabel.innerText = 'Step 05';
             } else if (mode === 'story') {
