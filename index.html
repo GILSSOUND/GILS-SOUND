@@ -124,7 +124,13 @@
                 padding: 40px 25px;
             }
         }
-    </style>
+    
+.mobile-br { display: none; }
+@media (max-width: 768px) {
+    .mobile-br { display: block; }
+}
+
+</style>
 </head>
 
 <body>
@@ -163,7 +169,7 @@
                 <option value="vi">🇻🇳 Tiếng Việt</option>
                 <option value="id">🇮🇩 Bahasa Ind.</option>
             </select>
-            <button onclick="checkTermsAndGo()" class="btn-start" style="border: none; cursor: pointer; flex: 1;" data-i18n="btn_signup_now">지금 회원가입하기 (3곡 무료)</button>
+            <button onclick="checkTermsAndGo()" class="btn-start" style="border: none; cursor: pointer; flex: 1;" data-i18n="btn_signup_now">회원가입하기<br class="mobile-br"><span style="font-size: 14px;">(무료체험3곡)</span></button>
         </div>
     </div>
 

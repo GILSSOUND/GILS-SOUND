@@ -43,7 +43,7 @@ const translations = {
         "main_hero_badge": "AI MUSIC STUDIO",
         "main_hero_title": "단 몇 초 만에,<br>당신의 상상이 음악이 됩니다.",
         "main_hero_subtitle": "작곡 지식이 없어도 괜찮습니다. 장르, 분위기, 그리고 짧은 사연만 입력하세요.<br>GILS SOUND의 AI가 스튜디오급 고음질 음원을 즉시 만들어드립니다.",
-        "btn_signup_now": "지금 회원가입하기",
+        "btn_signup_now": "회원가입하기<br class='mobile-br'><span style='font-size:14px;'>(무료체험3곡)</span>",
         "plan_title": "GILS SOUND 요금제 (플랜) 안내",
         "plan_single_title": "싱글 체험 팩 (단건)",
         "plan_single_price": "₩990 <span style='font-size:14px; color:#9ca3af;'>/ 1곡</span>",
