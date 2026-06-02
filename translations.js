@@ -1,5 +1,6 @@
 const translations = {
     "ko": {
+        payment_paypal: "🅿️ PayPal (해외 결제)",
         guide_title: "GILS SOUND 사용 가이드",
         guide_subtitle: "어떤 모드가 필요하신가요? GILS SOUND가 원하시는 음악을 마법처럼 만들어 드립니다!",
         guide_easy_title: "✨ 간편 생성 모드",
@@ -271,6 +272,7 @@ const translations = {
         "business_mood_label": "곡 분위기 선택"
     },
     "en": {
+        payment_paypal: "🅿️ PayPal",
         guide_title: "GILS SOUND User Guide",
         guide_subtitle: "Which mode do you need? GILS SOUND magically creates the music you want!",
         guide_easy_title: "✨ Easy Creation Mode",
@@ -542,6 +544,7 @@ const translations = {
         "business_mood_label": "Select Mood"
     },
     "ja": {
+        payment_paypal: "🅿️ PayPal (海外決済)",
         guide_title: "GILS SOUND 利用ガイド",
         guide_subtitle: "どのモードが必要ですか？GILS SOUNDが希望の音楽を魔法のように作成します！",
         guide_easy_title: "✨ 簡単作成モード",
@@ -813,6 +816,7 @@ const translations = {
         "business_mood_label": "雰囲気選択"
     },
     "zh": {
+        payment_paypal: "🅿️ PayPal (海外支付)",
         guide_title: "GILS SOUND 使用指南",
         guide_subtitle: "您需要哪种模式？GILS SOUND 如魔法般为您创作想要的音乐！",
         guide_easy_title: "✨ 简易创作模式",
@@ -1084,6 +1088,7 @@ const translations = {
         "business_mood_label": "选择氛围"
     },
     "es": {
+        payment_paypal: "🅿️ PayPal",
         guide_title: "Guía de GILS SOUND",
         guide_subtitle: "¿Qué modo necesitas? ¡GILS SOUND crea mágicamente la música que deseas!",
         guide_easy_title: "✨ Modo Creación Fácil",
@@ -1355,6 +1360,7 @@ const translations = {
         "business_mood_label": "Seleccionar Estado de Ánimo"
     },
     "fr": {
+        payment_paypal: "🅿️ PayPal",
         guide_title: "Guide d'utilisation GILS SOUND",
         guide_subtitle: "De quel mode avez-vous besoin? GILS SOUND crée comme par magie la musique que vous souhaitez!",
         guide_easy_title: "✨ Mode Création Facile",
@@ -1626,6 +1632,7 @@ const translations = {
         "business_mood_label": "Sélectionner l'ambiance"
     },
     "de": {
+        payment_paypal: "🅿️ PayPal",
         guide_title: "GILS SOUND Benutzerhandbuch",
         guide_subtitle: "Welchen Modus benötigen Sie? GILS SOUND kreiert magisch die Musik, die Sie sich wünschen!",
         guide_easy_title: "✨ Einfacher Erstellungsmodus",
@@ -1897,6 +1904,7 @@ const translations = {
         "business_mood_label": "Stimmung auswählen"
     },
     "pt": {
+        payment_paypal: "🅿️ PayPal",
         guide_title: "Guia do Usuário GILS SOUND",
         guide_subtitle: "De qual modo você precisa? GILS SOUND cria magicamente a música que você deseja!",
         guide_easy_title: "✨ Modo Criação Fácil",
@@ -2168,6 +2176,7 @@ const translations = {
         "business_mood_label": "Selecionar Clima"
     },
     "vi": {
+        payment_paypal: "🅿️ PayPal",
         guide_title: "Hướng dẫn sử dụng GILS SOUND",
         guide_subtitle: "Bạn cần chế độ nào? GILS SOUND sẽ tạo ra âm nhạc bạn muốn như có phép thuật!",
         guide_easy_title: "✨ Chế độ tạo dễ dàng",
@@ -2439,6 +2448,7 @@ const translations = {
         "business_mood_label": "Chọn cảm xúc"
     },
     "id": {
+        payment_paypal: "🅿️ PayPal",
         guide_title: "Panduan Pengguna GILS SOUND",
         guide_subtitle: "Mode apa yang Anda butuhkan? GILS SOUND secara ajaib menciptakan musik yang Anda inginkan!",
         guide_easy_title: "✨ Mode Pembuatan Mudah",
