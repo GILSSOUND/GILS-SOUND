@@ -1997,7 +1997,7 @@
                 coverUrl = window.location.origin + '/' + coverUrl;
             }
             
-            const shareText = `${currentShareData.title} - 🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${currentShareData.title}\n\n👇 아래 링크를 눌러 전용 플레이어로 듣기:\n${trackUrl}\n\n✨ 나도 AI 음악 만들기:\nhttps://gilssound.com`;
+            const shareText = `${currentShareData.title} - 🎵 제가 [GILS SOUND]에서 만든 음악을 들어보세요!\n\n🎧 제목: ${currentShareData.title}\n\n👇 아래 링크를 눌러 전용 플레이어로 듣기:\n${trackUrl}\n\n✨ 나도 음악 만들기:\nhttps://gilssound.com`;
 
             Kakao.Share.sendDefault({
                 objectType: 'text',
@@ -2021,7 +2021,7 @@
 
         function shareToInstagramDM() {
             const trackUrl = 'https://gilssound.com/track/' + currentShareData.trackId;
-            const shareText = `🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${currentShareData.title}\n\n👇 바로 듣기:\n${trackUrl}`;
+            const shareText = `🎵 제가 [GILS SOUND]에서 만든 음악을 들어보세요!\n\n🎧 제목: ${currentShareData.title}\n\n👇 바로 듣기:\n${trackUrl}`;
             
             navigator.clipboard.writeText(shareText).then(() => {
                 alert("링크와 메시지가 복사되었습니다!\n인스타그램 DM 창에 붙여넣기 해주세요.");
@@ -2039,7 +2039,7 @@
 
         function shareToTwitterDM() {
             const trackUrl = 'https://gilssound.com/track/' + currentShareData.trackId;
-            const shareText = `🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${currentShareData.title}\n\n👇 노래 바로 듣기:\n${trackUrl}`;
+            const shareText = `🎵 제가 [GILS SOUND]에서 만든 음악을 들어보세요!\n\n🎧 제목: ${currentShareData.title}\n\n👇 노래 바로 듣기:\n${trackUrl}`;
             const encodedText = encodeURIComponent(shareText);
             window.open(`https://twitter.com/messages/compose?text=${encodedText}`, '_blank');
             closeShareModal();
@@ -2061,7 +2061,7 @@
         async function copyShareText() {
             const trackUrl = 'https://gilssound.com/track/' + currentShareData.trackId;
             const title = currentShareData.title || 'GILS_SOUND_Music';
-            const shareText = `${title} - 🎵 제가 [GILS SOUND]에서 만든 인공지능 음악을 들어보세요!\n\n🎧 제목: ${title}\n\n👇 아래 링크를 눌러 전용 플레이어로 듣기:\n${trackUrl}\n\n✨ 나도 AI 음악 만들기:\nhttps://gilssound.com`;
+            const shareText = `${title} - 🎵 제가 [GILS SOUND]에서 만든 음악을 들어보세요!\n\n🎧 제목: ${title}\n\n👇 아래 링크를 눌러 전용 플레이어로 듣기:\n${trackUrl}\n\n✨ 나도 음악 만들기:\nhttps://gilssound.com`;
             
             try {
                 if (navigator.share) {
